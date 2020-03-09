@@ -1,0 +1,37 @@
+{
+  "name": "e-tutor",
+  "version": "1.0.0",
+  "description": "A web-based secure role-based system for eTutoring in a large university",
+  "main": "app.js ",
+  "engines": {
+    "node": "10.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Israel001/e-tutor.git"
+  },
+  "keywords": [
+    "school",
+    "etutor",
+    "student"
+  ],
+  "author": "Israel's Group",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/Israel001/e-tutor/issues"
+  },
+  "homepage": "https://github.com/Israel001/e-tutor#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^3.21.3",
+    "mongoose": "^5.9.3",
+    "socket.io": "^2.3.0"
+  }
+}
