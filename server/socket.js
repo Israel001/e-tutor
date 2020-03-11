@@ -15,10 +15,15 @@ module.exports = {
   initSocket: () => {
     if (!io) throw new Error('Socket.io is not initialized!');
     io.on('connection', socket => {
-      socketId = socket.id ;
+      socketId = socket.id;
       socket.on('loggedIn', groupIds => {
         for (let i = 0; i < groupIds.length; i++) {
           socket.join(groupIds[i]);
+        }
+      });
+      socket.on('loggedOut', groupIds => {
+        for (let i = 0; i < groupIds.length; i++) {
+          socket.leave(groupIds[i], () => {});
         }
       });
     });

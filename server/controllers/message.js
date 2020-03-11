@@ -24,11 +24,12 @@ module.exports = {
           action: 'send',
           message: {...message._doc}
         });
+      } else {
+        io.getIO().socket.broadcast.to(io.getSocketId()).emit('message', {
+          action: 'send',
+          message: {...message._doc}
+        });
       }
-      io.getIO().socket.broadcast.to(io.getSocketId()).emit('message', {
-        action: 'send',
-        message: {...message._doc}
-      });
       // Return a successful response
       res.status(201).json({
         message: 'Message sent successfully!',
@@ -53,14 +54,14 @@ module.exports = {
           $or: [
             {
               $and: [
-                { from: req.user },
-                { to: { $in: otherUsers } }
+                { from: req.userId },
+                { to: { 'users.userId': { $in: otherUsers } } }
               ]
             },
             {
               $and: [
                 { from: { $in: otherUsers } },
-                { to: req.user }
+                { to: { 'users.userId': req.userId } }
               ]
             }
           ]
@@ -70,7 +71,7 @@ module.exports = {
         .skip((currentPage - 1) * perPage)
         .limit(perPage);
       res.status(200).json({
-        message: 'Fetched messages successfully!',
+        message: 'Messages Fetched Successfully!',
         data: { messages, totalItems }
       });
     } catch (err) {
@@ -101,7 +102,7 @@ module.exports = {
       const updatedMessage = await message.save();
       io.getIO().emit('message', { action: 'update', message: updatedMessage });
       res.status(200).json({
-        message: 'Message Updated',
+        message: 'Message Updated Successfully',
         data: { message: updatedMessage }
       });
     } catch(err) {
@@ -129,7 +130,7 @@ module.exports = {
       message.isDeleted = true;
       await message.save();
       io.getIO().emit('message', { action: 'delete', message: messageId });
-      res.status(200).json({message: 'Message Deleted'});
+      res.status(200).json({message: 'Message Deleted Successfully'});
     } catch(err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);

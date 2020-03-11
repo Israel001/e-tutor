@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 
 const io = require('./socket');
+const messageRoutes = require('./routes/message');
+const groupRoutes = require('./routes/group');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}-puhqm.gcp.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
@@ -24,6 +26,10 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+// Routes
+app.use(messageRoutes);
+app.use(groupRoutes);
 
 // Universal Error Handling
 app.use((error, req, res) => {
