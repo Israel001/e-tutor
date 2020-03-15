@@ -7,14 +7,16 @@ module.exports = {
             if (!authHeader) {
                 const error = new Error('Authorization Header is Required');
                 error.statusCode = 422;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             const token = authHeader.split(' ')[0]; // undefined or empty => false, not empty => true
             let decodedToken;
-            decodedToken = jwt.verify(token, 'secret');
+            decodedToken = jwt.verify(token, `${process.env.JWT_PASSWORD}`);
             if (!decodedToken) {
                 const error = new Error('Not Authenticated!');
                 error.statusCode = 422;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
         } catch (err) { 
@@ -25,4 +27,4 @@ module.exports = {
         req.role = decodedToken.userRole;
         next();
     }
-}
+};

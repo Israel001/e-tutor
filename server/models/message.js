@@ -7,17 +7,15 @@ const messageSchema = new Schema({
     ref: 'User',
     required: true
   },
-  to: {
-    users: [
-      {
-        userId: {
-          type: Schema.Types.ObjectId,
-          ref: 'User',
-          required: true
-        }
+  to: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
       }
-    ]
-  },
+    }
+  ],
   message: { type: String, required: true},
   editHistory: {
     messages: [

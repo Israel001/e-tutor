@@ -9,11 +9,11 @@ module.exports = {
     const group = new Group({
       title,
       creator,
-      members: { users: [ { userId: creator } ] },
-      content: { messages: [] }
+      members: [{ userId: creator }],
+      messages: []
     });
     try {
-      if (req.role !== 'tutor') {
+      if (req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         error.statusCode = 403;
         // noinspection ExceptionCaughtLocallyJS
@@ -33,9 +33,9 @@ module.exports = {
   getUserGroups: async (req, res, next) => {
     try {
       const groups = await Group.find({
-        members: { 'users.userId': { $in: req.userId } }
-      }).populate('creator').populate('members.users.userId')
-        .populate('content.messages.messageId').sort({createdAt: -1});
+        'members.userId': { $in: req.userId }
+      }).populate('creator').populate('members.userId')
+        .populate('messages.messageId').sort({createdAt: -1});
       res.status(200).json({
         message: "User's Group Fetched Successfully",
         data: { groups }
@@ -50,7 +50,7 @@ module.exports = {
     const groupId = req.params.groupId;
     const userId = req.params.userId;
     try {
-      if (req.role !== 'tutor') {
+      if (req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         error.statusCode = 403;
         // noinspection ExceptionCaughtLocallyJS
@@ -89,7 +89,7 @@ module.exports = {
     const groupId = req.params.groupId;
     const userId = req.params.userId;
     try {
-      if (req.role !== 'tutor') {
+      if (req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         error.statusCode = 403;
         // noinspection ExceptionCaughtLocallyJS

@@ -11,7 +11,7 @@ module.exports = {
     // Create and Store a Message Schema Object with the initialized data
     const message = new Message({
       from,
-      to: { users: to },
+      to,
       message: content,
       editHistory: { messages: [] }
     });
@@ -55,18 +55,18 @@ module.exports = {
             {
               $and: [
                 { from: req.userId },
-                { to: { 'users.userId': { $in: otherUsers } } }
+                { 'to.userId': { $in: otherUsers } }
               ]
             },
             {
               $and: [
                 { from: { $in: otherUsers } },
-                { to: { 'users.userId': req.userId } }
+                { 'to.userId': req.userId }
               ]
             }
           ]
         }, 'from to message')
-        .populate('from').populate('to.users.userId')
+        .populate('from').populate('to.userId')
         .sort({createdAt: -1})
         .skip((currentPage - 1) * perPage)
         .limit(perPage);

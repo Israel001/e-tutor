@@ -17,9 +17,10 @@ const User = require('../models/user');
 module.exports = {
     createUser: async (req, res, next) => {
         try {
-            if (req.role != 'admin') {
+            if (req.role !== 'admin') {
                 const error = new Error('Not Authorized!');
                 error.statusCode = 403;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             const errors = validationResult(req);
@@ -28,6 +29,7 @@ module.exports = {
                 const error = new Error(errorData[0].msg);
                 error.statusCode = 422;
                 error.data = errorData;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             const email = req.body.email;
@@ -58,12 +60,14 @@ module.exports = {
             if (!user) {
                 const error = new Error('Could not find a user with that email');
                 error.statusCode = 401;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             const isEqual = await bcrypt.compare(password, user.password);
             if (!isEqual) {
                 const error = new Error('Passwords do not match');
                 error.statusCode = 401;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             const token = jwt.sign({
@@ -82,11 +86,13 @@ module.exports = {
 
     resetPassword: async (req, res, next) => {
         const email = req.body.email;
+        const url = req.body.url;
         try {
             const user = await User.findOne({email: email});
             if (!user) {
                 const error = new Error('Could not find user with that email');
                 error.statusCode = 401;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             crypto.randomBytes(32, async (err, buffer) => {
@@ -102,7 +108,7 @@ module.exports = {
                     html: `
                         <p>You requested a password reset</p>
                         <p>Click this 
-                        <a href="${process.env.URL}/new_password/${token}">
+                        <a href="${url}/new_password/${token}">
                         link</a> to set a new password.</p>
                     `
                 });
@@ -124,6 +130,7 @@ module.exports = {
             if (!user) {
                 const error = new Error('Invalid token');
                 error.statusCode = 422;
+                // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
             const hashedPassword = await bcrypt.hash(password, 12);
@@ -138,4 +145,4 @@ module.exports = {
             next(err);
         }
     }
-}
+};

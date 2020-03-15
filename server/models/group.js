@@ -8,28 +8,24 @@ const groupSchema = new Schema({
     ref: 'User',
     required: true
   },
-  members: {
-    users: [
-      {
-        userId: {
-          type: Schema.Types.ObjectId,
-          ref: 'User',
-          required: true
-        }
+  members: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
       }
-    ]
-  },
-  content: {
-    messages: [
-      {
-        messageId: {
-          type: Schema.Types.ObjectId,
-          ref: 'Message',
-          required: true
-        }
+    }
+  ],
+  messages: [
+    {
+      messageId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Message',
+        required: true
       }
-    ]
-  }
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Group', groupSchema);
