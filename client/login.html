@@ -10,9 +10,9 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.min.css">
 
-    <link rel="icon" href="Favicon.png">
+    <link rel="shortcut icon" href="images/teacher.png">
 
     <!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -33,7 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style=" color: white">Login</a>
+                    <a class="nav-link" href="#" style=" color: white" id="auth-btn">Login</a>
                 </li>
             </ul>
 
@@ -48,11 +48,12 @@
                 <div class="card">
                     <div class="card-header" style="border-color:#f7941d ; border-width: 2px ; background-color: #00b3a1 ; color: white">Login</div>
                     <div class="card-body">
-                        <form action="" method="">
+                        <form id="login-form" class="needs-validation" novalidate>
                             <div class="form-group row">
                                 <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
                                 <div class="col-md-6">
-                                    <input type="text" id="email_address" class="form-control" name="email-address" required autofocus>
+                                    <input type="email" id="email_address" class="form-control" name="email-address" required autofocus>
+                                    <div class="invalid-feedback">Fill out this field and ensure that is a valid email</div>
                                 </div>
                             </div>
 
@@ -60,6 +61,7 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                                 <div class="col-md-6">
                                     <input type="password" id="password" class="form-control" name="password" required>
+                                    <div class="invalid-feedback">Fill out this field</div>
                                 </div>
                             </div>
 
@@ -74,14 +76,13 @@
                             </div>
 
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1">
+                                <button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="login-btn">
                                     Login
                                 </button>
                                 <a href="#" class="btn btn-link">
                                     Forgot Your Password?
                                 </a>
                             </div>
-                    </div>
                     </form>
                 </div>
             </div>
@@ -90,6 +91,9 @@
     </div>
 
 </main>
+
+<script src="js/base.min.js"></script>
+<script src="js/login.min.js"></script>
 
 </body>
 </html>
