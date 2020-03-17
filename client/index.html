@@ -24,12 +24,12 @@
 			<a href="login.html">Log In</a>
 		</div>
 		<div class="header-center full">
-			<div class="col-lg-6">
+			<div class="col-lg-6 col-md-6 col-sm-6" >
 				<div class="row">
 					<a href="#"><img src="images/teacher.png" alt=""></a>
 				</div>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-lg-6 col-md-6 col-sm-6">
 				<div class="row">
 					<div class="search">
 						<form action="">
@@ -50,7 +50,7 @@
 			<div class="right">
 				<div class="bell">
 					
-					<button><i class="fa fa-bell"></i>Notifications</button>
+					<i class="fa fa-bell"></i>Notifications
 				</div>
 				
 				<div class="clearfix"></div>
@@ -71,204 +71,227 @@
 				</div>
 			</div>
 		</div>
-		<div class="container">
-			<div class="row">
-				
-				<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
-					<div class="row">
-						<div class="label-hp full">
-							<h1>List Of Tutors</h1>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="tutor-content">
-								<img src="images/tutor.jpg" alt="">
-								<span>Albert Einstein</span>
+		<div class="home-body full">
+
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
+						<div class="row">
+							<div class="label-hp full">
+								<h1>List Of Tutors</h1>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="tutor-content">
+									<img src="images/tutor.jpg" alt="">
+									<span>Albert Einstein</span>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="tutor-content">
+									<img src="images/tutor.jpg" alt="">
+									<span>Albert Einstein</span>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="tutor-content">
+									<img src="images/tutor.jpg" alt="">
+									<span>Albert Einstein</span>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="tutor-content">
+									<img src="images/tutor.jpg" alt="">
+									<span>Albert Einstein</span>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="tutor-content">
+									<img src="images/tutor.jpg" alt="">
+									<span>Albert Einstein</span>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="tutor-content">
+									<img src="images/tutor.jpg" alt="">
+									<span>Albert Einstein</span>
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="tutor-content">
-								<img src="images/tutor.jpg" alt="">
-								<span>Albert Einstein</span>
+					</div>	
+
+					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<div class="row">
+							<div class="label-hp full">
+								<h1>Calendar</h1>
 							</div>
+							<div id="app"></div>
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="tutor-content">
-								<img src="images/tutor.jpg" alt="">
-								<span>Albert Einstein</span>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="tutor-content">
-								<img src="images/tutor.jpg" alt="">
-								<span>Albert Einstein</span>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="tutor-content">
-								<img src="images/tutor.jpg" alt="">
-								<span>Albert Einstein</span>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="tutor-content">
-								<img src="images/tutor.jpg" alt="">
-								<span>Albert Einstein</span>
-							</div>
-						</div>
+					</div>	
+
+					<div id="chat-circle" class="btn btn-raised">
+					    <div id="chat-overlay"></div>
+					    <i class="fa fa-comment"></i>
 					</div>
-				</div>	
+					<div class="chat-box">
 
-				<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-					<div class="row">
-						<div class="label-hp full">
-							<h1>Calendar</h1>
-						</div>
-						<div id="app"></div>
+					    <div class="chat-box-header">
+					    	ChatBox
+					    	<span class="chat-box-toggle"><i class="fa fa-times"></i></span>
+					    </div>
+
+						<div id="friendslist">
+					    	        
+					        <div id="friends">
+					        	<div class="friend">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+					                <p>
+					                	<strong>Miro Badev</strong>
+						                <span>mirobadev@gmail.com</span>
+					                </p>
+					                <div class="status available"></div>
+					            </div>
+					            
+					            <div class="friend">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+					                <p>
+					                	<strong>Martin Joseph</strong>
+						                <span>marjoseph@gmail.com</span>
+					                </p>
+					                <div class="status away"></div>
+					            </div>
+					            
+					            <div class="friend">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
+					                <p>
+					                	<strong>Tomas Kennedy</strong>
+						                <span>tomaskennedy@gmail.com</span>
+					                </p>
+					                <div class="status inactive"></div>
+					            </div>
+					            
+					            <div class="friend">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
+					                <p>
+					                	<strong>Enrique	Sutton</strong>
+						                <span>enriquesutton@gmail.com</span>
+					                </p>
+					                <div class="status inactive"></div>
+					            </div>
+					            <div class="friend">
+					            	<img src="" />
+					                <p>
+					                	<strong>Enrique	Sutton</strong>
+						                <span>enriquesutton@gmail.com</span>
+					                </p>
+					                <div class="status inactive"></div>
+					            </div>
+					            <div class="friend">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
+					                <p>
+					                	<strong>Enrique	Sutton</strong>
+						                <span>enriquesutton@gmail.com</span>
+					                </p>
+					                <div class="status inactive"></div>
+					            </div>
+					            		            
+					            
+					            
+					        </div>   
+					        <div id="search">
+						        <input type="text" id="searchfield" value="Search contacts..." />
+					        </div>             
+	        
+	    				</div>
+
+	    				<div id="chatview" class="p1">    	
+					        <div id="profile">
+
+					            <div id="close">
+					                <div class="cy"></div>
+					            </div>
+					            
+					            <p>Miro Badev</p>
+					            <span>miro@badev@gmail.com</span>
+					        </div>
+					       <!--  <div id="chat-messages">
+					        	<label>Thursday 02</label>
+					            
+					            <div class="message">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+					                <div class="bubble">
+					                	Really cool stuff!
+					                    <div class="corner"></div>
+					                    <span>3 min</span>
+					                </div>
+					            </div>
+					            
+					            <div class="message right">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+					                <div class="bubble">
+					                	Can you share a link for the tutorial?
+					                    <div class="corner"></div>
+					                    <span>1 min</span>
+					                </div>
+					            </div>
+					            
+					            <div class="message">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+					                <div class="bubble">
+					                	Yeah, hold on
+					                    <div class="corner"></div>
+					                    <span>Now</span>
+					                </div>
+					            </div>
+					            
+					            <div class="message right">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+					                <div class="bubble">
+					                	Can you share a link for the tutorial?
+					                    <div class="corner"></div>
+					                    <span>1 min</span>
+					                </div>
+					            </div>
+					            
+					            <div class="message">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+					                <div class="bubble">
+					                	Yeah, hold on
+					                    <div class="corner"></div>
+					                    <span>Now</span>
+					                </div>
+					            </div>
+					            
+					        </div> -->
+	    	
+					        <!-- <div id="sendmessage">
+					        	<input type="text" value="Send message..." />
+					            <button id="send"></button>
+					        </div> -->
+					        <div class="chat-box-body">
+						    	<div class="chat-box-overlay"></div>
+						    	<div class="chat-logs">
+
+						    	</div>
+						      <!--chat-log -->
+						    </div>
+					        <div class="chat-input">
+						    	<form>
+						        	<input type="text" id="chat-input" placeholder="Send a message..." />
+						        	<button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-paper-plane"></i></button>
+						      	</form>
+						    </div>
+	    
+	    				</div>
+	 
 					</div>
-				</div>	
-
-				<div id="chat-circle" class="btn btn-raised">
-				    <div id="chat-overlay"></div>
-				    <i class="fa fa-comment"></i>
-				</div>
-				<div class="chat-box">
-
-				    <div class="chat-box-header">
-				    	ChatBox
-				    	<span class="chat-box-toggle"><i class="fa fa-times"></i></span>
-				    </div>
-
-					<div id="friendslist">
-				    	        
-				        <div id="friends">
-				        	<div class="friend">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-				                <p>
-				                	<strong>Miro Badev</strong>
-					                <span>mirobadev@gmail.com</span>
-				                </p>
-				                <div class="status available"></div>
-				            </div>
-				            
-				            <div class="friend">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-				                <p>
-				                	<strong>Martin Joseph</strong>
-					                <span>marjoseph@gmail.com</span>
-				                </p>
-				                <div class="status away"></div>
-				            </div>
-				            
-				            <div class="friend">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
-				                <p>
-				                	<strong>Tomas Kennedy</strong>
-					                <span>tomaskennedy@gmail.com</span>
-				                </p>
-				                <div class="status inactive"></div>
-				            </div>
-				            
-				            <div class="friend">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
-				                <p>
-				                	<strong>Enrique	Sutton</strong>
-					                <span>enriquesutton@gmail.com</span>
-				                </p>
-				                <div class="status inactive"></div>
-				            </div>
-				            		            
-				            <div id="search">
-					            <input type="text" id="searchfield" value="Search contacts..." />
-				            </div>
-				            
-				        </div>                
-        
-    				</div>
-
-    				<div id="chatview" class="p1">    	
-				        <div id="profile">
-
-				            <div id="close">
-				                <div class="cy"></div>
-				                <div class="cx"></div>
-				            </div>
-				            
-				            <p>Miro Badev</p>
-				            <span>miro@badev@gmail.com</span>
-				        </div>
-				       <!--  <div id="chat-messages">
-				        	<label>Thursday 02</label>
-				            
-				            <div class="message">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-				                <div class="bubble">
-				                	Really cool stuff!
-				                    <div class="corner"></div>
-				                    <span>3 min</span>
-				                </div>
-				            </div>
-				            
-				            <div class="message right">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-				                <div class="bubble">
-				                	Can you share a link for the tutorial?
-				                    <div class="corner"></div>
-				                    <span>1 min</span>
-				                </div>
-				            </div>
-				            
-				            <div class="message">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-				                <div class="bubble">
-				                	Yeah, hold on
-				                    <div class="corner"></div>
-				                    <span>Now</span>
-				                </div>
-				            </div>
-				            
-				            <div class="message right">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-				                <div class="bubble">
-				                	Can you share a link for the tutorial?
-				                    <div class="corner"></div>
-				                    <span>1 min</span>
-				                </div>
-				            </div>
-				            
-				            <div class="message">
-				            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-				                <div class="bubble">
-				                	Yeah, hold on
-				                    <div class="corner"></div>
-				                    <span>Now</span>
-				                </div>
-				            </div>
-				            
-				        </div> -->
-    	
-				        <!-- <div id="sendmessage">
-				        	<input type="text" value="Send message..." />
-				            <button id="send"></button>
-				        </div> -->
-				        <div class="chat-box-body">
-					    	<div class="chat-box-overlay"></div>
-					    	<div class="chat-logs">
-
-					    	</div>
-					      <!--chat-log -->
-					    </div>
-				        <div class="chat-input">
-					    	<form>
-					        	<input type="text" id="chat-input" placeholder="Send a message..." />
-					        	<button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-paper-plane"></i></button>
-					      	</form>
-					    </div>
-    
-    				</div>
- 
 				</div>
 			</div>
-		</div>
+				
+					
+					
+				
+			
+		</div>	
 	</content>
 	<footer>
 		<div class="copy-right full">
