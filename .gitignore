@@ -5,4 +5,6 @@ package-lock.json
 *.prefix.css
 server/node_modules
 nodemon.json
+.gitignore
 __tests__
+*.php
