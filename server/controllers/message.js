@@ -1,35 +1,104 @@
+const mongoose = require('mongoose');
+const ObjectID = mongoose.Types.ObjectId;
+
 const io = require('../socket');
 const Message = require('../models/message');
+const User = require('../models/user');
+const Group = require('../models/group');
 
 module.exports = {
   sendMessage: async (req, res, next) => {
     // Initialize data to be stored in the database
     const from = req.userId;
-    const to = req.body.to;
+    const to = JSON.parse(req.body.to);
     const content = req.body.message;
     const groupId = req.body.groupId;
-    // Create and Store a Message Schema Object with the initialized data
-    const message = new Message({
-      from,
-      to,
-      message: content,
-      editHistory: { messages: [] }
-    });
     try {
-      // Save the data to the database
-      await message.save();
-      // Broadcast "send message" event
-      if (groupId != null) {
-        io.getIO().to(groupId).emit('message', {
-          action: 'send',
-          message: {...message._doc}
-        });
-      } else {
-        io.getIO().socket.broadcast.to(io.getSocketId()).emit('message', {
-          action: 'send',
-          message: {...message._doc}
-        });
+      let group;
+      for (let i = 0; i < to.length; i++) {
+        if (!groupId) {
+          const user = await User.findById(to[i]);
+          if (!user) {
+            const error = new Error(
+              'You cannot message a user that does not exist!'
+            );
+            error.statusCode = 401;
+            // noinspection ExceptionCaughtLocallyJS
+            throw error;
+          }
+        } else {
+          const group = await Group.findById(to[i]);
+          if (!group) {
+            const error = new Error(
+              'You cannot message a group that does not exist!'
+            );
+            error.statusCode = 401;
+            // noinspection ExceptionCaughtLocallyJS
+            throw error;
+          }
+        }
       }
+
+      if(groupId) {
+        group = await Group.findById(groupId);
+        if (!group) {
+          const error = new Error('The group provided does not exist');
+          error.statusCode = 401;
+          // noinspection ExceptionCaughtLocallyJS
+          throw error;
+        }
+      }
+
+      // Create and Store a Message Schema Object with the initialized data
+      const message = new Message({
+        from,
+        to,
+        message: content,
+        editHistory: { messages: [] }
+      });
+
+      if (!groupId) {
+        for (let i = 0; i <= to.length; i++) {
+          if (to[i] === from) {
+            const error = new Error('You cannot message yourself');
+            error.statusCode = 422;
+            // noinspection ExceptionCaughtLocallyJS
+            throw error;
+          }
+        }
+      }
+      // Save the data to the database
+      const createdMessage = await message.save();
+      if (groupId) {
+        group = await Group.findOne({
+          $and: [
+            {
+              _id: new ObjectID(groupId),
+              members: { $in: from }
+            }
+          ]
+        });
+        if (!group) {
+          const error = new Error('You are not a member of the group provided');
+          error.statusCode = 403;
+          // noinspection ExceptionCaughtLocallyJS
+          throw error;
+        }
+        group.messages.push(createdMessage._id);
+        await group.save();
+      }
+      // Broadcast "send message" event
+      // if (groupId) {
+      //   io.getIO().to(groupId).emit('message', {
+      //     action: 'send',
+      //     message: {...message._doc}
+      //   });
+      // } else {
+      //   io.getIO().socket.broadcast.to(io.getSocketId()).emit('message', {
+      //     action: 'send',
+      //     message: {...message._doc}
+      //   });
+      // }
       // Return a successful response
       res.status(201).json({
         message: 'Message sent successfully!',
@@ -44,10 +113,10 @@ module.exports = {
 
   getMessages: async (req, res, next) => {
     const currentPage = req.query.page || 1;
-    const otherUsers = req.query.users;
+    const otherUsers = req.query.users.split(',');
     const perPage = 2;
     try {
-      const totalItems = await Message.find().countDocuments();
+      const totalItems = await Message.find({isDeleted: false}).countDocuments();
       const messages = await Message
         .find({
           isDeleted: false,
@@ -55,18 +124,18 @@ module.exports = {
             {
               $and: [
                 { from: req.userId },
-                { 'to.userId': { $in: otherUsers } }
+                { to: { $in: otherUsers } }
               ]
             },
             {
               $and: [
                 { from: { $in: otherUsers } },
-                { 'to.userId': req.userId }
+                { to: req.userId }
               ]
             }
           ]
         }, 'from to message')
-        .populate('from').populate('to.userId')
+        .populate('from').populate('to')
         .sort({createdAt: -1})
         .skip((currentPage - 1) * perPage)
         .limit(perPage);
@@ -97,7 +166,7 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      message.editHistory.messages.push({ message: message.message });
+      message.editHistory.messages.push(message.message);
       message.message = content;
       const updatedMessage = await message.save();
       io.getIO().emit('message', { action: 'update', message: updatedMessage });

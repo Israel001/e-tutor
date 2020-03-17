@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -60,15 +60,23 @@ module.exports = {
             if (!user) {
                 const error = new Error('Could not find a user with that email');
                 error.statusCode = 401;
+                error.message = 'Could not find a user with that email';
                 // noinspection ExceptionCaughtLocallyJS
-                throw error;
+                res.status(401).json({
+                    message: 'Could not find a user with that email',
+                    data: { error }
+                });
             }
             const isEqual = await bcrypt.compare(password, user.password);
             if (!isEqual) {
                 const error = new Error('Passwords do not match');
+                error.message = 'Passwords do not match';
                 error.statusCode = 401;
                 // noinspection ExceptionCaughtLocallyJS
-                throw error;
+                res.status(401).json({
+                    message: 'Passwords do not match',
+                    data: { error }
+                });
             }
             const token = jwt.sign({
                 userId: user._id.toString(),
@@ -76,7 +84,7 @@ module.exports = {
             }, `${process.env.JWT_PASSWORD}`, {expiresIn: '1h'});
             res.status(200).json({
                 message: 'User Logged In Successfully!',
-                data: { token: token  }
+                data: { token: token, userId: user._id.toString()  }
             });
         } catch (err) { 
             if (!err.statusCode) err.statusCode = 500;

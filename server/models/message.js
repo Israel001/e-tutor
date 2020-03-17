@@ -9,17 +9,14 @@ const messageSchema = new Schema({
   },
   to: [
     {
-      userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-      }
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     }
   ],
   message: { type: String, required: true},
   editHistory: {
     messages: [
-      { message: String }
+      String
     ]
   },
   isDeleted: { type: Boolean, default: false }

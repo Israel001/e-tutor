@@ -1,6 +1,7 @@
 const io = require('../socket');
 const Group = require('../models/group');
 const Message = require('../models/message');
+const User = require('../models/user');
 
 module.exports = {
   createGroup: async (req, res, next) => {
@@ -9,7 +10,7 @@ module.exports = {
     const group = new Group({
       title,
       creator,
-      members: [{ userId: creator }],
+      members: [creator],
       messages: []
     });
     try {
@@ -33,9 +34,9 @@ module.exports = {
   getUserGroups: async (req, res, next) => {
     try {
       const groups = await Group.find({
-        'members.userId': { $in: req.userId }
-      }).populate('creator').populate('members.userId')
-        .populate('messages.messageId').sort({createdAt: -1});
+        members: { $in: req.userId }
+      }).populate('creator').populate('members')
+        .populate('messages').sort({createdAt: -1});
       res.status(200).json({
         message: "User's Group Fetched Successfully",
         data: { groups }
@@ -70,11 +71,19 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      group.members.users.push({userId});
+      for (let i = 0; i < group.members.length; i++) {
+        if (group.members[i].toString() === userId.toString()) {
+          const error = new Error('User is already in the group');
+          error.statusCode = 422;
+          // noinspection ExceptionCaughtLocallyJS
+          throw error;
+        }
+      }
+      group.members.push(userId);
       const updatedGroup = await group.save();
-      io.getIO().to(groupId).emit('group', {
-        action: 'add_user', group: updatedGroup
-      });
+      // io.getIO().to(groupId).emit('group', {
+      //   action: 'add_user', group: updatedGroup
+      // });
       res.status(200).json({
         message: 'User has been added to the group successfully',
         group: updatedGroup
@@ -109,11 +118,12 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      group.members.users.filter(el => el.userId.toString() !== userId.toString());
+      group.members = group.members
+        .filter(el => el.toString() !== userId.toString());
       const updatedGroup = await group.save();
-      io.getIO().to(groupId).emit('group', {
-        action: 'remove_user', group: updatedGroup
-      });
+      // io.getIO().to(groupId).emit('group', {
+      //   action: 'remove_user', group: updatedGroup
+      // });
       res.status(200).json({
         message: 'User has been removed from the group successfully',
         group: updatedGroup
@@ -135,7 +145,7 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      if (group.creator._id.toString() !== req.userId) {
+      if (group.creator._id.toString() !== req.userId.toString()) {
         const error = new Error('Not Authorized!');
         error.statusCode = 403;
         // noinspection ExceptionCaughtLocallyJS
@@ -143,9 +153,9 @@ module.exports = {
       }
       group.title = title;
       const updatedGroup = await group.save();
-      io.getIO().to(groupId).emit('group', {
-        action: 'update', group: updatedGroup
-      });
+      // io.getIO().to(groupId).emit('group', {
+      //   action: 'update', group: updatedGroup
+      // });
       res.status(200).json({
         message: 'Group Updated Successfully',
         group: updatedGroup
@@ -172,14 +182,14 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      for (let i = 0; i < group.content.messages; i++) {
-        await Message.findByIdAndRemove(group.content.messages[i].messageId);
+      for (let i = 0; i <= group.messages.length; i++) {
+        await Message.findByIdAndRemove(group.messages[i]);
       }
       await Group.findByIdAndRemove(groupId);
-      io.getIO().to(groupId).emit('group', {
-        action: 'delete',
-        group: groupId
-      });
+      // io.getIO().to(groupId).emit('group', {
+      //   action: 'delete',
+      //   group: groupId
+      // });
       res.status(200).json({message: 'Deleted group successfully'});
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;

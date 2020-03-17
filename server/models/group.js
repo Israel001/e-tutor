@@ -10,20 +10,16 @@ const groupSchema = new Schema({
   },
   members: [
     {
-      userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-      }
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
     }
   ],
   messages: [
     {
-      messageId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Message',
-        required: true
-      }
+      type: Schema.Types.ObjectId,
+      ref: 'Message',
+      required: true
     }
   ]
 }, { timestamps: true });

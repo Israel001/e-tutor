@@ -10,7 +10,7 @@ module.exports = {
                 // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
-            const token = authHeader.split(' ')[0]; // undefined or empty => false, not empty => true
+            const token = authHeader.split(' ')[1]; // undefined or empty => false, not empty => true
             let decodedToken;
             decodedToken = jwt.verify(token, `${process.env.JWT_PASSWORD}`);
             if (!decodedToken) {
@@ -19,12 +19,12 @@ module.exports = {
                 // noinspection ExceptionCaughtLocallyJS
                 throw error;
             }
+            req.userId = decodedToken.userId;
+            req.role = decodedToken.userRole;
+            next();
         } catch (err) { 
             if (!err.statusCode) err.statusCode = 500;
             next(err);
         }
-        req.userId = decodedToken.userId;
-        req.role = decodedToken.userRole;
-        next();
     }
 };

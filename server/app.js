@@ -7,13 +7,15 @@ const io = require('./socket');
 const messageRoutes = require('./routes/message');
 const groupRoutes = require('./routes/group');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}-puhqm.gcp.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
 const app = express();
 
 //Body Parser
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //Extra-Headers Configuration
 app.use(helmet());
@@ -36,18 +38,20 @@ app.use((req, res, next) => {
 app.use(messageRoutes);
 app.use(groupRoutes);
 app.use(authRoutes);
+app.use(userRoutes);
 
 // Universal Error Handling
 app.use((error, req, res) => {
   const status = error.statusCode || 500;
-  const message = error.message;
-  const data = error.data;
-  res.status(status).json({message, data});
+  res.status(status).json({error});
 });
 
 // Server And Database Configuration
-mongoose.connect(MONGODB_URI).then(() => {
-  const server = app.listen(process.env.PORT || 8080);
+mongoose.connect(MONGODB_URI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+}).then(() => {
+  const server = app.listen(process.env.PORT || 3000);
   io.init(server);
   io.initSocket();
 }).catch(err => {throw err});
