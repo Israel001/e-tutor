@@ -1,6 +1,7 @@
 .full{
 	width: 100%;
 	float: left;
+	padding-left: 5px;
 }
 .header-up{
 	height: 45px;
@@ -594,9 +595,6 @@ div.message.right .corner{
 	width:290px;
 	background:#fff;
 	padding-bottm:50px;
-}
-#sendmessage input{
-	border
 }
 #sendmessage input{
 	background:#fff;
