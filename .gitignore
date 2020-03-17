@@ -1,4 +1,9 @@
 .idea
+node_modules
+package-lock.json
+*.concat.css
+*.prefix.css
 server/node_modules
 nodemon.json
+.gitignore
 __tests__
