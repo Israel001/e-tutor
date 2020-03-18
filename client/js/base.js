@@ -1,3 +1,5 @@
+const baseURL = 'http://localhost:3000';
+
 const autoLogout = milliseconds => {
   setTimeout(() => {
     logout();
@@ -6,6 +8,7 @@ const autoLogout = milliseconds => {
 
 const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('userId');
   localStorage.removeItem('loggedIn');
   localStorage.removeItem('expiryDate');
   window.location = '/index.html';

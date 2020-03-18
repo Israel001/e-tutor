@@ -12,7 +12,7 @@ if (loggedIn) {
 
 window.addEventListener('load', async () => {
   try {
-    const response = await fetch(`http://localhost:3000/get_tutors`, {
+    const response = await fetch(`${baseURL}/get_tutors`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
     });
@@ -45,7 +45,7 @@ window.addEventListener('load', async () => {
 
   if (loggedIn) {
     try {
-      const groupResponse = await fetch(`http://localhost:3000/groups`, {
+      const groupResponse = await fetch(`${baseURL}/groups`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ window.addEventListener('load', async () => {
           );
         }
       }
-      const response = await fetch(`http://localhost:3000/get/${userId}/tutors_students`, {
+      const response = await fetch(`${baseURL}/get/${userId}/tutors_students`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

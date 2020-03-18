@@ -3,7 +3,7 @@ if (loggedIn) window.location = '/index.html';
 const forms = document.getElementsByClassName('needs-validation');
 
 const setErrorMessage = error => {
-  document.querySelector('#login-btn').setAttribute('disabled', 'false');
+  document.querySelector('#forgot-pwd-btn').setAttribute('disabled', 'false');
   document.querySelector('.col-md-8').insertAdjacentHTML(
     'afterbegin',
     `<div class="alert alert-danger">
@@ -20,37 +20,33 @@ Array.prototype.filter.call(forms, form => {
     if (!form.checkValidity()) {
       form.classList.add('was-validated');
     } else {
-      document.querySelector('#login-btn').setAttribute('disabled', 'true');
+      document.querySelector('#forgot-pwd-btn').setAttribute('disabled', 'true');
       let email = document.querySelector('#email_address').value;
-      let password = document.querySelector('#password').value;
+      let url = 'http://127.0.0.1:8080';
       try {
-        const response = await fetch(`${baseURL}/login`, {
+        const response = await fetch (`${baseURL}/reset_password`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({email, password})
+          body: JSON.stringify({email, url})
         });
         const data = await response.json();
         if (response.status !== 200) {
           setErrorMessage(data.message);
         } else {
-          let element = document.getElementById('auth-btn');
-          element.attributes['href'] = 'javascript:void(0)';
-          document.getElementById('auth-btn').innerText = 'Log Out';
-          localStorage.setItem('loggedIn', 'true');
-          localStorage.setItem('token', data.data.token);
-          localStorage.setItem('userId', data.data.userId);
-          const remainingMilliseconds = 60 * 60 * 1000;
-          const expiryDate = new Date(
-            new Date().getTime() + remainingMilliseconds
+          document.querySelector('#email_address').value = '';
+          document.querySelector('#forgot-pwd-btn').setAttribute('disabled', 'false');
+          document.querySelector('.col-md-8').insertAdjacentHTML(
+            'afterbegin',
+            `<div class="alert alert-success">
+                <a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success:</strong> We've received your request. Please check your email to proceed further
+            </div>`
           );
-          localStorage.setItem('expiryDate', expiryDate.toISOString());
-          autoLogout(remainingMilliseconds);
-          window.location = '/index.html';
         }
       } catch (err) {
         setErrorMessage('Something went wrong');
       }
-      document.querySelector('#login-btn').setAttribute('disabled', 'false');
+      document.querySelector('#forgot-pwd-btn').setAttribute('disabled', 'false');
     }
-  });
+  })
 });
