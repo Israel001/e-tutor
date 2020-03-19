@@ -22,7 +22,7 @@ Array.prototype.filter.call(forms, form => {
       let email = document.querySelector('#email_address').value;
       let password = document.querySelector('#password').value;
       try {
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch('https://e-tutor-server.herokuapp.com/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({email, password})
