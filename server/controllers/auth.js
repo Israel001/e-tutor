@@ -96,15 +96,17 @@ module.exports = {
         const email = req.body.email;
         const url = req.body.url;
         try {
-            const user = await User.findOne({email: email});
-            if (!user) {
-                const error = new Error('Could not find user with that email');
-                error.statusCode = 401;
-                // noinspection ExceptionCaughtLocallyJS
-                throw error;
-            }
             crypto.randomBytes(32, async (err, buffer) => {
                 if (err) throw err;
+                const user = await User.findOne({email: email});
+                if (!user) {
+                    const error = new Error('Could not find user with that email');
+                    error.statusCode = 401;
+                    res.status(401).json({
+                        message: 'Could not find user with that email',
+                        data: { error }
+                    });
+                }
                 const token = buffer.toString('hex');
                 user.resetToken = token;
                 user.resetTokenExpiration = Date.now() + 3600000;
@@ -116,7 +118,7 @@ module.exports = {
                     html: `
                         <p>You requested a password reset</p>
                         <p>Click this 
-                        <a href="${url}/new_password/${token}">
+                        <a href="${url}/change-password.html?token=${token}">
                         link</a> to set a new password.</p>
                     `
                 });
@@ -138,8 +140,21 @@ module.exports = {
             if (!user) {
                 const error = new Error('Invalid token');
                 error.statusCode = 422;
-                // noinspection ExceptionCaughtLocallyJS
-                throw error;
+                res.status(422).json({
+                    message: 'Invalid token',
+                    data: { error }
+                });
+            }
+            if (user) {
+                const isEqual = bcrypt.compare(password, user.password);
+                if (isEqual) {
+                    const error = new Error('You cannot re-use your former password');
+                    error.statusCode = 422;
+                    res.status(422).json({
+                        message: 'You cannot re-use your former password',
+                        data: {error}
+                    });
+                }
             }
             const hashedPassword = await bcrypt.hash(password, 12);
             user.password = hashedPassword;
