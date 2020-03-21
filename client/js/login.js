@@ -3,7 +3,13 @@ if (loggedIn) window.location = '/index.html';
 const forms = document.getElementsByClassName('needs-validation');
 
 const setErrorMessage = error => {
-  document.querySelector('#login-btn').setAttribute('disabled', 'false');
+  document.querySelector('#loader').remove();
+  document.querySelector('#login-btn-area').insertAdjacentHTML(
+    'afterbegin',
+    `<button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="login-btn">
+            Login
+          </button>`
+  );
   document.querySelector('.col-md-8').insertAdjacentHTML(
     'afterbegin',
     `<div class="alert alert-danger">
@@ -20,7 +26,13 @@ Array.prototype.filter.call(forms, form => {
     if (!form.checkValidity()) {
       form.classList.add('was-validated');
     } else {
-      document.querySelector('#login-btn').setAttribute('disabled', 'true');
+      document.querySelector('#login-btn').remove();
+      document.querySelector('#login-btn-area').insertAdjacentHTML(
+        'afterbegin',
+        `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="loader">
+              <div class="loader"></div>
+            </div>`
+      );
       let email = document.querySelector('#email_address').value;
       let password = document.querySelector('#password').value;
       try {
@@ -50,7 +62,6 @@ Array.prototype.filter.call(forms, form => {
       } catch (err) {
         setErrorMessage('Something went wrong');
       }
-      document.querySelector('#login-btn').setAttribute('disabled', 'false');
     }
   });
 });

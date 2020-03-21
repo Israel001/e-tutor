@@ -1,4 +1,8 @@
-const baseURL = 'https://e-tutor-server.herokuapp.com';
+const baseURL = 'http://localhost:3000';
+const baseClientURL = 'http://127.0.0.1:8080';
+const socket = io(baseURL);
+const groupIds = [];
+const conversationIds = [];
 
 const autoLogout = milliseconds => {
   setTimeout(() => {
@@ -11,6 +15,7 @@ const logout = () => {
   localStorage.removeItem('userId');
   localStorage.removeItem('loggedIn');
   localStorage.removeItem('expiryDate');
+  socket.emit('loggedOut', {groupIds, userId, conversationIds});
   window.location = '/index.html';
 };
 
@@ -26,3 +31,14 @@ if (!token || !expiryDate) {
   const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime();
   autoLogout(remainingMilliseconds);
 }
+
+Date.prototype.toDatetimeLocal = function toDatetimeLocal() {
+  let date = this;
+  let ten = i => (i < 10 ? '0': '') + i;
+  let YYYY = date.getFullYear();
+  let MM = ten(date.getMonth() + 1);
+  let DD = ten(date.getDate());
+  let HH = ten(date.getHours());
+  let II = ten(date.getMinutes());
+  return `${YYYY}${MM}${DD}${HH}${II}`;
+};

@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="slick/slick.css">
 	<link href="css/animate.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/jquery.mmenu.all.css">
+	<link rel="stylesheet" href="css/loader.css">
 	<link rel="stylesheet" href="css/home.css">
 	<link rel="stylesheet" href="css/phone-zalo.css">
 	<link rel="stylesheet" href="css/responsive.css">
@@ -81,6 +82,7 @@
 						<div class="label-hp full">
 							<h1>List Of Tutors</h1>
 						</div>
+
 						<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <div class="tutor-content">
                                 <img src="images/tutor.jpg" alt="">
@@ -137,60 +139,12 @@
 					<div id="friendslist">
 
 						<div id="friends">
-							<div class="friend">
-								<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-								<p>
-									<strong>Miro Badev</strong>
-									<span>mirobadev@gmail.com</span>
-								</p>
-								<div class="status available"></div>
+							<div id="groups" style="margin-top: 15px; margin-bottom: 15px;">
+								<span id="groups-title" style="font-weight: bold; margin-left: 15px; display: block;">Groups</span>
 							</div>
-
-							<div class="friend">
-								<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-								<p>
-									<strong>Martin Joseph</strong>
-									<span>marjoseph@gmail.com</span>
-								</p>
-								<div class="status away"></div>
+							<div id="private" style="margin-top: 15px; margin-bottom: 15px;">
+								<span id="private-title" style="font-weight: bold; margin-left: 15px; display: block;">Private Conversations</span>
 							</div>
-
-							<div class="friend">
-								<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
-								<p>
-									<strong>Tomas Kennedy</strong>
-									<span>tomaskennedy@gmail.com</span>
-								</p>
-								<div class="status inactive"></div>
-							</div>
-
-							<div class="friend">
-								<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
-								<p>
-									<strong>Enrique	Sutton</strong>
-									<span>enriquesutton@gmail.com</span>
-								</p>
-								<div class="status inactive"></div>
-							</div>
-							<div class="friend">
-								<img src="" />
-								<p>
-									<strong>Enrique	Sutton</strong>
-									<span>enriquesutton@gmail.com</span>
-								</p>
-								<div class="status inactive"></div>
-							</div>
-							<div class="friend">
-								<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
-								<p>
-									<strong>Enrique	Sutton</strong>
-									<span>enriquesutton@gmail.com</span>
-								</p>
-								<div class="status inactive"></div>
-							</div>
-
-
-
 						</div>
 						<div id="search">
 							<input type="text" id="searchfield" value="Search contacts..." />
@@ -208,73 +162,28 @@
 							<p>Miro Badev</p>
 							<span>miro@badev@gmail.com</span>
 						</div>
-						<!--  <div id="chat-messages">
-                             <label>Thursday 02</label>
+						<div id="chat-messages">
+                             <label id="msg-time">Thursday 02</label>
 
-                             <div class="message">
-                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                                 <div class="bubble">
-                                     Really cool stuff!
-                                     <div class="corner"></div>
-                                     <span>3 min</span>
-                                 </div>
-                             </div>
+                         </div>
 
-                             <div class="message right">
-                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-                                 <div class="bubble">
-                                     Can you share a link for the tutorial?
-                                     <div class="corner"></div>
-                                     <span>1 min</span>
-                                 </div>
-                             </div>
-
-                             <div class="message">
-                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                                 <div class="bubble">
-                                     Yeah, hold on
-                                     <div class="corner"></div>
-                                     <span>Now</span>
-                                 </div>
-                             </div>
-
-                             <div class="message right">
-                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-                                 <div class="bubble">
-                                     Can you share a link for the tutorial?
-                                     <div class="corner"></div>
-                                     <span>1 min</span>
-                                 </div>
-                             </div>
-
-                             <div class="message">
-                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                                 <div class="bubble">
-                                     Yeah, hold on
-                                     <div class="corner"></div>
-                                     <span>Now</span>
-                                 </div>
-                             </div>
-
-                         </div> -->
-
-						<!-- <div id="sendmessage">
-                            <input type="text" value="Send message..." />
+						<div id="sendmessage">
+							<textarea id="send-message-input" placeholder="Send message..." autofocus></textarea>
                             <button id="send"></button>
-                        </div> -->
-						<div class="chat-box-body">
-							<div class="chat-box-overlay"></div>
-							<div class="chat-logs">
+                        </div>
+<!--						<div class="chat-box-body">-->
+<!--							<div class="chat-box-overlay"></div>-->
+<!--							<div class="chat-logs">-->
 
-							</div>
-							<!--chat-log -->
-						</div>
-						<div class="chat-input">
-							<form>
-								<input type="text" id="chat-input" placeholder="Send a message..." />
-								<button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-paper-plane"></i></button>
-							</form>
-						</div>
+<!--							</div>-->
+<!--							&lt;!&ndash;chat-log &ndash;&gt;-->
+<!--						</div>-->
+<!--						<div class="chat-input">-->
+<!--							<form>-->
+<!--								<input type="text" id="chat-input" placeholder="Send a message..." />-->
+<!--								<button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-paper-plane"></i></button>-->
+<!--							</form>-->
+<!--						</div>-->
 
 					</div>
 
@@ -294,8 +203,9 @@
 	</div>
 </footer>
 
-<script src="js/base.min.js"></script>
-<script src="js/index.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+<script src="js/base.js"></script>
+<script src="js/index.js"></script>
 <script src="bootstrap/js/jquery-3.1.1.min.js"></script>
 
 <script src="slick/slick.min.js"></script>
@@ -306,5 +216,6 @@
 <script src="js/text.js"></script>
 <script src="js/jquery.mmenu.all.js"></script>
 <script src="js/custom.js"></script>
+<script src="js/moment.js"></script>
 </body>
 </html>

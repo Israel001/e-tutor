@@ -9,7 +9,13 @@ if (pwdToken.length < 32) window.location = '/index.html';
 const forms = document.getElementsByClassName('needs-validation');
 
 const setErrorMessage = error => {
-  document.querySelector('#change-pwd-btn').setAttribute('disabled', 'false');
+  document.querySelector('#loader').remove();
+  document.querySelector('#change-pwd-btn-area').insertAdjacentHTML(
+    'afterbegin',
+    `<button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="login-btn">
+            Submit
+          </button>`
+  );
   document.querySelector('.col-md-8').insertAdjacentHTML(
     'afterbegin',
     `<div class="alert alert-danger">
@@ -26,7 +32,13 @@ Array.prototype.filter.call(forms, form => {
     if (!form.checkValidity()) {
       form.classList.add('was-validated');
     } else {
-      document.querySelector('#change-pwd-btn').setAttribute('disabled', 'true');
+      document.querySelector('#change-pwd-btn').remove();
+      document.querySelector('#change-pwd-btn-area').insertAdjacentHTML(
+        'afterbegin',
+        `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="loader">
+              <div class="loader"></div>
+            </div>`
+      );
       let password = document.querySelector('#password').value;
       let confirmPassword = document.querySelector('#confirm-password').value;
       if (password !== confirmPassword) {
@@ -44,7 +56,13 @@ Array.prototype.filter.call(forms, form => {
           } else {
             document.querySelector('#password').value = '';
             document.querySelector('#confirm-password').value = '';
-            document.querySelector('#change-pwd-btn').setAttribute('disabled', 'false');
+            document.querySelector('#forgot-pwd-btn').remove();
+            document.querySelector('#forgot-pwd-btn-area').insertAdjacentHTML(
+              'afterbegin',
+              `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="loader">
+              <div class="loader"></div>
+            </div>`
+            );
             document.querySelector('.col-md-8').insertAdjacentHTML(
               'afterbegin',
               `<div class="alert alert-success">
@@ -57,7 +75,6 @@ Array.prototype.filter.call(forms, form => {
         } catch (err) {
           setErrorMessage('Something went wrong');
         }
-        document.querySelector('#change-pwd-btn').setAttribute('disabled', 'false');
       }
     }
   });
