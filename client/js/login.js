@@ -1,13 +1,15 @@
-let forms = document.getElementsByClassName('needs-validation');
+if (loggedIn) window.location = '/index.html';
+
+const forms = document.getElementsByClassName('needs-validation');
 
 const setErrorMessage = error => {
-  document.querySelector('#login-btn').setAttribute('disabled', 'true');
+  document.querySelector('#login-btn').setAttribute('disabled', 'false');
   document.querySelector('.col-md-8').insertAdjacentHTML(
     'afterbegin',
     `<div class="alert alert-danger">
-            <a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Error:</strong> ${error}
-          </div>`
+        <a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error:</strong> ${error}
+    </div>`
   );
 };
 
@@ -22,7 +24,7 @@ Array.prototype.filter.call(forms, form => {
       let email = document.querySelector('#email_address').value;
       let password = document.querySelector('#password').value;
       try {
-        const response = await fetch('https://e-tutor-server.herokuapp.com/login', {
+        const response = await fetch(`${baseURL}/login`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({email, password})

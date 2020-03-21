@@ -88,22 +88,21 @@
 	font-size: 20px;
 	margin-right: 2px;
 }
-.header-down .right button{
-	line-height: 42px;
-	display: block;
-	text-decoration: none;
+.header-down .right {
 	float: right;
 	margin-right: 10px;
-	font-size: 16px;
-	padding: 0 20px;
-	color:#fff;
-	background: none;
-	border:none;
 }
-.header-down .right button:focus{
-	background-color: #f7941d;
+.header-down .right .bell{
+	line-height: 45px;
+	color:#fff;
+	font-size: 16px;
+	display: block;
+	cursor: pointer;
+	padding: 0 15px;
+}
+.header-down .right .bell:hover{
 	outline: none;
-
+	background-color:#f7941d;
 }
 .header-down .right i{
 	font-size: 18px;
@@ -172,6 +171,7 @@
   color: white;
   padding: 28px;
   cursor: pointer;
+  z-index: 999;
   box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 #chat-circle i{
@@ -209,6 +209,7 @@
   height:450px;
   bottom:50px;  
   width:350px;
+  z-index: 999;
   border-radius:5px;  
   box-shadow: 0px 5px 35px 9px #ccc;
 }
@@ -279,7 +280,7 @@
 }
 .chat-submit {  
   position:absolute;
-  bottom:3px;
+  bottom: 10px;
   right:10px;
   background: transparent;
   box-shadow:none;
@@ -376,22 +377,10 @@
 	width:350px;
 	height:400px;
 }
-#topmenu{
-	height:69px;
-	width:290px;
-	border-bottom:1px solid #d8dfe3;	
+#friends{
+	height: 340px;
+	overflow-x: auto;
 }
-#topmenu span{
-	float:left;	
-	width: 96px;
-    height: 70px;
-    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/top-menu.png") -3px -118px no-repeat;
-}
-#topmenu span.friends{margin-bottom:-1px;}
-#topmenu span.chats{background-position:-95px 25px; cursor:pointer;}
-#topmenu span.chats:hover{background-position:-95px -46px; cursor:pointer;}
-#topmenu span.history{background-position:-190px 24px; cursor:pointer;}
-#topmenu span.history:hover{background-position:-190px -47px; cursor:pointer;}
 .friend{
 	height:70px;
 	border-bottom:1px solid #e7ebee;		
@@ -766,7 +755,7 @@ ul{list-style:none;}
 
 /* add entry form */
 #add_entry{position:relative;z-index:50;background:#ffffff;height:400px;width:100%;top:15px;display:none; overflow-x: hidden;}
-.enter_entry{width:100%;height:50px;background:#2980b9;}
+.enter_entry{width:100%;line-height:50px;background:#2980b9;}
 .enter_entry > input{outline:none !important;border:none;max-width:65%;height:30px;font-size:20px;background:transparent;padding:0px 30px;color:#fff;}
 .enter_entry > span{width:40%;padding:20px 13px;color:white;cursor:pointer;}
 

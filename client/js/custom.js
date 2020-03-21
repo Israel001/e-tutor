@@ -9,7 +9,7 @@ $(window).scroll(function(){
 $('#back_top').click(function(){
 	$('html, body').animate({scrollTop:0},500);
 });
-$( ".right" ).click(function() {
+$( ".bell" ).click(function() {
 	$( ".notify" ).slideToggle( "slow", function() {
 	});
 });
