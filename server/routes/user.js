@@ -13,4 +13,6 @@ router.get(
   userController.getUserTutorsAndStudents
 );
 
+router.get('/get_conversations', isAuth, userController.getConversations);
+
 module.exports = router;
