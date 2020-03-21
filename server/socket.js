@@ -16,21 +16,24 @@ module.exports = {
     if (!io) throw new Error('Socket.io is not initialized!');
     io.on('connection', socket => {
       socketId = socket.id;
-      socket.on('loggedIn', groupIds => {
-        for (let i = 0; i < groupIds.length; i++) {
-          socket.join(groupIds[i]);
+      socket.on('loggedIn', data => {
+        for (let i = 0; i < data.groupIds.length; i++) {
+          socket.join(data.groupIds[i]);
         }
+        for (let i = 0; i < data.conversationIds.length; i++) {
+          socket.join(data.conversationIds[i] + data.userId);
+        }
+        io.emit('online', data.userId);
       });
-      socket.on('loggedOut', groupIds => {
-        for (let i = 0; i < groupIds.length; i++) {
-          socket.leave(groupIds[i], () => {});
+      socket.on('loggedOut', data => {
+        for (let i = 0; i < data.groupIds.length; i++) {
+          socket.leave(data.groupIds[i], () => {});
         }
+        for (let i = 0; i < data.conversationIds.length; i++) {
+          socket.leave(data.userId + data.conversationIds[i], () => {});
+        }
+        io.emit('offline', data.userId);
       });
     });
-  },
-
-  getSocketId: () => {
-    if (!socketId) throw new Error('SocketId is not initialized!');
-    return socketId;
   }
 };

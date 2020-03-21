@@ -144,8 +144,7 @@ module.exports = {
                     message: 'Invalid token',
                     data: { error }
                 });
-            }
-            if (user) {
+            } else if (user) {
                 const isEqual = bcrypt.compare(password, user.password);
                 if (isEqual) {
                     const error = new Error('You cannot re-use your former password');
@@ -155,14 +154,15 @@ module.exports = {
                         data: {error}
                     });
                 }
+            } else {
+                const hashedPassword = await bcrypt.hash(password, 12);
+                user.password = hashedPassword;
+                user.resetToken = '';
+                await user.save();
+                res.status(201).json({
+                    message: 'Password resetted successfully!'
+                });
             }
-            const hashedPassword = await bcrypt.hash(password, 12);
-            user.password = hashedPassword;
-            user.resetToken = '';
-            await user.save();
-            res.status(201).json({
-                message: 'Password resetted successfully!'
-            });
         } catch (err) {
             if (!err.statusCode) err.statusCode = 500;
             next(err);

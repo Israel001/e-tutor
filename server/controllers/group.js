@@ -31,6 +31,24 @@ module.exports = {
     }
   },
 
+  getGroupMessages: async (req, res, next) => {
+    const currentPage = req.query.page || 1;
+    const groupId = req.query.groupId;
+    const perPage = 10;
+    try {
+      const messages = await Group.findById(groupId)
+        .select('messages').populate('messages')
+        .skip((currentPage - 1) * perPage).limit(perPage);
+      res.status(200).json({
+        message: 'Group Messages Fetched Successfully!',
+        data: { messages }
+      });
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
   getUserGroups: async (req, res, next) => {
     try {
       const groups = await Group.find({

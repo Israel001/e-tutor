@@ -10,7 +10,7 @@ module.exports = {
   sendMessage: async (req, res, next) => {
     // Initialize data to be stored in the database
     const from = req.userId;
-    const to = JSON.parse(req.body.to);
+    const to = req.body.to;
     const content = req.body.message;
     const groupId = req.body.groupId;
     try {
@@ -88,17 +88,17 @@ module.exports = {
         await group.save();
       }
       // Broadcast "send message" event
-      // if (groupId) {
-      //   io.getIO().to(groupId).emit('message', {
-      //     action: 'send',
-      //     message: {...message._doc}
-      //   });
-      // } else {
-      //   io.getIO().socket.broadcast.to(io.getSocketId()).emit('message', {
-      //     action: 'send',
-      //     message: {...message._doc}
-      //   });
-      // }
+      if (groupId) {
+        io.getIO().to(groupId).emit('message', {
+          action: 'send',
+          message: {...message._doc}
+        });
+      } else {
+        io.getIO().to(from + to[0]).emit('message', {
+          action: 'send',
+          message: {...message._doc}
+        });
+      }
       // Return a successful response
       res.status(201).json({
         message: 'Message sent successfully!',
@@ -114,9 +114,9 @@ module.exports = {
   getMessages: async (req, res, next) => {
     const currentPage = req.query.page || 1;
     const otherUsers = req.query.users.split(',');
-    const perPage = 2;
+    const perPage = 10;
+
     try {
-      const totalItems = await Message.find({isDeleted: false}).countDocuments();
       const messages = await Message
         .find({
           isDeleted: false,
@@ -134,14 +134,13 @@ module.exports = {
               ]
             }
           ]
-        }, 'from to message')
+        })
         .populate('from').populate('to')
-        .sort({createdAt: -1})
         .skip((currentPage - 1) * perPage)
         .limit(perPage);
       res.status(200).json({
         message: 'Messages Fetched Successfully!',
-        data: { messages, totalItems }
+        data: { messages }
       });
     } catch (err) {
       if (!err) err.statusCode = 500;
