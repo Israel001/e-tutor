@@ -9,6 +9,7 @@ const Group = require('../models/group');
 module.exports = {
   sendMessage: async (req, res, next) => {
     // Initialize data to be stored in the database
+    console.log(req.files);
     const from = req.userId;
     const to = req.body.to;
     const content = req.body.message;
@@ -119,7 +120,6 @@ module.exports = {
     try {
       const messages = await Message
         .find({
-          isDeleted: false,
           $or: [
             {
               $and: [
@@ -180,6 +180,7 @@ module.exports = {
   },
 
   deleteMessage: async (req, res, next) => {
+    const userId = req.userId;
     const messageId = req.params.messageId;
     try {
       const message = await Message.findById(messageId).populate('from');
@@ -195,9 +196,19 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      message.isDeleted = true;
-      await message.save();
-      io.getIO().emit('message', { action: 'delete', message: messageId });
+      await Message.findByIdAndRemove(messageId, { useFindAndModify: false });
+      const group = await Group.findById(message.to[0]);
+      if (group) {
+        io.getIO().to(group._id).emit(
+          'message',
+          { action: 'delete', message: messageId }
+        );
+      } else {
+        io.getIO().to(userId + message.to[0]).emit(
+          'message',
+          {action: 'delete', message: messageId}
+        );
+      }
       res.status(200).json({message: 'Message Deleted Successfully'});
     } catch(err) {
       if (!err.statusCode) err.statusCode = 500;

@@ -15,4 +15,6 @@ router.get(
 
 router.get('/get_conversations', isAuth, userController.getConversations);
 
+router.get('/search_users', userController.searchUsers);
+
 module.exports = router;
