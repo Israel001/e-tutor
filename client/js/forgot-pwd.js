@@ -45,12 +45,12 @@ Array.prototype.filter.call(forms, form => {
           setErrorMessage(data.message);
         } else {
           document.querySelector('#email_address').value = '';
-          document.querySelector('#forgot-pwd-btn').remove();
+          document.querySelector('#loader').remove();
           document.querySelector('#forgot-pwd-btn-area').insertAdjacentHTML(
             'afterbegin',
-            `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="loader">
-              <div class="loader"></div>
-            </div>`
+            `<button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="forgot-pwd-btn">
+                    Submit
+                  </button>`
           );
           document.querySelector('.col-md-8').insertAdjacentHTML(
             'afterbegin',
@@ -62,6 +62,7 @@ Array.prototype.filter.call(forms, form => {
         }
       } catch (err) {
         setErrorMessage('Something went wrong');
-      }}
+      }
+    }
   })
 });

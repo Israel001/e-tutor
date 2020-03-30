@@ -20,8 +20,11 @@ function scrollb() {
 
 }
 $(document).ready(function(){
+  if (loggedIn) {
     $('#chat-messages').animate({
-        scrollTop: $('#chat-messages')[0].scrollHeight}, 2000);
+      scrollTop: $('#chat-messages')[0].scrollHeight
+    }, 2000);
+  }
 });
 
 function openmenu() {

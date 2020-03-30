@@ -1,5 +1,5 @@
-const baseURL = 'http://127.0.0.1:3000';
-const baseClientURL = 'http://127.0.0.1:8080';
+const baseURL = 'https://e-tutor-server.herokuapp.com';
+const baseClientURL = 'https://e-tutor-client.herokuapp.com';
 const socket = io(baseURL);
 const groupIds = [];
 const conversationIds = [];

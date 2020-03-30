@@ -12,7 +12,7 @@ const setErrorMessage = error => {
   document.querySelector('#loader').remove();
   document.querySelector('#change-pwd-btn-area').insertAdjacentHTML(
     'afterbegin',
-    `<button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="login-btn">
+    `<button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="change-pwd-btn">
             Submit
           </button>`
   );
@@ -56,12 +56,12 @@ Array.prototype.filter.call(forms, form => {
           } else {
             document.querySelector('#password').value = '';
             document.querySelector('#confirm-password').value = '';
-            document.querySelector('#forgot-pwd-btn').remove();
-            document.querySelector('#forgot-pwd-btn-area').insertAdjacentHTML(
+            document.querySelector('#loader').remove();
+            document.querySelector('#change-pwd-btn-area').insertAdjacentHTML(
               'afterbegin',
-              `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="loader">
-              <div class="loader"></div>
-            </div>`
+              `<button type="submit" class="btn btn-primary" style="border-color: #f7941d ; background-color: #00b3a1" id="change-pwd-btn">
+                      Submit
+                    </button>`
             );
             document.querySelector('.col-md-8').insertAdjacentHTML(
               'afterbegin',
