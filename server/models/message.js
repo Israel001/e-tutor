@@ -18,8 +18,7 @@ const messageSchema = new Schema({
     messages: [
       String
     ]
-  },
-  isDeleted: { type: Boolean, default: false }
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Message', messageSchema);

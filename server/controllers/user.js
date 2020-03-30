@@ -38,7 +38,7 @@ module.exports = {
       const userTutors = user.tutors;
       const userStudents = user.students;
       res.status(200).json({
-        message: 'User Tutors Fetched Successfully!',
+        message: 'User Tutors And Students Fetched Successfully!',
         data: { userTutors, userStudents }
       });
     } catch (err) {
@@ -51,7 +51,6 @@ module.exports = {
     try {
       const messages = await Message
         .find({
-          isDeleted: false,
           $or: [
             { from: req.userId },
             { to: req.userId }
@@ -78,6 +77,26 @@ module.exports = {
       res.status(200).json({
         message: 'Conversations Fetched Successfully!',
         data: { filteredConversations }
+      });
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  searchUsers: async (req, res, next) => {
+    const searchQuery = req.query.searchQuery;
+    try {
+      const users = await User.find({
+        $or: [
+          {name: {$regex: searchQuery, $options: 'i'}},
+          {email: {$regex: searchQuery, $options: 'i'}}
+        ]
+      });
+      if (!users) res.status(404).send({message: 'User Not Found!'});
+      res.status(200).send({
+        message: 'Users Fetched Successfully!',
+        data: { users }
       });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
