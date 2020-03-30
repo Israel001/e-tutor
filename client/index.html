@@ -9,6 +9,7 @@
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css'>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=PT+Sans:400,70'>
 	<link rel="stylesheet" href="slick/slick-theme.css">
 	<link rel="stylesheet" href="slick/slick.css">
 	<link href="css/animate.css" rel="stylesheet">
@@ -20,202 +21,173 @@
 	<link rel="shortcut icon" href="images/teacher.png">
 </head>
 <body>
-<header>
-	<div class="header-up full">
-		<span>E-Tutor</span>
-		<a href="login.html" id="auth-btn">Log In</a>
-	</div>
-	<div class="header-center full">
-		<div class="col-lg-6 col-md-6 col-sm-6" >
-			<div class="row">
-				<a href="#"><img src="images/teacher.png" alt=""></a>
-			</div>
+	<header>
+		<div class="header-up full">
+			<span>E-Tutor</span>
+			<a href="login.html" id="auth-btn">Log In</a>
 		</div>
-		<div class="col-lg-6 col-md-6 col-sm-6">
-			<div class="row">
-				<div class="search">
-					<form action="">
-						<input type="text" placeholder="Search...">
-						<button><i class="fa fa-search"></i></button>
-					</form>
+		<div class="header-center full">
+			<div class="col-lg-6 col-md-6 col-sm-6" >
+				<div class="row">
+					<a href="#"><img src="images/teacher.png" alt=""></a>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="header-down full">
-		<div class="left">
-			<ul>
-				<li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-				<li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-			</ul>
-		</div>
-		<div class="right">
-			<div class="bell">
-
-				<i class="fa fa-bell"></i>Notifications
-			</div>
-
-			<div class="clearfix"></div>
-			<div class="notify">
-				<h3>Notifications</h3>
-			</div>
-		</div>
-	</div>
-</header>
-<content>
-	<div class="banner full">
-		<div class="slide-banner">
-			<div class="img-banner">
-				<img src="images/banner.jpg" alt="">
-			</div>
-			<div class="img-banner">
-				<img src="images/banner.jpg" alt="">
-			</div>
-		</div>
-	</div>
-	<div class="home-body full">
-
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
-					<div class="row" id="tutors-list">
-						<div class="label-hp full">
-							<h1>List Of Tutors</h1>
-						</div>
-
-						<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="tutor-content">
-                                <img src="images/tutor.jpg" alt="">
-                                <span>Albert Einstein</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="tutor-content">
-                                <img src="images/tutor.jpg" alt="">
-                                <span>Albert Einstein</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="tutor-content">
-                                <img src="images/tutor.jpg" alt="">
-                                <span>Albert Einstein</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="tutor-content">
-                                <img src="images/tutor.jpg" alt="">
-                                <span>Albert Einstein</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            <div class="tutor-content">
-                                <img src="images/tutor.jpg" alt="">
-                                <span>Albert Einstein</span>
-                            </div>
-                        </div> -->
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="row">
+					<div class="search">
+						<form action="">
+							<input type="text" placeholder="Search...">
+							<button><i class="fa fa-search"></i></button>
+						</form>
 					</div>
 				</div>
-
-				<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-					<div class="row">
-						<div class="label-hp full">
-							<h1>Calendar</h1>
-						</div>
-						<div id="app"></div>
-					</div>
+			</div>
+		</div>
+		<div class="header-down full">
+			<div class="left">
+				<ul>
+					<li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+					<li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="bell">
+					
+					<i class="fa fa-bell"></i>Notifications
 				</div>
-
-				<div id="chat-circle" class="btn btn-raised">
-					<div id="chat-overlay"></div>
-					<i class="fa fa-comment"></i>
+				
+				<div class="clearfix"></div>
+				<div class="notify">
+					<h3>Notifications</h3>
 				</div>
-				<div class="chat-box">
+			</div>
+		</div>	
+	</header>
+	<content>
+		<div class="banner full">
+			<div class="slide-banner">
+				<div class="img-banner">
+					<img src="images/banner.jpg" alt="">
+				</div>
+				<div class="img-banner">
+					<img src="images/banner.jpg" alt="">
+				</div>
+			</div>
+		</div>
+		<div class="home-body full">
 
-					<div class="chat-box-header">
-						ChatBox
-						<span class="chat-box-toggle"><i class="fa fa-times"></i></span>
-					</div>
-
-					<div id="friendslist">
-
-						<div id="friends">
-							<div id="groups" style="margin-top: 15px; margin-bottom: 15px;">
-								<span id="groups-title" style="font-weight: bold; margin-left: 15px; display: block;">Groups</span>
-							</div>
-							<div id="private" style="margin-top: 15px; margin-bottom: 15px;">
-								<span id="private-title" style="font-weight: bold; margin-left: 15px; display: block;">Private Conversations</span>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
+						<div class="row" id="tutors-list">
+							<div class="label-hp full">
+								<h1>List Of Tutors</h1>
 							</div>
 						</div>
-						<div id="search">
-							<input type="text" id="searchfield" value="Search contacts..." />
-						</div>
+					</div>	
 
-					</div>
-
-					<div id="chatview" class="p1">
-						<div id="profile">
-
-							<div id="close">
-								<div class="cy"></div>
+					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<div class="row">
+							<div class="label-hp full">
+								<h1>Calendar</h1>
 							</div>
-
-							<p>Miro Badev</p>
-							<span>miro@badev@gmail.com</span>
+							<div id="app"></div>
 						</div>
-						<div id="chat-messages">
-                             <label id="msg-time">Thursday 02</label>
+					</div>	
 
-                         </div>
-
-						<div id="sendmessage">
-							<textarea id="send-message-input" placeholder="Send message..." autofocus></textarea>
-                            <button id="send"></button>
-                        </div>
-<!--						<div class="chat-box-body">-->
-<!--							<div class="chat-box-overlay"></div>-->
-<!--							<div class="chat-logs">-->
-
-<!--							</div>-->
-<!--							&lt;!&ndash;chat-log &ndash;&gt;-->
-<!--						</div>-->
-<!--						<div class="chat-input">-->
-<!--							<form>-->
-<!--								<input type="text" id="chat-input" placeholder="Send a message..." />-->
-<!--								<button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-paper-plane"></i></button>-->
-<!--							</form>-->
-<!--						</div>-->
-
+					<div id="chat-circle" class="btn btn-raised">
+					    <div id="chat-overlay"></div>
+					    <i class="fa fa-comment"></i>
 					</div>
+					<div class="chat-box">
 
+					    <div class="chat-box-header">
+					    	ChatBox
+					    	<span class="chat-box-toggle"><i class="fa fa-times"></i></span>
+					    </div>
+
+						<div id="friendslist">
+					    	        
+					        <div id="friends">
+								<div id="groups" style="margin-top: 15px; margin-bottom: 15px;">
+									<span id="groups-title" style="font-weight: bold; margin-left: 15px; display: block;">Groups</span>
+								</div>
+								<div id="private" style="margin-top: 15px; margin-bottom: 15px;">
+									<span id="private-title" style="font-weight: bold; margin-left: 15px; display: block;">Private Conversations</span>
+								</div>
+					        </div>   
+					        <div id="search">
+						        <input type="text" id="searchfield" value="Search contacts..." />
+					        </div>             
+	        
+	    				</div>
+
+	    				<div id="chatview" class="p1">
+					        <div id="profile">
+
+					            <div id="close">
+					                <div class="cy"></div>
+					                <div class="cx"></div>
+					            </div>
+
+					            <p>Miro Badev</p>
+					            <span>miro@badev@gmail.com</span>
+					        </div>
+					       	<div id="chat-messages">
+					            <div class="message right">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
+					                <div class="bubble">
+					                	<a href="#"><i class="fa fa-file"></i>education.pdf</a>
+					                    <div id="time-tool">13:00</div>
+					                    <div class="remove-mes"><a href=""><i class="fa fa-trash"></i></a></div>
+					                </div>
+					            </div>
+					            <div class="message" id="un">
+					            	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+					                <div class="images">
+					                	<a href="#"><img src="images/tutor.jpg" alt=""></a>
+										<a href="#"><img src="images/tutor.jpg" alt=""></a>
+										<a href="#"><img src="images/tutor.jpg" alt=""></a>
+										<a href="#"><img src="images/tutor.jpg" alt=""></a>
+
+					                    <div id="time-tool">13:00</div>
+					                    <div class="remove-mes"><a href=""><i class="fa fa-trash"></i></a></div>
+					                </div>
+					            </div>
+					        </div>
+
+					        <div id="sendmessage">
+					        	<textarea placeholder="Enter the message" id="send-message-input"></textarea>
+					        	<input type="file" id="file" class="upload__input" name="myfile" multiple accept="image/jpeg, image/png, image/gif, .pdf"><br>
+					            <button id="send"></button>
+					        </div>
+	    
+	    				</div>
+	 
+					</div>
 				</div>
 			</div>
+		</div>	
+	</content>
+	<footer>
+		<div class="copy-right full">
+			Copyright © 2020
 		</div>
-
-
-
-
-
-	</div>
-</content>
-<footer>
-	<div class="copy-right full">
-		Copyright © 2020
-	</div>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
-<script src="js/base.min.js"></script>
-<script src="js/index.min.js"></script>
-<script src="bootstrap/js/jquery-3.1.1.min.js"></script>
-
-<script src="slick/slick.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
-<script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
-<script src="js/wow.min.js"></script>
-<script src="js/text.js"></script>
-<script src="js/jquery.mmenu.all.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/moment.js"></script>
+	</footer>
+	
+	<script src="bootstrap/js/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+	<script src="js/base.js"></script>
+	<script src="js/index.js"></script>
+	<script src="slick/slick.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
+	<script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/text.js"></script>
+	<script src="js/jquery.mmenu.all.js"></script>
+	<script src="js/custom.js"></script>
+	<script src="js/moment.js"></script>
 </body>
 </html>

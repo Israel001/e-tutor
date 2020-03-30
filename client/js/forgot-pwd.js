@@ -38,7 +38,7 @@ Array.prototype.filter.call(forms, form => {
         const response = await fetch (`${baseURL}/reset_password`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({email, baseClientURL})
+          body: JSON.stringify({email, url: baseClientURL})
         });
         const data = await response.json();
         if (response.status !== 200) {
