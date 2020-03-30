@@ -77,15 +77,16 @@ module.exports = {
                     message: 'Passwords do not match',
                     data: { error }
                 });
+            } else {
+                const token = jwt.sign({
+                    userId: user._id.toString(),
+                    userRole: user.role
+                }, `${process.env.JWT_PASSWORD}`, {expiresIn: '1h'});
+                res.status(200).json({
+                    message: 'User Logged In Successfully!',
+                    data: {token: token, userId: user._id.toString()}
+                });
             }
-            const token = jwt.sign({
-                userId: user._id.toString(),
-                userRole: user.role
-            }, `${process.env.JWT_PASSWORD}`, {expiresIn: '1h'});
-            res.status(200).json({
-                message: 'User Logged In Successfully!',
-                data: { token: token, userId: user._id.toString()  }
-            });
         } catch (err) { 
             if (!err.statusCode) err.statusCode = 500;
             next(err);
@@ -142,10 +143,10 @@ module.exports = {
                 error.statusCode = 422;
                 res.status(422).json({
                     message: 'Invalid token',
-                    data: { error }
+                    data: {error}
                 });
-            } else if (user) {
-                const isEqual = bcrypt.compare(password, user.password);
+            } else {
+                const isEqual = await bcrypt.compare(password, user.password);
                 if (isEqual) {
                     const error = new Error('You cannot re-use your former password');
                     error.statusCode = 422;
@@ -153,15 +154,14 @@ module.exports = {
                         message: 'You cannot re-use your former password',
                         data: {error}
                     });
+                } else {
+                    user.password = await bcrypt.hash(password, 12);
+                    user.resetToken = '';
+                    await user.save();
+                    res.status(201).json({
+                        message: 'Password resetted successfully!'
+                    });
                 }
-            } else {
-                const hashedPassword = await bcrypt.hash(password, 12);
-                user.password = hashedPassword;
-                user.resetToken = '';
-                await user.save();
-                res.status(201).json({
-                    message: 'Password resetted successfully!'
-                });
             }
         } catch (err) {
             if (!err.statusCode) err.statusCode = 500;
