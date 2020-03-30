@@ -51,7 +51,6 @@ module.exports = {
     try {
       const messages = await Message
         .find({
-          isDeleted: false,
           $or: [
             { from: req.userId },
             { to: req.userId }
