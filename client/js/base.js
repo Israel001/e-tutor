@@ -42,3 +42,12 @@ Date.prototype.toDatetimeLocal = function toDatetimeLocal() {
   let II = ten(date.getMinutes());
   return `${YYYY}${MM}${DD}${HH}${II}`;
 };
+
+const generateBase64FromImage = imageFile => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = err => reject(err);
+    reader.readAsDataURL(imageFile);
+  });
+};
