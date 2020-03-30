@@ -23,7 +23,10 @@ module.exports = {
         for (let i = 0; i < data.conversationIds.length; i++) {
           socket.join(data.conversationIds[i] + data.userId);
         }
-        io.emit('online', data.userId);
+        io.emit('online', { user: data.userId, groups: data.groupIds});
+      });
+      socket.on('typing', data => {
+        io.to(data.room).emit('typing', data.userId);
       });
       socket.on('loggedOut', data => {
         for (let i = 0; i < data.groupIds.length; i++) {
@@ -32,7 +35,7 @@ module.exports = {
         for (let i = 0; i < data.conversationIds.length; i++) {
           socket.leave(data.userId + data.conversationIds[i], () => {});
         }
-        io.emit('offline', data.userId);
+        io.emit('offline', { user: data.userId, groups: data.groupIds });
       });
     });
   }

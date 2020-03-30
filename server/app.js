@@ -1,7 +1,9 @@
+const path = require('path');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const bodyParser = require('body-parser');
+const multer = require('multer');
 
 const io = require('./socket');
 const messageRoutes = require('./routes/message');
@@ -13,9 +15,33 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO
 
 const app = express();
 
+const storage = multer.diskStorage({
+  destination: 'files',
+  filename: (req, file, cb) => {
+    cb(null, `${new Date().getTime().toString()}-${file.originalname}`);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'application/pdf') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 //Body Parser
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Files Parser
+app.use(multer({
+  storage,
+  fileFilter,
+  limits: { fieldSize: 3 * 1024 * 1024 }
+}).array('files', 4));
+
+app.use('/files', express.static(path.join(__dirname, 'files')));
 
 //Extra-Headers Configuration
 app.use(helmet());
