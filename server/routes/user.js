@@ -17,4 +17,8 @@ router.get('/get_conversations', isAuth, userController.getConversations);
 
 router.get('/search_users', userController.searchUsers);
 
+router.post('/assignUser', userController.assignUser);
+
+router.post('/removeStdAndTutor', userController.removeUserFromTutor);
+
 module.exports = router;
