@@ -51,6 +51,7 @@ Array.prototype.filter.call(forms, form => {
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('token', data.data.token);
           localStorage.setItem('userId', data.data.userId);
+          localStorage.setItem('userRole', data.data.userRole);
           const remainingMilliseconds = 60 * 60 * 1000;
           const expiryDate = new Date(
             new Date().getTime() + remainingMilliseconds

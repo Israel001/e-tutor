@@ -22,6 +22,7 @@ const logout = () => {
 let loggedIn = localStorage.getItem('loggedIn');
 const token = localStorage.getItem('token');
 const userId = localStorage.getItem('userId');
+const userRole = localStorage.getItem('userRole');
 const expiryDate = localStorage.getItem('expiryDate');
 if (!token || !expiryDate) {
   loggedIn = false;
