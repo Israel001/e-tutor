@@ -9,3 +9,4 @@ nodemon.json
 __tests__
 *.php
 firebase-config.js
+firebase-config.min.js
