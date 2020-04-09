@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(multer({
   storage,
   fileFilter,
-  limits: { fieldSize: 3 * 1024 * 1024 }
+  limits: { fieldSize: 5 * 1024 * 1024 }
 }).array('files', 4));
 
 app.use('/files', express.static(path.join(__dirname, 'files')));
