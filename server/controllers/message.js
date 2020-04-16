@@ -9,7 +9,6 @@ const Group = require('../models/group');
 module.exports = {
   sendMessage: async (req, res, next) => {
     // Initialize data to be stored in the database
-    console.log(req.files);
     const from = req.userId;
     const to = req.body.to;
     const content = req.body.message;

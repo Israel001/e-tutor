@@ -2,15 +2,8 @@ const crypto = require('crypto');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport');
 
-const transporter = nodemailer.createTransport(sendGridTransport({
-    auth: {
-      api_key: `${process.env.NODEMAILER_KEY}`
-    }
-}));
-
+const agenda = require('../agenda');
 const User = require('../models/user');
 
 module.exports = {
@@ -86,17 +79,7 @@ module.exports = {
                 user.resetToken = token;
                 user.resetTokenExpiration = Date.now() + 3600000;
                 await user.save();
-                transporter.sendMail({
-                    to: email,
-                    from: 'admin@e-tutor.com',
-                    subject: 'Password Reset',
-                    html: `
-                        <p>You requested a password reset</p>
-                        <p>Click this 
-                        <a href="${url}/change-password.html?token=${token}">
-                        link</a> to set a new password.</p>
-                    `
-                });
+                await agenda.now('reset password email', { email, url, token });
                 res.status(200).json({
                     message: 'Please check your email to reset the password'
                 });

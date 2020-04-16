@@ -10,6 +10,7 @@ const messageRoutes = require('./routes/message');
 const groupRoutes = require('./routes/group');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const meetingRoutes = require('./routes/meeting');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}-puhqm.gcp.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
@@ -65,6 +66,7 @@ app.use(messageRoutes);
 app.use(groupRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(meetingRoutes);
 
 // Universal Error Handling
 app.use((error, req, res) => {
