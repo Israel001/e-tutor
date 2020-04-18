@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Admin Panel</title>
+	<title>Add New Meeting - Admin </title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
@@ -17,6 +17,9 @@
 	<link rel="stylesheet" href="css/home.css">
 	<link rel="stylesheet" href="css/phone-zalo.css">
 	<link rel="stylesheet" href="css/responsive.css">
+
+
+
 </head>
 <body>
 	<header>
@@ -39,7 +42,7 @@
 			<div class="sidebar-left" id="side-menu">
 				<i class="fa fa-times" id="close-menu" onclick="closemenu()"></i>
 				<ul class="nav nav-tabs nav-stacked">
-				    <li ><a class="active" href="admin-panel.html"><i class="fa fa-tachometer"></i>Dashboard</a></li>
+				    <li><a href="admin-panel.html"><i class="fa fa-tachometer"></i>Dashboard</a></li>
 				    <li><a data-toggle="collapse" class="unactive" href="#child-menu1" ><i class="fa fa-sitemap"></i>Group<span class="caret"></span></a>
 						<ul id="child-menu1" class="panel-collapse collapse">
 							<li><a  href="list-group.html">View Group</a></li>
@@ -50,7 +53,7 @@
 				    <li><a data-toggle="collapse" class="unactive" href="#child-menu" ><i class="fa fa-users"></i>Users<span class="caret"></span></a>
 						<ul id="child-menu" class="panel-collapse collapse">
 							<li><a  href="admin-all-user.html">All Users</a></li>
-							<li><a  href="admin-add-user.html">Add New User</a></li>
+							<li ><a class="active" href="admin-add-user.html">Add New User</a></li>
 							<li><a data-toggle="modal" data-target="#myModal1"href="">Allocate Students to Tutors</a></li>
 						</ul>
 				    </li>
@@ -111,83 +114,6 @@
 					 	</div>
 						<div class="modal-body full">
 					   		<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
-			            		<div class="s-name">
-			            			Harry Potter
-			            		</div>
-			            		<div class="s-image">
-			            			<img src="images/student.jpg" alt="">
-			            		</div>
-			            		<div class="s-check">
-			            			<input type="checkbox" class="chk">
-			            		</div>
-			            	</div>
-			            	<div class="profile-student full">
 			            		<div class="s-name">
 			            			Harry Potter
 			            		</div>
@@ -298,98 +224,21 @@
 			</div>
 			<div class="admin-right">
 				<div class="bars"><i class="fa fa-bars" onclick="openmenu()"></i></div>
-				    <div id="dashboard" >
-				    	<h3>DASHBOARD</h3>
-				    	<div class="statistic full">
-				    		<div class="row">
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				    				<div class="cell student full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/reading.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">12</p>
-						      					<p class="labels">Student</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				    				<div class="cell tutor full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/tutor.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">12</p>
-						      					<p class="labels">Tutor</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-				    				<div class="cell issue full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/discuss-issue.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">12</p>
-						      					<p class="labels">Issue</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-				    				<div class="cell group full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/network.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">4</p>
-						      					<p class="labels">Group</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-				    				<div class="cell meeting full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/discussion.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">4</p>
-						      					<p class="labels">Meeting</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    		</div>
-				      	</div>
-				      	<div class="chart full">
-				      		<div id="chartdiv"></div>
-				      	</div>
-
+				    <div id="add-meeting" >
+				      	<h3>Add New Meeting</h3>
+				     	<form action="">
+				     		<label>Title</label>
+				     		<input type="text" class="form-control" name="fullname" required autofocus>
+				     		<label>Description</label><br>
+				     		<textarea rows="10" cols="50"></textarea><br>
+				     		<label>Select members</label><br>
+				     		<select required>
+				     			<option value="">----------</option>
+				     			<option value="">Harry Potter</option>
+				     		</select>
+				     		<button>Add New Meeting</button>
+				     	</form>
 				    </div>
-				    
 			</div>	
 			
 		</div>	
@@ -406,7 +255,9 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/text.js"></script>
 	<script src="js/jquery.mmenu.all.js"></script>
-	<script src="js/custom1.js"></script>
+	<script src="js/custom.js"></script>
+	<script src="js/add-user.js"></script>
+
 	
 </body>
 </html>
