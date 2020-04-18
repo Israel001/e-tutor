@@ -37,7 +37,7 @@ module.exports = {
             const role = req.body.role;
             const hashedPassword = await bcrypt.hash(password, 12);
             const user = new User({
-                email: email, 
+                email: email,
                 password: hashedPassword,
                 role: role
             });

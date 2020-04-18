@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Message = require('../models/message');
+const Issue = require('../models/issue');
 
 module.exports = {
   getTutors: async (req, res, next) => {
@@ -107,12 +108,29 @@ module.exports = {
   },
 
   assignUser: async (req, res, next) => {
-    const tutorEmail = req.body.tutorEmail;
-    const studentEmail = req.body.stdEmail;
+    const tutorId = req.body.tutorId;
+    const studentId = req.body.stdId;
+    if (req.role !== 'admin') {
+      const error = new Error('Not Authorized!');
+      error.statusCode = 403;
+      res.status(error.statusCode).json({
+        message: 'Not Authorized!',
+        data: { error }
+      });
+    }
     try {
-      const tutor = await User.findOne({ email: tutorEmail });
-      const student = await User.findOne({ email: studentEmail });
-      if (!tutor && !student) {
+      const tutor = await User.findById(tutorId);
+      const student = await User.findById(studentId);
+
+      if (student.tutors.length > 0) {
+        const error = new Error('This student already has tutor');
+        error.statusCode = 401;
+        res.status(401).json({
+          message: 'This student already has tutor',
+          data: { error }
+        });
+      }
+      else if (!tutor && !student) {
         const error = new Error('Could not find a user with that email');
         error.statusCode = 401;
         res.status(401).json({
@@ -120,9 +138,6 @@ module.exports = {
           data: { error }
         });
       } else if (tutor && student) {
-        const tutorId = tutor._id;
-        const studentId = student._id;
-
         tutor.students.push(studentId);
         student.tutors.push(tutorId);
 
@@ -141,11 +156,19 @@ module.exports = {
   },
 
   removeUserFromTutor: async (req, res, next) => {
-    const tutorEmail = req.body.tutorEmail;
-    const studentEmail = req.body.stdEmail;
+    const tutorId = req.body.tutorId;
+    const studentId = req.body.stdId;
+    if (req.role !== 'admin') {
+      const error = new Error('Not Authorized!');
+      error.statusCode = 403;
+      res.status(error.statusCode).json({
+        message: 'Not Authorized!',
+        data: { error }
+      });
+    }
     try {
-      const tutor = await User.findOne({ email: tutorEmail });
-      const student = await User.findOne({ email: studentEmail });
+      const tutor = await User.findById(tutorId);
+      const student = await User.findById(studentId);
       if (!tutor && !student) {
         const error = new Error('Could not find a user with that email');
         error.statusCode = 401;
@@ -154,8 +177,6 @@ module.exports = {
           data: { error }
         });
       } else if (tutor && student) {
-        const tutorId = tutor._id;
-        const studentId = student._id;
 
         tutor.students = tutor.students
           .filter(std => std.toString() !== studentId.toString());
@@ -170,6 +191,31 @@ module.exports = {
         });
       }
     } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  getListOfIssues: async (req, rex, next) => {
+    const userId = req.body.userId;
+    try {
+      const issue = await Issue.findOne({
+        assignTo: userId
+      });
+      if (!issue) {
+        const error = new Error('You do not have any issue');
+        error.statusCode = 404;
+        res.status(error.statusCode).json({
+          message: 'You do not have any issue',
+          data: { error }
+        });
+      }
+      res.status(200).json({
+        message: 'All Issues assign to you',
+        data: { issue }
+      });
+    } catch (err) {
+      // Forward errors to the universal error handler
       if (!err.statusCode) err.statusCode = 500;
       next(err);
     }

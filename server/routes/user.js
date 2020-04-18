@@ -17,8 +17,10 @@ router.get('/get_conversations', isAuth, userController.getConversations);
 
 router.get('/search_users', userController.searchUsers);
 
-router.post('/assignUser', userController.assignUser);
+router.get('/issue/getListOfIssues', userController.getListOfIssues);
 
-router.post('/removeStdAndTutor', userController.removeUserFromTutor);
+router.post('/assignUser', isAuth , userController.assignUser);
+
+router.post('/removeStdAndTutor', isAuth, userController.removeUserFromTutor);
 
 module.exports = router;
