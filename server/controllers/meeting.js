@@ -224,8 +224,8 @@ module.exports = {
         } else {
           meeting.date = date;
           meeting.status = 'postponed';
-          for (let i = 0; i < meeting.members.length; i++) {
-            const user = await User.findById(meeting.members[i]);
+          for (let i = 0; i < meeting.accepts.length; i++) {
+            const user = await User.findById(meeting.accepts[i]);
             user.meetings = user.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
             await agenda.cancel({_id: ObjectId(user.meetings[0].split('-')[1])});
             await agenda.now('meeting postponed email', {
@@ -288,8 +288,8 @@ module.exports = {
               data: { error }
             });
           } else {
-            for (let i = 0; i < meeting.members.length; i++) {
-              const user = await User.findById(meeting.members[i]);
+            for (let i = 0; i < meeting.accepts.length; i++) {
+              const user = await User.findById(meeting.accepts[i]);
               user.meetings = user.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
               await agenda.cancel({_id: ObjectId(user.meetings[0].split('-')[1])});
               await agenda.now('meeting canceled email', {

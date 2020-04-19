@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
 
 const transporter = require('../nodemailer');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}-puhqm.gcp.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
-const checkCancelled = async job => {
-  const db = await mongoose.connect(MONGODB_URI);
-  const count = await db.collection('agendaJobs').count({ _id: job.attrs.data._id });
-  return !(count > 0);
-};
+// const checkCancelled = async job => {
+//   const db = new MongoClient(MONGODB_URI, { useUnifiedTopology: true });
+//   const count = await db.collection('agendaJobs').count({ _id: job.attrs.data._id });
+//   return !(count > 0);
+// };
 
 module.exports = agenda => {
   agenda.define('reset password email', async job => {
@@ -82,7 +82,7 @@ module.exports = agenda => {
   });
 
   agenda.define('meeting reminder email', async job => {
-    if (await checkCancelled(job)) return;
+    // if (await checkCancelled(job)) return;
     const email = job.attrs.data.email;
     const name = job.attrs.data.name;
     const title = job.attrs.data.title;
