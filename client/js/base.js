@@ -1,4 +1,4 @@
-const baseURL = 'https://e-tutor-server.herokuapp.com';
+const baseURL = 'http://127.0.0.1:3000';
 const baseClientURL = 'https://e-tutor-client.herokuapp.com';
 const socket = io(baseURL);
 const groupIds = [];
