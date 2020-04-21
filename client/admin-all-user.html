@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>All Users</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link href="font/css/font-awesome.css" rel="stylesheet">
+	<link href="font/css/font-awesome.min.css" rel="stylesheet">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css'>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=PT+Sans:400,70'>
+	<link rel="stylesheet" href="slick/slick-theme.css">
+	<link rel="stylesheet" href="slick/slick.css">
+	<link href="css/animate.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/jquery.mmenu.all.css">
+	<link rel="stylesheet" href="css/home.css">
+	<link rel="stylesheet" href="css/phone-zalo.css">
+	<link rel="stylesheet" href="css/responsive.css">
+	<link rel="shortcut icon" href="images/teacher.png">
+</head>
+<body>
+	<header>
+		<div class="header-up full" style="position: fixed;z-index: 999">
+			<span>E-Tutor ADMIN</span>
+			<div class="login-admin">
+				<ul>
+					<li>
+						<a id="user-name" data-toggle=collapse href="#drop-logout"></a>
+						<ul id="drop-logout" class="panel-collapse collapse">
+							<li><a id="logout-btn"><i class="fa fa-power-off"></i>Log Out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<content>
+		<div class="admin-body full" style="margin-top: 45px;">
+			<div class="sidebar-left" id="side-menu">
+				<i class="fa fa-times" id="close-menu" onclick="closemenu()"></i>
+				<ul class="nav nav-tabs nav-stacked">
+				    <li ><a href="admin-panel.html"><i class="fa fa-tachometer"></i>Dashboard</a></li>
+				    <li><a data-toggle="collapse" class="unactive" href="#child-menu1" ><i class="fa fa-sitemap"></i>Group<span class="caret"></span></a>
+						<ul id="child-menu1" class="panel-collapse collapse">
+							<li><a  href="list-group.html">View Group</a></li>
+							<li><a data-toggle="modal" data-target="#myModal4"href="">Add New Group</a></li>
+						</ul>
+				    </li>
+				    <li><a  href="admin-comment.html"><i class="fa fa-comment"></i>Comments</a></li>
+				    <li><a data-toggle="collapse" class="unactive" href="#child-menu" ><i class="fa fa-users"></i>Users<span class="caret"></span></a>
+						<ul id="child-menu" class="panel-collapse collapse">
+							<li ><a class="active"  href="admin-all-user.html">All Users</a></li>
+							<li><a  href="admin-add-user.html">Add New User</a></li>
+							<li><a data-toggle="modal" data-target="#myModal1"href="">Allocate Students to Tutors</a></li>
+						</ul>
+				    </li>
+				    <li><a data-toggle="collapse" class="unactive" href="#child-menu2" ><i class="fa fa-comments"></i>Meeting<span class="caret"></span></a>
+						<ul id="child-menu2" class="panel-collapse collapse">
+							<li><a  href="admin-all-meeting.html">View Meeting</a></li>
+							<li><a href="admin-add-meeting.html">Add New Meeting</a></li>
+						</ul>
+				    </li>
+				    <li><a  href="admin-request.html"><i class="fa fa-fire"></i>Issue</a></li>
+				    <li><a  data-toggle="modal" data-target="#myModal3"href=""><i class="fa fa-user"></i>Profile</a></li>
+				</ul>
+			</div>
+			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Choose a Tutor</h4>
+						</div>
+						<div id="tutor-modal" class="modal-body full" style="height: 300px;"></div>
+						<div class="modal-footer full">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							<button id="tutor-modal-next" type="button" class="btn btn-default btn-next" disabled>Next</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Choose the Students</h4>
+						</div>
+						<div id="student-modal" class="modal-body full" style="height: 300px;"></div>
+
+						<div class="modal-footer full">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-default btn-prev">Prev</button>
+							<button id="allocate-btn-submit" type="button" class="btn btn-default submit1" disabled>Done</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			   	<div class="modal-dialog">
+			      	<div class="modal-content">
+			         	<div class="modal-header">
+			            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			            	<h4 class="modal-title" id="myModalLabel">Profile of User</h4>
+			         	</div>
+			         	<div id="user-profile-info" class="modal-body full" style="height: 300px;">
+			         	</div>
+			         	<div class="modal-footer full">
+			         		<a id="edit-profile-btn" type="button" class="btn btn-default">EDIT</a>
+			            	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			            	<button type="button" class="btn btn-danger" style="display: none;">Delete</button>
+			         	</div>
+			      	</div>
+			   	</div>
+			</div>
+			<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Enter Group Information</h4>
+						</div>
+						<div class="modal-body full">
+							<form action="">
+								<label for="">Enter Group Name:</label><br>
+								<input type="text" name="groupname" class="form-control" id="group-name">
+								<input type="file" id="file" class="upload__input" accept="image/jpeg, image/png, image/gif" required>
+								<div class="upload__files">
+
+								</div>
+								<button type="button" class="btn btn-default btn-next" id="btn-next" disabled="disabled">Next</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Select Group Members</h4>
+						</div>
+						<div id="group-members-list" class="modal-body full" style="height: 300px;">
+						</div>
+
+						<div class="modal-footer full">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-default btn-prev">Prev</button>
+							<button id="group-submit" type="button" class="btn btn-default submit1" disabled>OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="admin-right">
+				<div class="bars"><i class="fa fa-bars" onclick="openmenu()"></i></div>
+				
+				    <div id="users" >
+				      	<h3>Users</h3>
+				      	<select id="display-users">
+							<option value="all-users">Show All Users</option>
+							<option value="all-students">Show All Students</option>
+							<option value="all-admins">Show All Admins</option>
+							<option value="all-tutors">Show All Tutors</option>
+							<option value="all-alloc-studs">Show All Allocated Students</option>
+							<option value="all-unalloc-studs">Show All Unallocated Students</option>
+							<option value="all-alloc-tutors">Show All Allocated Tutors</option>
+							<option value="all-unalloc-tutors">Show All Unallocated Tutors</option>
+							<option value="all-active-users">Show All Active Users</option>
+							<option value="all-inactive-users">Show All Inactive Users</option>
+				      	</select>
+					    <div class="table-display full">
+					    	<table id="users-table"></table>
+					    </div>
+				    </div>
+				
+			</div>	
+			
+		</div>	
+	</content>
+	<script src="bootstrap/js/jquery-3.1.1.min.js"></script>
+	<script src="js/custom1.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+	<script src="js/base.js"></script>
+	<script src="js/firebase-config.js"></script>
+	<script src="js/admin.js"></script>
+	<script src="js/admin-all-user.js"></script>
+	<script src="js/create-group.js"></script>
+	<script src="https://www.amcharts.com/lib/4/core.js"></script>
+	<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+	<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+	<script src="slick/slick.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
+	<script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/text.js"></script>
+	<script src="js/jquery.mmenu.all.js"></script>
+</body>
+</html>

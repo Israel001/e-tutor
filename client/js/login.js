@@ -19,6 +19,23 @@ const setErrorMessage = error => {
   );
 };
 
+window.addEventListener('load', async () => {
+  try {
+    const response = await fetch(`${baseURL}/login/google`, {
+      method: 'GET'
+    });
+    if (response.status !== 200) {
+      setErrorMessage('Something went wrong');
+    } else {
+      const decodedResponse = await response.json();
+      document.getElementById('google-login-btn').addEventListener('click', event => {
+        event.preventDefault();
+        window.location = decodedResponse.url;
+      });
+    }
+  } catch (err) { setErrorMessage('Something went wrong'); }
+});
+
 Array.prototype.filter.call(forms, form => {
   form.addEventListener('submit', async event => {
     event.preventDefault();
