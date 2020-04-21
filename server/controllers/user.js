@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const User = require('../models/user');
 const Message = require('../models/message');
+const Issue = require('../models/issue');
 
 module.exports = {
   createUser: async (req, res, next) => {
@@ -56,7 +57,7 @@ module.exports = {
       const userId = req.query.userId;
       const user = await User.findOne({
         _id: mongoose.Types.ObjectId(userId)
-      }).select('name email role');
+      }).populate('students').populate('tutor');
       if (user) {
         res.status(200).json({
           message: 'User Information Retrieved Successfully',
@@ -77,10 +78,17 @@ module.exports = {
 
   getAllUsers: async (req, res, next) => {
     try {
-      const users = await User.find().populate('students').populate('tutor');
+      const currentPage = req.query.page || 1;
+      const perPage = parseInt(req.query.perPage) || 10;
+      const totalItems = await User.find().countDocuments();
+      const users = await User
+        .find()
+        .populate('students')
+        .populate('tutor')
+        .skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'Users Retrieved Successfully',
-        data: users
+        data: users, totalItems
       });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
@@ -90,11 +98,16 @@ module.exports = {
   
   getAllStudents: async (req, res, next) => {
     try {
-      const students = await User.find({role: 'student'});
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({ role: 'student' }).countDocuments();
+      const students = await User
+        .find({role: 'student'})
+        .populate('tutor');
       res.status(200).json({
         message: 'Students Retrieved Successfully',
-        data: students
-      });
+        data: students, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -103,13 +116,19 @@ module.exports = {
 
   getActiveTutors: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = parseInt(req.query.perPage) || 6;
+      const totalItems = await User.find({
+        role: 'tutor',
+        active: true
+      }).countDocuments();
       const activeTutors = await User.find({
         role: 'tutor',
         active: true
-      });
+      }).skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'Active Tutors Fetched Successfully!',
-        data: { activeTutors }
+        data: { activeTutors, totalItems }
       });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
@@ -119,10 +138,17 @@ module.exports = {
 
   getTutors: async (req, res, next) => {
     try {
-      const tutors = await User.find({ role: 'tutor' });
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({ role: 'tutor' }).countDocuments();
+      const tutors = await User
+        .find({ role: 'tutor' })
+        .populate('students')
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage);
       res.status(200).json({
         message: 'Tutors Fetched Successfully!',
-        data: tutors
+        data: tutors, totalItems
       });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
@@ -132,11 +158,14 @@ module.exports = {
   
   getAllAdmins: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({ role: 'admin' }).countDocuments();
       const admins = await User.find({role: 'admin'});
       res.status(200).json({
         message: 'Admins Retrieved Successfully',
-        data: admins
-      });
+        data: admins, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -145,14 +174,20 @@ module.exports = {
 
   getAllAllocatedStudents: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({
+        tutor: { $ne: null },
+        role: 'student'
+      }).countDocuments();
       const allocatedStudents = await User.find({
         tutor: { $ne: null },
         role: 'student'
-      });
+      }).populate('tutor');
       res.status(200).json({
         message: 'All Allocated Students Retrieved Successfully',
-        data: allocatedStudents
-      });
+        data: allocatedStudents, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -161,14 +196,20 @@ module.exports = {
 
   getAllUnallocatedStudents: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage =  req.query.perPage || 10;
+      const totalItems = await User.find({
+        tutor: null,
+        role: 'student'
+      }).countDocuments();
       const unallocatedStudents = await User.find({
         tutor: null,
         role: 'student'
       });
       res.status(200).json({
         message: 'All Unallocated Students Retrieved Successfully',
-        data: unallocatedStudents
-      });
+        data: unallocatedStudents, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -177,14 +218,20 @@ module.exports = {
 
   getAllAllocatedTutors: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({
+        studentsLength: { $gt: 0 },
+        role: 'tutor'
+      }).countDocuments();
       const allocatedTutors = await User.find({
         studentsLength: { $gt: 0 },
         role: 'tutor'
-      });
+      }).populate('students');
       res.status(200).json({
         message: 'All Allocated Tutors Retrieved Successfully',
-        data: allocatedTutors
-      });
+        data: allocatedTutors, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -193,14 +240,20 @@ module.exports = {
 
   getAllUnallocatedTutors: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({
+        studentsLength: 0,
+        role: 'tutor'
+      }).countDocuments();
       const unallocatedTutors = await User.find({
         studentsLength: 0,
         role: 'tutor'
       });
       res.status(200).json({
         message: 'All Unallocated Tutors Retrieved Successfully',
-        data: unallocatedTutors
-      });
+        data: unallocatedTutors, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -209,11 +262,17 @@ module.exports = {
 
   getAllActiveUsers: async (req, res, next) => {
     try {
-      const activeUsers = await User.find({active: true});
+      const currentPage =req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({ active: true }).countDocuments();
+      const activeUsers = await User
+        .find({active: true})
+        .populate('students')
+        .populate('tutor');
       res.status(200).json({
         message: 'All Active Users Retrieved Successfully',
-        data: activeUsers
-      })
+        data: activeUsers, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -222,11 +281,17 @@ module.exports = {
 
   getAllInactiveUsers: async (req, res, next) => {
     try {
-      const inactiveUsers = await User.find({active: false});
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
+      const totalItems = await User.find({ active: false }).countDocuments();
+      const inactiveUsers = await User
+        .find({active: false})
+        .populate('students')
+        .populate('tutor');
       res.status(200).json({
         message: 'All Inactive Users Retrieved Successfully',
-        data: inactiveUsers
-      });
+        data: inactiveUsers, totalItems
+      }).skip((currentPage - 1) * perPage).limit(perPage);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -593,6 +658,31 @@ module.exports = {
         res.status(200).json({message: 'User Deleted Successfully',});
       }
     } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  getListOfIssues: async (req, rex, next) => {
+    const userId = req.body.userId;
+    try {
+      const issue = await Issue.findOne({
+        assignTo: userId
+      });
+      if (!issue) {
+        const error = new Error('You do not have any issue');
+        error.statusCode = 404;
+        res.status(error.statusCode).json({
+          message: 'You do not have any issue',
+          data: { error }
+        });
+      }
+      res.status(200).json({
+        message: 'All Issues assign to you',
+        data: { issue }
+      });
+    } catch (err) {
+      // Forward errors to the universal error handler
       if (!err.statusCode) err.statusCode = 500;
       next(err);
     }

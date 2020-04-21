@@ -28,38 +28,108 @@ module.exports = {
           });
         } else { membersInfo.push(user); }
       }
-      const meeting = new Meeting({
-        organizer,
-        title,
-        description,
-        date,
-        members,
-        status: 'request'
-      });
-      const createdMeeting = await meeting.save();
-      crypto.randomBytes(32, async (err, buffer) => {
-        if (err) throw err;
-        const token = buffer.toString('hex');
-        meeting.acceptToken = token;
-        meeting.acceptTokenExpiration = date;
-        await meeting.save();
-        for (let i = 0; i < membersInfo.length; i++) {
-          await agenda.now('meeting invitation email', {
-            email: membersInfo[i].email,
-            url,
-            token,
-            title,
-            date: moment(date).format('MMMM Do YYYY, h:mm:ss a'),
-            organizer: membersInfo[i].name
-          });
-          meeting.requestPending += 1;
-          await meeting.save();
-        }
-        res.status(201).json({
-          message: 'Meeting Created Successfully!',
-          data: { meetingId: createdMeeting._id.toString() }
+      if (new Date(date) < Date.now()) {
+        const error = new Error('The Meeting Date must be in the future');
+        res.status(400).json({
+          message: error.message,
+          data: { error }
         });
-      });
+      } else if (members.includes(req.userId)) {
+        const error = new Error('You cannot create a meeting for yourself');
+        res.status(400).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        const meeting = new Meeting({
+          organizer,
+          title,
+          description,
+          date,
+          members,
+          status: 'request'
+        });
+        const createdMeeting = await meeting.save();
+        crypto.randomBytes(32, async (err, buffer) => {
+          if (err) throw err;
+          const token = buffer.toString('hex');
+          meeting.acceptToken = token;
+          meeting.acceptTokenExpiration = date;
+          await meeting.save();
+          for (let i = 0; i < membersInfo.length; i++) {
+            await agenda.now('meeting invitation email', {
+              email: membersInfo[i].email,
+              url,
+              token,
+              title,
+              date: moment(date).format('MMMM Do YYYY, h:mm:ss a'),
+              organizer: membersInfo[i].name
+            });
+            meeting.requestPending += 1;
+            await meeting.save();
+          }
+          res.status(201).json({
+            message: 'Meeting Created Successfully!',
+            data: {meetingId: createdMeeting._id.toString()}
+          });
+        });
+      }
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  getUserMeetings: async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+      if (req.userId !== userId && req.role !== 'admin') {
+        const error = new Error('Not Authorized!');
+        res.status(403).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        const user = await User.findById(userId);
+        if (!user) {
+          const error = new Error('User Not Found!');
+          res.status(404).json({
+            message: error.message,
+            data: { error }
+          });
+        } else {
+          const meetings = user.meetings;
+          const userMeetings = [];
+          for (let i = 0; i < meetings.length; i++) {
+            userMeetings.push(await Meeting.find({ _id: ObjectId(meetings[i].split('-')[0]) }));
+          }
+          res.status(200).json({
+            message: 'User Meetings Retrieved Successfully!',
+            data: userMeetings
+          });
+        }
+      }
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  getMeetings: async (req, res, next) => {
+    try {
+      if (req.role !== 'admin') {
+        const error = new Error('Not Authorized!');
+        res.status(403).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        const meetings = await Meeting.find().populate('organizer');
+        res.status(200).json({
+          message: 'Meetings Retrieved Successfully!',
+          data: meetings
+        });
+      }
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -130,7 +200,8 @@ module.exports = {
             moment(meeting.date).fromNow(), 'meeting reminder email', {
               email: user.email,
               name: user.name,
-              title: meeting.title
+              title: meeting.title,
+              id: meeting._id
             });
           user.meetings = `${meeting._id.toString()}-${job.attrs._id.toString()}`;
           await user.save();
@@ -144,7 +215,8 @@ module.exports = {
           const organizerJob = await agenda.schedule(moment(meeting.date).fromNow(), 'meeting reminder email', {
             email: organizer.email,
             name: organizer.name,
-            title: meeting.title
+            title: meeting.title,
+            id: meeting._id
           });
           organizer.meetings = `${meeting._id.toString()}-${organizerJob.attrs._id.toString()}`;
           await organizer.save();
@@ -222,37 +294,48 @@ module.exports = {
             data: { error }
           });
         } else {
-          meeting.date = date;
-          meeting.status = 'postponed';
-          for (let i = 0; i < meeting.accepts.length; i++) {
-            const user = await User.findById(meeting.accepts[i]);
-            user.meetings = user.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
-            await agenda.cancel({_id: ObjectId(user.meetings[0].split('-')[1])});
-            await agenda.now('meeting postponed email', {
-              email: user.email,
-              name: user.name,
-              title: meeting.title,
-              date: moment(date).format('MMMM Do YYYY, h:mm:ss a')
-            });
+          if (new Date(meeting.date) > Date.now()) {
+            meeting.date = date;
+            meeting.acceptTokenExpiration = date;
+            meeting.status = 'postponed';
+            for (let i = 0; i < meeting.accepts.length; i++) {
+              const user = await User.findById(meeting.accepts[i]);
+              user.meetings = user.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
+              await agenda.cancel({_id: ObjectId(user.meetings[0].split('-')[1])});
+              await agenda.now('meeting postponed email', {
+                email: user.email,
+                name: user.name,
+                title: meeting.title,
+                date: moment(date).format('MMMM Do YYYY, h:mm:ss a')
+              });
+              await agenda.schedule(moment(date).fromNow(), 'meeting reminder email', {
+                email: user.email,
+                name: user.name,
+                title: meeting.title,
+                id: meeting._id
+              });
+            }
+            const organizer = await User.findById(req.userId);
+            organizer.meetings = organizer.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
+            await agenda.cancel({_id: ObjectId(organizer.meetings[0].split('-')[1])});
             await agenda.schedule(moment(date).fromNow(), 'meeting reminder email', {
-              email: user.email,
-              name: user.name,
-              title: meeting.title
+              email: organizer.email,
+              name: organizer.name,
+              title: meeting.title,
+              id: meeting._id
+            });
+            await meeting.save();
+            res.status(201).json({
+              message: 'Meeting Postponed Successfully!',
+              data: {meetingId: meeting._id.toString()}
+            });
+          } else {
+            const error = new Error('This meeting is in the past');
+            res.status(400).json({
+              message: error.message,
+              data: { error }
             });
           }
-          const organizer = await User.findById(req.userId);
-          organizer.meetings = organizer.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
-          await agenda.cancel({_id: ObjectId(organizer.meetings[0].split('-')[1])});
-          await agenda.schedule(moment(date).fromNow(), 'meeting reminder email', {
-            email: organizer.email,
-            name: organizer.name,
-            title: meeting.title
-          });
-          await meeting.save();
-          res.status(201).json({
-            message: 'Meeting Postponed Successfully!',
-            data: {meetingId: meeting._id.toString()}
-          });
         }
       }
     } catch (err) {
@@ -288,22 +371,30 @@ module.exports = {
               data: { error }
             });
           } else {
-            for (let i = 0; i < meeting.accepts.length; i++) {
-              const user = await User.findById(meeting.accepts[i]);
-              user.meetings = user.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
-              await agenda.cancel({_id: ObjectId(user.meetings[0].split('-')[1])});
-              await agenda.now('meeting canceled email', {
-                email: user.email,
-                reason,
-                name: user.name,
-                title: meeting.title,
-                canceledBy: organizer.name
+            if (new Date(meeting.date) > Date.now()) {
+              for (let i = 0; i < meeting.accepts.length; i++) {
+                const user = await User.findById(meeting.accepts[i]);
+                user.meetings = user.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
+                await agenda.cancel({_id: ObjectId(user.meetings[0].split('-')[1])});
+                await agenda.now('meeting canceled email', {
+                  email: user.email,
+                  reason,
+                  name: user.name,
+                  title: meeting.title,
+                  canceledBy: organizer.name
+                });
+              }
+              const organizer = await User.findById(req.userId);
+              organizer.meetings = organizer.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
+              await agenda.cancel({_id: ObjectId(organizer.meetings[0].split('-')[1])});
+              await Meeting.findByIdAndRemove(meetingId, {useFindAndModify: false});
+            } else {
+              const error = new Error('This meeting is in the past');
+              res.status(400).json({
+                message: error.message,
+                data: { error }
               });
             }
-            const organizer = await User.findById(req.userId);
-            organizer.meetings = organizer.meetings.filter(el => el.split('-')[0] === meeting._id.toString());
-            await agenda.cancel({_id: ObjectId(organizer.meetings[0].split('-')[1])});
-            await Meeting.findByIdAndRemove(meetingId, {useFindAndModify: false});
           }
         }
       }

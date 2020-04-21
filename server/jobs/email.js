@@ -1,6 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 
 const transporter = require('../nodemailer');
+const Meeting = require('../models/meeting');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}-puhqm.gcp.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
@@ -83,9 +85,16 @@ module.exports = agenda => {
 
   agenda.define('meeting reminder email', async job => {
     // if (await checkCancelled(job)) return;
+    await mongoose.connect(MONGODB_URI, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true
+    });
     const email = job.attrs.data.email;
     const name = job.attrs.data.name;
     const title = job.attrs.data.title;
+    const id = job.attrs.data.id;
+    const meeting = await Meeting.findById(id);
+    meeting.status = 'done';
     transporter.sendMail({
       to: email,
       from: 'admin@e-tutor.com',

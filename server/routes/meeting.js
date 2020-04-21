@@ -7,6 +7,10 @@ const router = express.Router();
 
 router.post('/create_meeting', isAuth, meetingController.createMeeting);
 
+router.get('/user/:userId/meetings', isAuth, meetingController.getUserMeetings);
+
+router.get('/meetings', isAuth, meetingController.getMeetings);
+
 router.get('/get_meeting', meetingController.getMeeting);
 
 router.get(

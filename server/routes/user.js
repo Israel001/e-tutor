@@ -68,4 +68,6 @@ router.put('/update/user/:userId', isAuth, userController.updateUser);
 
 router.delete('/delete/user/:userId', isAuth, userController.deleteUser);
 
+router.get('/issue/getListOfIssues', isAuth, userController.getListOfIssues);
+
 module.exports = router;
