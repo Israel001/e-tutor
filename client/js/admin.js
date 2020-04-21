@@ -18,41 +18,139 @@ const setErrorMessage = ({btnArea, btnName, btnId, msgArea, msg}) => {
   );
 };
 
-const fetchData = async url => {
-  const response = await fetch(`${baseURL}/${url}`, {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json'}
-  });
+const fetchData = async ({url, page, perPage }) => {
+  let response;
+  if (page) {
+    response = await fetch(`${baseURL}/${url}?page=${page}&perPage=${perPage}`, {
+      methods: 'GET',
+      headers: { 'Content-Type': 'application/json '}
+    });
+  } else {
+    response = await fetch(`${baseURL}/${url}`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'}
+    });
+  }
   return await response.json();
 };
 
-const displayData = async url => {
-  const responseData = await fetchData(url);
+const displayData = async ({url, page, perPage }) => {
+  let responseData;
+  if (page) {
+    responseData = await fetchData({url, page, perPage});
+  } else {
+    responseData = await fetchData({url});
+  }
   document.getElementById('users-table').innerHTML = `<tr>
         <th>No</th>
         <th>Name</th>
         <th>Email</th>
         <th>Tutor</th>
-        <th>Students</th>
         <th>Role</th>
     </tr>`;
+  let index = page ? (page - 1) * 10 + 1 : 1;
+  console.log(responseData);
   for (let i = 0; i < responseData.data.length; i++) {
     document.getElementById('users-table').insertAdjacentHTML(
       'beforeend',
       `<tr>
-            <td>${i + 1}</td>
+            <td>${index}</td>
             <td>${responseData.data[i].name}</td>
             <td>${responseData.data[i].email}</td>
-            <td>${responseData.data[i].role === 'student' ? responseData.data[i].tutor === null ? 'No Tutor Yet' : responseData.data[i].tutor : 'N/A'}</td>
-            <td>
-                ${responseData.data[i].role === 'tutor' ? responseData.data[i].students.length === 0 ? 'No Student Yet' : responseData.data[i].students.map(std => ` ${std.name}`) : 'N/A'}
-            </td>
+            <td>${responseData.data[i].role === 'student' ? responseData.data[i].tutor === null ? 'No Tutor Yet' : responseData.data[i].tutor.name : 'N/A'}</td>
             <td>${responseData.data[i].role}</td>
             <td><button id=${responseData.data[i].active ? `deactivate-${responseData.data[i]._id}` : `activate-${responseData.data[i]._id}`} class="isActiveBtn btn btn-primary">${responseData.data[i].active ? 'Deactivate' : 'Activate'}</button></td>
-            <td><button class="btn btn-info">View User Card</button></td>
+            <td><button id="${responseData.data[i]._id}" class="btn btn-info">View User Card</button></td>
         </tr>
         `
     );
+    index += 1;
+    document.getElementById(responseData.data[i]._id).addEventListener('click', async event => {
+      const userInfoResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
+        method: 'GET'
+      });
+      const userInfoData = await userInfoResponse.json();
+      console.log(userInfoData);
+      document.getElementById('myModal3').style.display = 'block';
+      document.getElementById('user-profile-info').insertAdjacentHTML(
+        'beforeend',
+        `<div class="profile-picture">
+                <img src="images/user.jpg" alt="">
+              </div>
+              <div class="profile-infor">
+                <p class="fullname">Donald Trump</p>
+                <p class="email">donaldtrump@gmail.com</p>
+                <p class="description">I'm president of USA</p>
+              </div>`
+      );
+    });
+  }
+  if (!document.getElementById('pagination')) {
+    document.getElementById('users').insertAdjacentHTML(
+      'beforeend',
+      `<div class="pagination-page full"><ul class="pagination" id="pagination"></div>`
+    );
+    let numPages = Math.floor(responseData.totalItems / 10);
+    if ((responseData.totalItems % 10) > 0) numPages += 1;
+    if (numPages > 1) {
+      document.querySelector('#pagination').insertAdjacentHTML(
+        'beforeend',
+        `<li class="page-item"><a style="cursor: pointer;" class="page-link" id="first-page">First</a></li>`
+      );
+    }
+    if (numPages > 1) {
+      for (let i = 0; i < numPages; i++) {
+        document.querySelector('#pagination').insertAdjacentHTML(
+          'beforeend',
+          `<li class="${page ? page && page === i + 1 ? 'active' : '' : i + 1 === 1 ? 'active' : ''} page-item"><a style="cursor: pointer;" class="page-link" id="${i + 1}">${i + 1}</a>`
+        );
+      }
+    }
+    if (numPages > 1) {
+      document.querySelector('#pagination').insertAdjacentHTML(
+        'beforeend',
+        `<li class="page-item"><a style="cursor: pointer;" class="page-link" id="last-page">Last</a></li>`
+      );
+    }
+
+    document.getElementById('first-page').addEventListener('click', () => {
+      const pages = document.getElementsByClassName('page-item');
+      for (let i = 0; i < pages.length; i++) {
+        if (pages[i].classList.contains('active')) {
+          pages[i].classList.remove('active');
+        }
+      }
+      pages[1].classList.add('active');
+      displayData({url, page: '1', perPage: 10});
+    });
+
+    document.getElementById('last-page').addEventListener('click', () => {
+      const pages = document.getElementsByClassName('page-item');
+      for (let i = 0; i < pages.length; i++) {
+        if (pages[i].classList.contains('active')) {
+          pages[i].classList.remove('active');
+        }
+      }
+      pages[pages.length - 2].classList.add('active');
+      displayData({url, page: `${numPages}`, perPage: 10});
+    });
+
+    Array.prototype.filter.call(document.getElementsByClassName('page-link'), page => {
+      if (page.id !== 'first-page' && page.id !== 'last-page') {
+        page.addEventListener('click', event => {
+          const pages = document.getElementsByClassName('page-item');
+          for (let i = 0; i < pages.length; i++) {
+            if (pages[i].classList.contains('active')) {
+              pages[i].classList.remove('active');
+            }
+          }
+          if (!event.target.parentNode.classList.contains('active')) {
+            event.target.parentNode.classList.add('active');
+          }
+          displayData({url, page: event.target.id, perPage: 10});
+        });
+      }
+    });
   }
   activateOrDeactivateUser();
 };
@@ -119,135 +217,79 @@ window.addEventListener('load', async () => {
       headers: {'Content-Type': 'application/json'}
     });
     const studentsData = await studentsResponse.json();
-    document.getElementById('student-num').innerText = studentsData.data.length;
+    if (document.getElementById('student-num')) {
+      document.getElementById('student-num').innerText = studentsData.data.length;
+    }
 
     const tutorsResponse = await fetch(`${baseURL}/get_tutors`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
     });
     const tutorsData = await tutorsResponse.json();
-    document.getElementById('tutor-num').innerText = tutorsData.data.length;
+    if (document.getElementById('tutor-num')) {
+      document.getElementById('tutor-num').innerText = tutorsData.data.length;
+    }
 
-    chart.data = [{
-      "type": "Student",
-      "count": studentsData.data.length
-    }, {
-      "type": "Tutor",
-      "count": tutorsData.data.length
-    }, {
-      "type": "Issue",
-      "count": 23
-    }];
-
-    await displayData('get_all_users');
-
-    document.getElementById('display-users').addEventListener('change', async event => {
-      switch (event.target.value) {
-        case 'all-students': await displayData('get_all_students'); break;
-        case 'all-admins': await displayData('get_all_admins'); break;
-        case 'all-tutors': await displayData('get_tutors'); break;
-        case 'all-alloc-studs': await displayData('get_all_allocated_students'); break;
-        case 'all-unalloc-studs': await displayData('get_all_unallocated_students'); break;
-        case 'all-alloc-tutors': await displayData('get_all_allocated_tutors'); break;
-        case 'all-unalloc-tutors': await displayData('get_all_unallocated_tutors'); break;
-        case 'all-active-users': await displayData('get_all_active_users'); break;
-        case 'all-inactive-users': await displayData('get_all_inactive_users'); break;
-        default: await displayData('get_all_users'); break;
+    const issuesResponse = await fetch(`${baseURL}/issues`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       }
     });
+    const issuesData = await issuesResponse.json();
+    if (document.getElementById('issue-num')) {
+      document.getElementById('issue-num').innerText = issuesData.data.length;
+    }
 
-    const forms = document.getElementsByClassName('needs-validation');
-    Array.prototype.filter.call(forms, form => {
-      form.addEventListener('submit', async event => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!form.checkValidity()) {
-          form.classList.add('was-validated');
-        } else {
-          document.getElementById('add-user-btn').remove();
-          document.getElementById('add-user-form').insertAdjacentHTML(
-            'beforeend',
-            `<div id="loader" class="loader" style="margin-top: 3rem;">`
-          );
-          const name = document.getElementById('name').value;
-          const email = document.getElementById('email').value;
-          const role = document.getElementById('role').value;
-          const image = document.getElementById('file').files[0];
-          generateBase64FromImage(image).then(img => {
-            const storageRef = firebase.storage().ref();
-            const imageRef = storageRef.child(`${new Date().getTime().toString()}-${image.name}`);
-            const uploadTask = imageRef.putString(img, 'data_url');
-            uploadTask.on('state_changed', () => {}, error => {
-              console.error(error);
-              document.getElementById('loader').remove();
-              setErrorMessage({
-                btnArea: 'add-user-form',
-                btnName: 'Add New User',
-                msgArea: 'form-msg',
-                msg: 'Image Uploading Failed!',
-                btnId: 'add-user-btn'
-              });
-            }, () => {
-              uploadTask.snapshot.ref.getDownloadURL().then(async downloadURL => {
-                try {
-                  const data = new FormData();
-                  data.append('name', name);
-                  data.append('email', email);
-                  data.append('role', role);
-                  data.append('password', 'password');
-                  data.append('image', downloadURL);
-                  const createUserResponse = await fetch(`${baseURL}/create_user`, {
-                    method: 'POST',
-                    headers: {Authorization: `Bearer ${token}`},
-                    body: data
-                  });
-                  const createUserData = await createUserResponse.json();
-                  if (createUserResponse.status !== 201) {
-                    imageRef.delete().then(() => {
-                      console.log('File Deleted Successfully');
-                    }).catch(err => { console.error(err); });
-                    setErrorMessage({
-                      btnArea: 'add-user-form',
-                      btnName: 'Add New User',
-                      msgArea: 'form-msg',
-                      msg: createUserData.message,
-                      btnId: 'add-user-btn'
-                    });
-                  } else {
-                    document.getElementById('form-msg').innerHTML = '';
-                    document.getElementById('form-msg').insertAdjacentHTML(
-                      'afterbegin',
-                      `<div class="alert alert-success">
-                        <a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Success:</strong> User Created Successfully. <a href="#users" style="color: #337ab7;">View Users?</a>
-                      </div>`
-                    );
-                    document.getElementById('loader').remove();
-                    document.getElementById('add-user-form').insertAdjacentHTML(
-                      'beforeend',
-                      `<button id="add-user-btn" type="submit">Add New User</button>`
-                    );
-                    document.getElementById('name').value = '';
-                    document.getElementById('email').value = '';
-                    document.getElementById('role').value = '';
-                    document.getElementById('file').value = '';
-                  }
-                } catch (err) {
-                  console.error(err);
-                  setErrorMessage({
-                    btnArea: 'add-user-form',
-                    btnName: 'Add New User',
-                    msgArea: 'form-msg',
-                    msg: 'Something went wrong',
-                    btnId: 'add-user-btn'
-                  });
-                }
-              });
-            });
-          });
-        }
-      });
+    const groupsResponse = await fetch(`${baseURL}/all_groups`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     });
+    const groupsData = await groupsResponse.json();
+    if (document.getElementById('group-num')) {
+      document.getElementById('group-num').innerText = groupsData.data.length;
+    }
+
+    const meetingsResponse = await fetch(`${baseURL}/meetings`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const meetingsData = await meetingsResponse.json();
+    if (document.getElementById('meeting-num')) {
+      document.getElementById('meeting-num').innerText = meetingsData.data.length;
+    }
+
+    if (window.location.href.includes('admin-panel.html')) {
+      chart.data = [
+        {
+          "type": "Students",
+          "count": studentsData.data.length
+        },
+        {
+          "type": "Tutors",
+          "count": tutorsData.data.length
+        },
+        {
+          "type": "Issues",
+          "count": issuesData.data.length
+        },
+        {
+          'type': 'Groups',
+          'count': groupsData.data.length
+        },
+        {
+          'type': 'Meetings',
+          'count': meetingsData.data.length
+        }
+      ];
+    }
 
     for (let i = 0; i < tutorsData.data.length; i++) {
       document.getElementById('tutor-modal').insertAdjacentHTML(
@@ -284,6 +326,7 @@ window.addEventListener('load', async () => {
 
     Array.prototype.filter.call(document.querySelectorAll('[name="tutor"]'), tutor => {
       tutor.addEventListener('change', event => {
+        document.getElementById('tutor-modal-next').removeAttribute('disabled');
         selectedTutor = event.target.value;
       });
     });
@@ -293,13 +336,65 @@ window.addEventListener('load', async () => {
        if (event.target.checked) {
          if (selectedStudents.length < 10) {
            selectedStudents.push(event.target.value);
+           document.getElementById('allocate-btn-submit').removeAttribute('disabled');
          } else {
            window.alert('You can only assign 10 students to one tutor');
          }
        } else {
          selectedStudents = selectedStudents.filter(studIds => studIds !== event.target.value);
+         if (selectedStudents.length < 1) {
+           document.getElementById('allocate-btn-submit').setAttribute('disabled', 'true');
+         }
        }
       });
+    });
+
+    document.getElementById('allocate-btn-submit').addEventListener('click', async () => {
+      document.getElementById('allocate-btn-submit').setAttribute('disabled', 'true');
+      try {
+        const data = new FormData();
+        data.append('tutorId', selectedTutor);
+        for (let i = 0; i < selectedStudents.length; i++) {
+          data.append('stdId[]', selectedStudents[i]);
+        }
+        const assignUserResponse = await fetch(`${baseURL}/assignUser`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: data
+        });
+        const assignUserData = await assignUserResponse.json();
+        if (assignUserResponse.status !== 201) {
+          alert(assignUserData.message);
+          document.getElementById('myModal2').style.display = 'none';
+        } else {
+          alert('Assigned Specified Students to Specified Tutor Successfully!');
+          document.getElementById('myModal2').style.display = 'none';
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Something went wrong!');
+        document.getElementById('myModal2').style.display = 'none';
+      }
+    });
+
+    const userResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
+      method: 'GET'
+    });
+    const userData = await userResponse.json();
+    document.getElementById('user-profile-info').insertAdjacentHTML(
+      'beforeend',
+      `<div class="profile-picture" style="margin-bottom: 60px;">
+              <img src="${userData.data.user.image}" alt="">
+            </div>
+            <div class="profile-infor">
+              <p class="fullname">${userData.data.user.name}</p>
+              <p class="email">${userData.data.user.email}</p>
+              <p class="description">${!userData.data.user.description ? '' : userData.data.user.description}</p>
+            </div>`
+    );
+    document.getElementById('edit-profile-btn').addEventListener('click', event => {
+      event.preventDefault();
+      window.location = `./edit-profile.html?id=${userId}`;
     });
   } catch (err) {
     console.error(err);

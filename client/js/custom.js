@@ -1,17 +1,18 @@
-$(window).scroll(function(){
-	if ($(window).scrollTop()>0){
-		$("#back_top").show(300);
-	}
-	else{
-		$("#back_top").hide(300);
-	}
+jQuery(document).ready(function ($) {
+  $(window).scroll(function(){
+  if ($(window).scrollTop()>0){
+    $("#back_top").show(300);
+  }
+  else{
+    $("#back_top").hide(300);
+  }
 });
 $('#back_top').click(function(){
-	$('html, body').animate({scrollTop:0},500);
+  $('html, body').animate({scrollTop:0},500);
 });
 $( ".bell" ).click(function() {
-	$( ".notify" ).slideToggle( "slow", function() {
-	});
+  $( ".notify" ).slideToggle( "slow", function() {
+  });
 });
 
 /*------------------------------------------------------------------------------------------------------*/
@@ -32,15 +33,20 @@ $("div[id^='myModal']").each(function(){
     currentModal.closest("div[id^='myModal']").prevAll("div[id^='myModal']").first().modal('show'); 
   });
 });
+});
+
+
+function scrollb() {
+     var objDiv = document.getElementById("chat-messages");
+     objDiv.scrollTop = objDiv.scrollHeight;
+
+}
+/*------------------------------------------------------------------------------------------------------*/
+
 
 /*--------------------------------------------------------------------------------------------------*/
 
-function openmenu() {
-	document.getElementById('side-menu').style.width="75%";
-}
-function closemenu() {
-	document.getElementById('side-menu').style.width="0px";
-}
+
 function viewBygrid() {
   document.getElementById("gridmode").style.display="block";
   document.getElementById("listmode").style.display="none";
@@ -49,6 +55,7 @@ function viewBylist() {
   document.getElementById("listmode").style.display="block";
   document.getElementById("gridmode").style.display="none";
 }
+
 $(document).ready(function(){
 	$('.slide-banner').slick({
 		slidesToShow: 1,
@@ -232,13 +239,13 @@ jQuery(function ($) {
               });
         });
   
-$(document).ready(function() {
-  $('#close').click(function() {
-    // $('#file').val('');
+// $(document).ready(function() {
+//   $('#close').click(function() {
+//     // $('#file').val('');
 
-  });
+//   });
 
-});
+// });
 
 
 
@@ -534,7 +541,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
       window.setTimeout(function () {
         $("#add_entry").css('display', 'none');
       }, 500);
-      $("#entry_name").val("");
+      $("#entry_title").val("");
     }
     var month = {};
     var today = new Date();
@@ -556,22 +563,21 @@ var Calendar = React.createClass({ displayName: "Calendar",
           $("#add_entry").css('display', 'none');
           $("#open_entry").css('display', 'none');
         }, 700);
-        $("#entry_name").val("");
-        $("#all-day").prop('checked', false); // unchecks checkbox
-        $("#not-all-day").css('display', 'block');
-        $("#enter_hour").val("");
-        $("#entry_location").val("");
-        $("#entry_note").val("");
+        $("#entry_title").val("");
+        // $("#all-day").prop('checked', false); // unchecks checkbox
+        // $("#not-all-day").css('display', 'block');
+        // $("#enter_hour").val("");
+        $("#entry_description").val("");
+        // $("#entry_note").val("");
         // reset entry colors
-        var resColor = new resetColors();
-        return this.setState(resColor);
+        
       } else {
         $(".float").addClass('rotate');
         $("#add_entry").removeClass('animated slideOutDown');
         $("#add_entry").addClass('animated slideInUp');
         $("#add_entry").css('display', 'block');
         window.setTimeout(function () {
-          $("#entry_name").focus();
+          $("#entry_title").focus();
         }, 700);
 
       }
@@ -580,29 +586,29 @@ var Calendar = React.createClass({ displayName: "Calendar",
     }
   },
   saveEntry: function (year, month, day) {
-    var entryName = $("#entry_name").val();
+    var entryName = $("#entry_title").val();
     if ($.trim(entryName).length > 0) {
       var entryTime = new Date();
       var entryDate = { year, month, day };
-      $(".duration").css('background', 'none');
-      if ($("#all-day").is(':checked')) {
-        var entryDuration = "All day";
-      } else if ($("#enter_hour").val() && $("#enter_hour").val() >= 0 && $("#enter_hour").val() <= 24) {
-        var entryDuration = addZero($("#enter_hour").val());
-      } else {
-        $(".duration").css('background', '#F7E8E8');
-        return 0;
-      }
-      if ($("#entry_location").val()) {
-        var entryLocation = $("#entry_location").val();
-      } else {var entryLocation = "";}
-      if ($("#entry_note").val()) {
-        var entryNote = $("#entry_note").val();
-      } else {var entryNote = "";}
+      // $(".duration").css('background', 'none');
+      // if ($("#all-day").is(':checked')) {
+      //   var entryDuration = "All day";
+      // } else if ($("#enter_hour").val() && $("#enter_hour").val() >= 0 && $("#enter_hour").val() <= 24) {
+      //   var entryDuration = addZero($("#enter_hour").val());
+      // } else {
+      //   $(".duration").css('background', '#F7E8E8');
+      //   return 0;
+      // }
+      if ($("#entry_description").val()) {
+        var entryDescription = $("#entry_description").val();
+      } else {var entryDescription = "";}
+      // if ($("#entry_note").val()) {
+      //   var entryNote = $("#entry_note").val();
+      // } else {var entryNote = "";}
 
-      var entryImg = this.state.file;
-      var entryColor = this.state.dColor;
-      var entry = { entryName, entryDate, entryTime, entryDuration, entryLocation, entryNote, entryColor, entryImg };
+      
+      
+      var entry = { entryName, entryDate, entryTime, entryDescription};
       this.state.entries.splice(0, 0, entry);
 
       // clean and close entry page
@@ -611,16 +617,16 @@ var Calendar = React.createClass({ displayName: "Calendar",
       window.setTimeout(function () {
         $("#add_entry").css('display', 'none');
       }, 700);
-      $("#entry_name").val("");
-      $("#all-day").prop('checked', false); // unchecks checkbox
-      $("#not-all-day").css('display', 'block');
-      $("#enter_hour").val("");
-      $("#entry_location").val("");
-      $("#entry_note").val("");
+      $("#entry_title").val("");
+      // $("#all-day").prop('checked', false); // unchecks checkbox
+      // $("#not-all-day").css('display', 'block');
+      // $("#enter_hour").val("");
+      $("#entry_description").val("");
+      // $("#entry_note").val("");
       // reset entry colors
-      var resColor = new resetColors();
+      
 
-      return this.setState({ entries: this.state.entries }), this.setState(resColor);
+      return this.setState({ entries: this.state.entries });
     }
   },
   deleteEntry: function (e) {
@@ -633,14 +639,12 @@ var Calendar = React.createClass({ displayName: "Calendar",
       $("#open_entry").css('display', 'none');
     }, 700);
     $(".entry").css('background', 'none');
-    $("#entry_name").val("");
-    $("#all-day").prop('checked', false); // unchecks checkbox
-    $("#not-all-day").css('display', 'block');
-    $("#enter_hour").val("");
-    $("#entry_location").val("");
-    $("#entry_note").val("");
-    var resColor = new resetColors();
-    return this.setState({ entries: this.state.entries }), this.setState(resColor);
+    $("#entry_title").val("");
+    // $("#all-day").prop('checked', false); // unchecks checkbox
+    // $("#not-all-day").css('display', 'block');
+    // $("#enter_hour").val("");
+    $("#entry_description").val("");
+    return this.setState({ entries: this.state.entries });
   },
   openEntry: function (entry, e) {
     if ($(".float").hasClass('rotate')) {
@@ -758,44 +762,58 @@ var Calendar = React.createClass({ displayName: "Calendar",
       React.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })),
 
       React.createElement("div", { id: "add_entry" },
-      React.createElement("div", { className: "enter_entry" },
-      React.createElement("input", { type: "text", placeholder: "Enter title", id: "entry_name" }),
-      React.createElement("span", { id: "save_entry", onClick: this.saveEntry.bind(null, this.state.currYear, this.state.currMonthN, this.state.currDay) }, "SAVE")),
-
       React.createElement("div", { className: "entry_details" },
       React.createElement("div", null,
-      React.createElement("div", { className: "entry_info first" },
-      React.createElement("i", { className: "fa fa-image", "aria-hidden": "true" }),
-      React.createElement("input", { type: "file", name: "entry-img", id: "entry-img", onChange: e => this.handleImage(e) }),
-      React.createElement("label", { htmlFor: "entry-img", id: "for_img" }, React.createElement("span", { id: "file_name" }, "Choose an image")),
-      React.createElement("span", { id: "remove_img" }, "Remove")),
 
-      React.createElement("div", { className: "entry_info2 first second duration" },
-      React.createElement("i", { className: "fa fa-clock-o", "aria-hidden": "true" }),
-      React.createElement("input", { className: "toggle", type: "checkbox", name: "all-day", id: "all-day" }),
-      React.createElement("p", null, "All-day"),
-      React.createElement("div", { id: "not-all-day" },
-      React.createElement("p", { id: "select_hour" }, "Select hour"),
-      React.createElement("p", { id: "hour" }, React.createElement("input", { type: "number", id: "enter_hour", min: "0", max: "24" }), " h"))),
+      React.createElement("div", { className: "entry_info" },
+      React.createElement("label", {},"Title"),
+      React.createElement("input", { type:"text", id:"entry_title" })),  
+
+      // React.createElement("div", { className: "entry_info first" },
+      // React.createElement("i", { className: "fa fa-image", "aria-hidden": "true" }),
+      // React.createElement("input", { type: "file", name: "entry-img", id: "entry-img", onChange: e => this.handleImage(e) }),
+      // React.createElement("label", { htmlFor: "entry-img", id: "for_img" }, React.createElement("span", { id: "file_name" }, "Choose an image")),
+      // React.createElement("span", { id: "remove_img" }, "Remove")),
+
+      // React.createElement("div", { className: "entry_info2 first second duration" },
+      // React.createElement("i", { className: "fa fa-clock-o", "aria-hidden": "true" }),
+      // React.createElement("input", { className: "toggle", type: "checkbox", name: "all-day", id: "all-day" }),
+      // React.createElement("p", null, "All-day"),
+      // React.createElement("div", { id: "not-all-day" },
+      // React.createElement("p", { id: "select_hour" }, "Select hour"),
+      // React.createElement("p", { id: "hour" }, React.createElement("input", { type: "number", id: "enter_hour", min: "0", max: "24" }), " h"))),
 
 
-      React.createElement("div", { className: "entry_info2" },
-      React.createElement("i", { className: "fa fa-map-marker", "aria-hidden": "true" }),
-      React.createElement("input", { type: "text", placeholder: "Add location", id: "entry_location" })),
+      React.createElement("div", { className: "entry_info" },
+      React.createElement("label", {},"Description"),
+      React.createElement("textarea", {id:"entry_description", rows: "5", cols:"35"  })),
 
-      React.createElement("div", { className: "entry_info2" },
-      React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }),
-      React.createElement("textarea", { id: "entry_note", cols: "35", rows: "2", placeholder: "Add note" })),
+      React.createElement("div", { className: "entry_info3" },
+      React.createElement("label", {},"Select members"),
+      React.createElement("select",{id:"select-member"},
+        [
+          React.createElement("option",{},"-------"),
+          React.createElement("option",{},"Harry Potter"),
+          React.createElement("option",{},"Hermione Granger"),
+        ])),
 
-      React.createElement("div", { className: "entry_info colors" },
-      React.createElement("i", { className: "fa fa-circle", "aria-hidden": "true", id: "blue", style: this.state.dColor }),
-      React.createElement("p", { id: "defColor" }, "Default color"),
-      React.createElement("div", null,
-      React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color1, "color1"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color1 })),
-      React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color2, "color2"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color2 })),
-      React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color3, "color3"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color3 })),
-      React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color4, "color4"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color4 })),
-      React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color5, "color5"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color5 }))))))),
+      React.createElement("div", { className: "enter_entry" },
+      
+      React.createElement("span", { id: "save_entry", onClick: this.saveEntry.bind(null, this.state.currYear, this.state.currMonthN, this.state.currDay) }, "SAVE")),
+      // React.createElement("div", { className: "entry_info2" },
+      // React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }),
+      // React.createElement("textarea", { id: "entry_note", cols: "35", rows: "2", placeholder: "Add note" })),
+
+      // React.createElement("div", { className: "entry_info colors" },
+      // React.createElement("i", { className: "fa fa-circle", "aria-hidden": "true", id: "blue", style: this.state.dColor }),
+      // React.createElement("p", { id: "defColor" }, "Default color"),
+      // React.createElement("div", null,
+      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color1, "color1"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color1 })),
+      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color2, "color2"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color2 })),
+      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color3, "color3"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color3 })),
+      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color4, "color4"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color4 })),
+      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color5, "color5"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color5 }))))
+      ))),
 
 
 
@@ -803,17 +821,16 @@ var Calendar = React.createClass({ displayName: "Calendar",
 
       this.state.openEntry ?
       React.createElement("div", { id: "open_entry" },
-      React.createElement("div", { className: "entry_img", style: { backgroundColor: this.state.openEntry.entryColor.color } },
+      React.createElement("div", {className:"entry_img"},
       React.createElement("div", { className: "overlay" }, React.createElement("div", null,
       React.createElement("p", null,
-      React.createElement("span", { id: "entry_title" }, this.state.openEntry.entryName),
-      React.createElement("span", { id: "entry_times" }, daysBetween, " ", this.state.openEntry.entryDuration === "All day" ? "| All day" : "at " + this.state.openEntry.entryDuration + ":00")))),
+      React.createElement("span", { id: "entry_title" }, this.state.openEntry.entryName)))),
 
 
-      React.createElement("img", { src: this.state.openEntry.entryImg.readerResult, width: "400px", height: "300px" })),
+      ),
 
-      React.createElement("div", { className: "entry openedEntry" }, React.createElement("div", null,
-      React.createElement("i", { className: "fa fa-map-marker", "aria-hidden": "true" }), " ", this.state.openEntry.entryLocation ? this.state.openEntry.entryLocation : React.createElement("span", null, "No location"))),
+      // React.createElement("div", { className: "entry openedEntry" }, React.createElement("div", null,
+      // React.createElement("i", { className: "fa fa-map-marker", "aria-hidden": "true" }), " ", this.state.openEntry.entryLocation ? this.state.openEntry.entryLocation : React.createElement("span", null, "No location"))),
 
       React.createElement("div", { className: "entry openedEntry noteDiv" }, React.createElement("div", null,
       React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }), " ", this.state.openEntry.entryNote ? React.createElement("span", { id: "note" }, this.state.openEntry.entryNote) : React.createElement("span", null, "No description")))) :
@@ -868,13 +885,12 @@ var Calendar = React.createClass({ displayName: "Calendar",
         if (entryFromThisDate) {
           // prevent the "no-entries" div to appear in the next entries that are not from this day
           done = true;
-          var style = { borderLeftColor: entry.entryColor.color, borderLeftWidth: "4px", borderLeftStyle: "solid" };
+          //var style = { borderLeftColor: entry.entryColor.color, borderLeftWidth: "4px", borderLeftStyle: "solid" };
           return (
             React.createElement("div", { className: "entry", id: e, key: e },
-            React.createElement("div", { style: style },
+            React.createElement("div", {},
             React.createElement("div", { className: "entry_left", onClick: this.openEntry.bind(null, entry, e) },
-            React.createElement("p", { className: "entry_event" }, entry.entryName),
-            React.createElement("p", { className: "entry_time" }, entry.entryDuration === "All day" ? "All day" : entry.entryDuration + " h", " ", entry.entryLocation ? " | " + entry.entryLocation : null)),
+            React.createElement("p", { className: "entry_event" }, entry.entryName)),
 
             React.createElement("div", { className: "delete_entry" },
             React.createElement("i", { className: "fa fa-times", "aria-hidden": "true", onClick: this.deleteEntry.bind(null, e) })))));

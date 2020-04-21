@@ -9,25 +9,48 @@
 }
 
 @media screen and (min-width: 768px){
-
+	.modal-dialog{
+		margin-top: 140px;
+	}
 }
-@media screen and (min-width: 768px) and (max-width: 991px) {
+@media screen and (min-width: 481px) and (max-width: 767px){
+	header{
+		margin-bottom: 0;
+	}
+	.header-center{
+		text-align: center;
+	}
 	.header-center img{
-		width: 25%;
-		margin: 15px 0 10px 35px;
+		width: 15%;
+		margin: 15px 0 0px 0px;
 	}
 	.header-center .search{
-		line-height: 120px;
+		line-height: 80px;
+		width: 100%;
+		margin-right: 0;
+	}
+	
+	.tutor-content{
+		margin-right: 0;
 	}
 	#dates > div > ul > li{
-		width: 35px;
-		height: 35px;
-		line-height: 35px;
+		width: 60px;
+		height: 60px;
+		line-height: 60px;
+	}
+	.label-hp{
+		margin-left: 15px;
+	}
+	#app{
+		width:70%;
 	}
 	#calendar{
-		height: 340px;
+		height: 480px;
 	}
 	/*admin*/
+	.header-up .login-admin a{
+		margin-right: 10px;
+	}
 	.sidebar-left {
 		display: block;
 		width: 0;
@@ -54,9 +77,88 @@
 	.admin-right h3{
 		margin: 0 0 30px 10px !important;
 		float: left;	
+		width: 80%;
 	}
 	.admin-right #dashboard{
 		padding-top:0;
+	}
+	.admin-right #list-group h3{
+		margin-top: -20px !important;
+	}
+
+	#add-meeting textarea{
+		width: 100%;
+	}
+	.entry_details{
+		height: 400px;
+	}
+	#entries{
+		max-width: 100%;
+	}
+	#add_entry{
+		height:500px;
+	}
+
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+	.header-center img{
+		width: 25%;
+		margin: 15px 0 10px 35px;
+	}
+	.header-center .search{
+		line-height: 120px;
+	}
+	#dates > div > ul > li{
+		width: 35px;
+		height: 35px;
+		line-height: 35px;
+	}
+	#calendar{
+		height: 340px;
+	}
+	/*admin*/
+	.header-up .login-admin a{
+		margin-right: 10px;
+	}
+	.sidebar-left {
+		display: block;
+		width: 0;
+		margin-left:-255px;
+		z-index: 999;
+		transition:0.6s;
+	}
+	.sidebar-left #close-menu{
+		display: block;
+	}
+	.admin-right{
+		display: block;
+		width: 100%;
+		position: absolute;
+		top:45px;
+
+	}
+	.admin-right .bars{
+		display: block;
+		font-size: 20px;
+		width: 20px;
+		float: left;
+	}
+	.admin-right h3{
+		margin: 0 0 30px 10px !important;
+		float: left;	
+		width: 80%;
+	}
+	.admin-right #dashboard{
+		padding-top:0;
+	}
+	.admin-right #list-group h3{
+		margin-top: -20px !important;
+	}
+	#add-meeting textarea{
+		width: 70%;
+	}
+	.entry_details {
+		height: 280px;
 	}
 	
     
@@ -79,6 +181,12 @@
 	}
 	#calendar{
 		height: 350px;
+	}
+	.cell .main-statistic .left img{
+		width: 40%;
+	}
+	.entry_details{
+		height: 280px;
 	}
 }	
 @media screen and (min-width: 1200px) {
@@ -139,6 +247,9 @@
 	}
 	.home-body h1{
 		text-align: center;
+	}
+	.tutor-content{
+		margin-right: 0;
 	}
 	#chat-circle{
 		width: 50px;
@@ -216,6 +327,18 @@
 	}
 	.admin-right #dashboard{
 		padding-top:0;
+	}
+	.admin-right #add-user textarea{
+		width: 100%;
+	}
+	.admin-right #list-group h3{
+		margin-top: -20px !important;
+	}
+	#add-meeting textarea{
+		width: 100%;
+	}
+	#entries{
+		max-width: 100%;
 	}
 
 

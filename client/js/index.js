@@ -24,10 +24,20 @@ window.addEventListener('load', async () => {
               <div id="loader" class="loader"></div>
             </div>`
     );
-    const response = await fetch(`${baseURL}/get_active_tutors`, {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'}
-    });
+    let response;
+    let page = window.location.href.split('=')[1];
+    if (page) {
+      page = parseInt(page);
+      response = await fetch(`${baseURL}/get_active_tutors?page=${page}&perPage=6`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else {
+      response = await fetch(`${baseURL}/get_active_tutors?perPage=6`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+      });
+    }
     const data = await response.json();
     if (data.data.activeTutors.length > 0) {
       document.querySelector('#loader').remove();
@@ -40,6 +50,30 @@ window.addEventListener('load', async () => {
                   <span>${data.data.activeTutors[i].name}</span>
                 </div>
               </div>`
+        );
+      }
+      document.querySelector('#tutors-list').insertAdjacentHTML(
+        'beforeend',
+        `<div class="full"><ul class="pagination" id="pagination"></ul></div>`
+      );
+      let pages = Math.floor(data.data.totalItems / 6);
+      if ((data.data.totalItems % 6) > 0) pages += 1;
+      if (pages > 1) {
+        document.querySelector('#pagination').insertAdjacentHTML(
+          'beforeend',
+          `<li class="page-item"><a class="page-link" href="?page=1">First</a></li>`
+        );
+      }
+      for (let i = 0; i < pages; i++) {
+        document.querySelector('#pagination').insertAdjacentHTML(
+          'beforeend',
+          `<li class="${page ? page && page === i + 1 ? 'active' : '' : i + 1 === 1 ? 'active' : ''} page-item"><a class="page-link" href="?page=${i+1}">${i+1}</a>`
+        );
+      }
+      if (pages > 1) {
+        document.querySelector('#pagination').insertAdjacentHTML(
+          'beforeend',
+          `<li class="page-item"><a class="page-link" href="?page=${pages}">Last</a></li>`
         );
       }
     } else {
