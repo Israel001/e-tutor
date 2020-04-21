@@ -27,6 +27,37 @@
 	#calendar{
 		height: 340px;
 	}
+	/*admin*/
+	.sidebar-left {
+		display: block;
+		width: 0;
+		margin-left:-255px;
+		z-index: 999;
+		transition:0.6s;
+	}
+	.sidebar-left #close-menu{
+		display: block;
+	}
+	.admin-right{
+		display: block;
+		width: 100%;
+		position: absolute;
+		top:45px;
+
+	}
+	.admin-right .bars{
+		display: block;
+		font-size: 20px;
+		width: 20px;
+		float: left;
+	}
+	.admin-right h3{
+		margin: 0 0 30px 10px !important;
+		float: left;	
+	}
+	.admin-right #dashboard{
+		padding-top:0;
+	}
 	
     
 }
@@ -58,6 +89,9 @@
 @media screen and (max-width:480px) {
 	header{
 		margin-top: -20px;
+	}
+	.header-up span{
+		margin-left: 15px;
 	}
 	.header-down{
 		height: auto;
@@ -135,4 +169,54 @@
 	#chat-messages label{
 		width: 100%;
 	}
+	/*admin*/
+	.header-up .login-admin{
+		width: 46%;
+	}
+	.header-up .login-admin ul{
+		padding-left: 0px;
+	}
+	.header-up .login-admin a{
+		padding: 0;
+		margin-right: 10px;
+	}
+	.header-up .login-admin .fa-caret-down{
+		margin-left: 0;
+	}
+	.header-up .login-admin #drop-logout{
+		padding-left: 10px;
+	}
+	.sidebar-left {
+		display: block;
+		width: 0;
+		margin-left:-255px;
+		z-index: 999;
+		transition:0.6s;
+	}
+	.sidebar-left #close-menu{
+		display: block;
+	}
+	.admin-right{
+		display: block;
+		width: 100%;
+		position: absolute;
+		top:45px;
+
+	}
+	.admin-right .bars{
+		display: block;
+		font-size: 20px;
+		width: 20px;
+		float: left;
+	}
+	.admin-right h3{
+		margin: 0 0 30px 10px !important;
+		float: left;
+		width: 80%;	
+	}
+	.admin-right #dashboard{
+		padding-top:0;
+	}
+
+
 }

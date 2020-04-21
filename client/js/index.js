@@ -3,6 +3,12 @@ if (loggedIn) {
   element.setAttribute('href','javascript:void(0);');
   document.getElementById('auth-btn').innerText = 'Log Out';
   element.addEventListener('click', logout);
+  if (userRole === 'admin') {
+    document.getElementById('user-menu').insertAdjacentHTML(
+      'beforeend',
+      `<li><a href="admin-panel.html"><i class="fa fa-star"></i> Admin</a></li>`
+    );
+  }
 } else {
   document.querySelector('.header-down').innerHTML = '';
   document.querySelector('#chat-circle').remove();
@@ -15,23 +21,23 @@ window.addEventListener('load', async () => {
     document.querySelector('#tutors-list').insertAdjacentHTML(
       'beforeend',
       `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="loader">
-              <div class="loader"></div>
+              <div id="loader" class="loader"></div>
             </div>`
     );
-    const response = await fetch(`${baseURL}/get_tutors`, {
+    const response = await fetch(`${baseURL}/get_active_tutors`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
     });
     const data = await response.json();
-    if (data.data.tutors.length > 0) {
-      for (let i = 0; i < data.data.tutors.length; i++) {
-        document.querySelector('#loader').remove();
+    if (data.data.activeTutors.length > 0) {
+      document.querySelector('#loader').remove();
+      for (let i = 0; i < data.data.activeTutors.length; i++) {
         document.querySelector('#tutors-list').insertAdjacentHTML(
           'beforeend',
           `<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="tutor-content">
-                  <img src="images/tutor.jpg" alt="">
-                  <span>${data.data.tutors[0].name}</span>
+                  <img src=${data.data.activeTutors[i].image} alt="">
+                  <span>${data.data.activeTutors[i].name}</span>
                 </div>
               </div>`
         );
@@ -42,7 +48,7 @@ window.addEventListener('load', async () => {
         'beforeend',
         `<div class="col-lg-8">
               <div class="alert alert-info text-center">
-                <strong>There are currently no tutors in the system</strong>
+                <strong>There are currently no active tutors in the system</strong>
               </div>
             </div>`
       );
@@ -482,7 +488,10 @@ window.addEventListener('load', async () => {
       document.querySelector('#chat-messages').insertAdjacentHTML(
         'beforeend',
         `<div class="message ${from === userId ? 'right' : ''}" id="${id}">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+            <div class="chat-img">
+               <img src="" alt="">
+            </div>
+<!--            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />-->
             <div class="bubble">
               ${message}
               <div id="time-tool">${moment(new Date(time).toDatetimeLocal().toString(), 'YYYYMMDDhhmmss').format('h:mm a')}</div>
