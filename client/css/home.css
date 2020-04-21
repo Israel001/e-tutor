@@ -532,7 +532,9 @@
 	font-weight:600;
 	font-size:12px;
 	text-align:center;
+	margin:15px 0;
 	width:350px;
+	display:block;	
 }
 #chat-messages div.message{
 	padding:0 0 0px 45px;
@@ -818,7 +820,7 @@
 	-ms-transform: rotate(135deg); 
 	-webkit-transform: rotate(135deg); 
 	transform: rotate(135deg);		 
-	-webkit-transition: all 100ms ease-out;
+	-webkit-transition: all 100ease-out;
 	   -moz-transition: all 100ms ease-out;
 		-ms-transition: all 100ms ease-out;
 		 -o-transition: all 100ms ease-out;
@@ -833,6 +835,10 @@ border-radius:6px;
     color:#555;
 }
 ::-moz-selection {
+    background:#d3d3d3; 
+    color:#555;
+}
+::-webkit-selection {
     background:#d3d3d3; 
     color:#555;
 }
@@ -1601,7 +1607,6 @@ button.float .ink-visual {
 	display: block;
 	margin-top: 50%;
 }
-
 .profile-picture{
 	width: 150px;
 	height: 150px;

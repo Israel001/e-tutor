@@ -8,5 +8,6 @@ nodemon.json
 .gitignore
 __tests__
 *.php
+google_key.json
 firebase-config.js
 firebase-config.min.js
