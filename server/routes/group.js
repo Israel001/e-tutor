@@ -8,6 +8,10 @@ const router = express.Router();
 
 router.post('/group/create', isAuth, groupController.createGroup);
 
+router.get('/group/:groupId/info', isAuth, groupController.getGroupInfo);
+
+router.get('/all_groups', isAuth, groupController.getGroups);
+
 router.get('/group_messages', isAuth, groupController.getGroupMessages);
 
 router.get('/groups', isAuth, groupController.getUserGroups);

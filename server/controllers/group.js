@@ -7,10 +7,14 @@ module.exports = {
   createGroup: async (req, res, next) => {
     const creator = req.userId;
     const title = req.body.title;
+    const image = req.body.image;
+    const members = req.body.members;
+    members.push(creator);
     const group = new Group({
       title,
       creator,
-      members: [creator],
+      image,
+      members,
       messages: []
     });
     try {
@@ -26,6 +30,57 @@ module.exports = {
         data: { group }
       });
     } catch(err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  getGroupInfo: async (req, res, next) => {
+    try {
+      const groupId = req.params.groupId;
+      const group = await Group.findById(groupId).populate('members');
+      if (!group) {
+        const error = new Error('Group Not Found!');
+        res.status(404).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        if (!group.members.includes(req.userId) && req.role !== 'admin') {
+          const error = new Error('Not Authorized!');
+          res.status(403).json({
+            message: error.message,
+            data: { error }
+          });
+        } else {
+          res.status(200).json({
+            message: 'Group Information Retrieved Succesfully!',
+            data: { group }
+          });
+        }
+      }
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+  },
+
+  getGroups: async (req, res, next) => {
+    try {
+      if (req.role !== 'admin') {
+        const error = new Error('Not Authorized!');
+        res.status(403).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        const groups = await Group.find().populate('creator').populate('members');
+        res.status(200).json({
+          message: 'Groups Retrieved Successfully!',
+          data: groups
+        });
+      }
+    } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
     }

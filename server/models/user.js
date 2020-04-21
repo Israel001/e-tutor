@@ -43,7 +43,8 @@ const userSchema = new Schema({
         default: 0
     },
     resetToken: String,
-    resetTokenExpiration: Date
+    resetTokenExpiration: Date,
+    meetings: [ { type: String } ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
