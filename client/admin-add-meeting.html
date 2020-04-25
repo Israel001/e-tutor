@@ -64,7 +64,7 @@
 						</ul>
 				    </li>
 				    <li><a  href="admin-request.html"><i class="fa fa-fire"></i>Issue</a></li>
-				    <li><a  data-toggle="modal" data-target="#myModal3"href=""><i class="fa fa-user"></i>Profile</a></li>
+				    <li><a class="nav-profile" data-toggle="modal" data-target="#myModal3"href=""><i class="fa fa-user"></i>Profile</a></li>
 				</ul>
 			</div>
 			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -180,9 +180,9 @@
 			         	<div class="modal-body full">
 			            	<form action="">
 			            		<label for="">Enter Group Name:</label><br>
-			            		<input type="text" name="groupname" class="form-control">
-			            		<input type="file" id="file" class="upload__input" accept="image/jpeg, image/png, image/gif" required>
-					     		<div class="upload__files">
+			            		<input type="text" name="groupname" class="form-control" id="fileInput">
+			            		<input type="file" id="fileInput" class="upload__input" accept="image/jpeg, image/png, image/gif" required>
+					     		<div class="upload__files1">
 										
 								</div>
 			            		<button type="button" class="btn btn-default btn-next" id="btn-next" disabled="disabled">Next</button>
@@ -211,7 +211,17 @@
 			            			<input type="checkbox" class="chk">
 			            		</div>
 			            	</div>
-			            	
+			            	<div class="profile-student full">
+			            		<div class="s-name">
+			            			Harry Potter
+			            		</div>
+			            		<div class="s-image">
+			            			<img src="images/student.jpg" alt="">
+			            		</div>
+			            		<div class="s-check">
+			            			<input type="checkbox" class="chk">
+			            		</div>
+			            	</div>
 			            </div>
 
 						<div class="modal-footer full">
@@ -255,7 +265,6 @@
 	<script src="js/wow.min.js"></script>
 	<script src="js/text.js"></script>
 	<script src="js/jquery.mmenu.all.js"></script>
-	<script src="js/custom.js"></script>
 	<script src="js/add-user.js"></script>
 
 	

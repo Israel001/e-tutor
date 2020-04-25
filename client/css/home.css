@@ -1,3 +1,7 @@
+.container{
+	padding-left: 0;
+	padding-right: 25px; 
+} 
 .full{
 	width: 100%;
 	float: left;
@@ -136,8 +140,11 @@
 .banner .slick-prev:before, .slick-next:before{
 	font-size: 30px;
 }
-.list-tutor{
-	padding-right: 15px;
+.label-hp h1{
+	font-size: 24px;
+}
+.list-tutor, .dashboard-list, .recently-activity, .list-meeting, .list-issue, .create-form, .student-profile{
+	padding-right: 50px;
 }
 .tutor-content{
 	text-align: center;
@@ -1204,7 +1211,7 @@ button.float .ink-visual {
   font: 1rem/1.5 "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
 }
-.upload__files {
+.upload__files, .upload__files1 {
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: horizontal;
@@ -1219,14 +1226,14 @@ button.float .ink-visual {
   margin-right: 0;
 }
 
-.preview {
+.preview, .preview1 {
   background: #e5e7e9;
   padding: 5px 5px 5px;
   margin: 10px 10px 10px 0;
   width: calc((100% - 20px) / 3);
   position: relative;
 }
-.preview__thumb {
+.preview__thumb, .preview__thumb1 {
   background: #fff;
   border: 1px solid #97999b;
   height: 80px;
@@ -1241,7 +1248,9 @@ button.float .ink-visual {
           align-items: center;
 }
 .preview__thumb img,
-.preview__thumb video {
+.preview__thumb video,
+.preview__thumb1 img,
+.preview__thumb1 video {
   max-width: 100%;
   max-height: 78px;
 }
@@ -1290,7 +1299,7 @@ button.float .ink-visual {
 	background-color:#fff;
 	cursor: pointer;
 }
-.upload__files .closes{
+.upload__files .closes, .upload__files1 .closes{
 	width: 20px;
 	height:20px;
 	background-color: red;
@@ -1305,6 +1314,11 @@ button.float .ink-visual {
 /*admin*/
 .header-up .login-admin{
 	float: right;
+}
+.header-up .login-admin img{
+	width: 30px;
+	margin-bottom: 5px;
+	border-radius: 50%;
 }
 .header-up .login-admin a{
 	background:none;
@@ -1366,7 +1380,7 @@ button.float .ink-visual {
 .sidebar-left .nav-tabs{
 	border:none;
 }
-.sidebar-left .nav-tabs>li.active>a{
+.sidebar-left .nav-tabs>li.active>a, .sidebar-left .nav-profile:focus{
 	background-color:#00b3a1;
 	color:#fff;
 	border:none;
@@ -1422,22 +1436,22 @@ button.float .ink-visual {
 .admin-right .statistic{
 	margin-left: -5px;
 }
-.admin-right .cell{
+.admin-right .cell, .dashboard-list .cell{
 	padding: 25px 20px 10px;
 	color: #fff;
 	border-radius: 5px;
 	margin-bottom: 15px;
 }
-.admin-right .statistic .student{
+.admin-right .statistic .student, .dashboard-list .student{
 	background-color:#337ab7;
 }
 .admin-right .statistic .tutor{
 	background-color:#5cb85c;
 }
-.admin-right .statistic .issue{
+.admin-right .statistic .issue, .dashboard-list .issue{
 	background-color:#f0ad4e;
 }
-.admin-right .statistic .meeting{
+.admin-right .statistic .meeting, .dashboard-list .meeting{
 	background-color:#7520a1;
 }
 .admin-right .statistic .group{
@@ -1558,7 +1572,7 @@ button.float .ink-visual {
 	margin-bottom: 0;
 }
 #add-user .preview__thumb img{
-	max-height: 200px;
+	max-height: 187px;
 }
 #add-user button{
 	margin-top: 20px;
@@ -1574,7 +1588,7 @@ button.float .ink-visual {
 	background-color:#fff;
 	border-radius: 5px 5px 0 0;
 	padding: 7.5px 15px;
-	height: 500px;
+	height: 430px;
 	overflow:auto;
 }
 .profile-tutor, .profile-student{
@@ -1640,7 +1654,7 @@ button.float .ink-visual {
 	margin: 20px 0;
 	border: 1px solid #d2d2d2;
 }
-#myModal4 .upload__files{
+#myModal4 .upload__files, #myModal4 .upload__files1{
 	border: 1px solid #d2d2d2;
 	width: 150px;
 	height: 150px;	
@@ -1652,29 +1666,29 @@ button.float .ink-visual {
 	border-radius: 0;
 	margin-bottom: 0;
 }
-#myModal4 .preview{
+#myModal4 .preview, #myModal4 .preview1{
 	width: 100%;
 	margin: 1px;
 }
-#myModal4 .preview__thumb{
+#myModal4 .preview__thumb, #myModal4 .preview__thumb1{
 	height: 100%;
 	margin-bottom:0;
 }
-#myModal4 .preview__thumb img, #myModal4 .preview__thumb video{
-	max-height:150px;
+#myModal4 .preview__thumb img, #myModal4 .preview__thumb video, #myModal4 .preview__thumb1 img, #myModal4 .preview__thumb1 video{
+	max-height:134px;
 }
-#myModal4 .preview__name{
+#myModal4 .preview__name, #myModal4 .preview__name1,#myModal4 .preview__type1 {
 	display: none;
 }
-.group-card{
+.group-card, .student-card{
 	border: 1px solid #d2d2d2;
 	width: 90%;
 	margin: 0 auto 30px;
 }
-.group-card .image-group img{
+.group-card .image-group img, .student-card .image-student img{
 	width: 100%;
 }
-.group-card .infor-group{
+.group-card .infor-group, .student-card .info-student{
 	text-align: center;
 	padding: 10px 10px  15px 10px;
 }
@@ -1703,4 +1717,301 @@ button.float .ink-visual {
 }
 #add-meeting button{
 	margin-top: 30px;
+}
+/*dashboard -  user*/
+.label-dashboard{
+	border-bottom: 3px solid #f7941d;
+	margin-bottom: 15px;
+}
+.label-dashboard h3{
+	margin-bottom: 3px;
+	margin-top: 32px;
+}
+.label-dashboard i{
+	font-size: 20px;
+	margin-right: 10px;
+}
+.recently-activity .activities{
+	padding-right: 15px;
+}
+.recently-activity .activities a{
+	border: 1px solid #d2d2d2;
+	padding: 10px;
+	border-radius: 5px;
+	color: #000;
+	width: 100%;
+	float: left;
+	position: relative;
+}
+.recently-activity .activities a:before{
+	position: absolute;
+	content: '\f105';
+	font-family: FontAwesome;
+	right: 10px;
+	top: 0;
+	font-size: 26px;
+}
+.dashboard-list .cell{
+	margin-bottom:25px;
+}
+.sidebar-right .tutor-card{
+	margin-top: 5px;
+	border: 1px solid #d2d2d2;
+	text-align: center;
+	padding-bottom:30px;
+	font-size: 20px;
+}
+.sidebar-right img{ 
+	width: 100%;
+	
+}
+.sidebar-right .tutor-name{
+	margin: 25px 0;
+}
+.sidebar-right .view-tprofile{
+	background: #00b3a1;
+	padding: 10px 20px;
+	border-radius: 5px;
+}
+.sidebar-right .label-dashboard h3{
+	margin-top: 36px;
+}
+.meeting-info, .issue-info{
+	border-radius: 10px;
+	border: 1px solid #d2d2d2;
+	padding: 5px;
+	margin-bottom: 15px;
+}
+.meeting-info p, .issue-info p{
+	margin: 15px 0 15px 15px;
+}
+.meeting-info a{
+	color: #000;
+}
+.button-issue{
+	padding: 25px 0 30px 0;
+}
+.button-issue a{
+	background: #00b3a1;
+	padding: 20px;
+	font-size: 18px;
+	float: left;
+	border-radius: 10px;
+	text-decoration: none;
+}
+.button-issue a:hover{
+	background: #f7941d;
+	color: #fff;
+}
+.issue-info{
+	position: relative;
+}
+.issue-info a{
+	color:#000;
+}
+.issue-info .direct-issue{
+	position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 80px;
+    color: #000;
+    font-size: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+/*issue page*/
+.create-form input[type = text]{
+	width: 100%;
+	height: 40px;
+	border-radius: 5px;
+	border: 1px solid #d2d2d2;
+	margin: 15px 0;
+}
+.create-form textarea{
+	border-radius: 5px;
+	border-color: #d2d2d2;
+	margin: 15px 0;
+}
+.create-form input[type = file]{
+	margin: 10px 0;
+}
+.create-form .upload__files1{
+	height: 200px;
+	margin: 15px 0;
+	border: 1px solid #d2d2d2;
+	overflow: auto;
+	padding-bottom: 15px;
+}
+.create-form .upload__files1 .preview1{
+	width: 23%;
+	margin:15px 0 0 15px;
+}
+.create-form .btn-create-issue{
+	background: #00b3a1;
+	border-radius: 5px;
+	padding: 0px 5px;
+	color: #fff;
+	line-height: 50px;
+	margin-top: 15px;
+}
+.create-form .select-people{
+	padding: 10px 5px;
+	background: #d2d2d2;
+	color: #000;
+	margin: 15px 0;
+	float: left;
+}
+.create-form .chk{
+	display: block;
+	margin-top: 50%;
+}
+.issue-detail .header-issue{
+	margin: 15px 0;
+}
+.issue-detail .header-issue i{
+	margin: 0 5px 0 15px;
+}
+.issue-detail .header-issue .title{
+	font-size: 20px;
+}
+.issue-detail .header-issue .author{
+	font-size: 16px;
+}
+.issue-detail .content-issue .description-issue, .issue-detail .content-issue .list-file{
+	position: relative;
+}
+.issue-detail .content-issue .description-issue span, .issue-detail .content-issue .list-file span{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.issue-detail .content-issue .description-issue i, .issue-detail .content-issue .list-file i{
+	margin-right: 5px;
+}
+.issue-detail .content-issue p{
+	text-align: justify;
+}
+.issue-detail .comment-issue textarea{
+	width: 100%;
+	padding: 10px;
+}
+.content-issue .list-file{
+	margin: 15px 0;
+}
+.content-issue .file-item{
+	border: 1px solid #d2d2d2;
+	padding: 5px;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+.content-issue .file-item .item-thumb{
+	width: 70px;
+	height: 70px;
+	float: left;
+}
+.content-issue .file-item .item-thumb img{
+	width: 100%;
+	max-height: 70px;
+}
+.content-issue .file-item .document-pdf{
+	background-image: url('../images/pdf.png');
+	width: 70px;
+	height: 70px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	float: left;
+}
+.issue-detail .modal-body{
+	text-align: center;
+}
+.issue-detail .modal-body img{
+	width: 100%;
+}
+.issue-detail .modal-body .file-document{
+	width: 100px;
+	height: 100px;
+	margin: 30px auto;
+}
+.issue-detail .modal-body .btn-download{
+	width: 200px;
+	height: 50px;
+	margin: 20px auto;
+	background: #00b3a1;
+	line-height: 50px;
+	font-size: 18px;
+}
+.issue-detail .modal-body .btn-download i{
+	margin-right: 10px;
+}
+.comment-issue .cmt-content{
+	border-top: 1px solid #d2d2d2;
+	padding-top: 10px;
+}
+.comment-issue .cmt-content:first-child{
+	border-top: none;
+}
+.comment-issue .img-cmt{
+	width: 70px;
+	height: 70px;
+	float: left;
+}
+.comment-issue .img-cmt img{
+	width: 100%;
+}
+.comment-issue .cmt-right{
+	width: calc(100% - 70px);
+	float: left;
+	padding: 0 0 0 15px;
+}
+.comment-issue .cmt-right .user-cmt p{
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+.comment-issue .cmt-right .content p{
+	text-align: justify;
+}
+.comment-issue h3{
+	margin: 15px 0;
+}
+.student-card .info-student{
+	padding: 15px 0 25px 0;
+}
+.student-card .info-student .student-name{
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+.student-card .info-student a{
+	background: #00b3a1;
+	border-radius: 5px;
+	padding: 10px 5px;
+}
+.about-student{
+	border: 1px solid #d2d2d2;
+	padding: 10px;
+}
+.left-card{
+	border: 1px solid #d2d2d2;
+	text-align: center;
+	margin-right:10px;
+}
+.left-card .image-student img{
+	width: 80%;
+	margin: 15px 0;
+}
+.left-card .email{
+	margin-bottom: 15px;
+}
+.left-card .chatting{
+	background: #00b3a1;
+	padding: 5px 20px;
+	border-radius: 5px;
+}
+.left-card .chatting i{
+	margin-right:5px;
+}
+.left-card .info-student{
+	padding-bottom: 15px;
 }

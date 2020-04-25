@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Tutor</title>
+	<title>Detail Issue - Etutor</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
@@ -22,7 +22,16 @@
 	<header>
 		<div class="header-up full">
 			<span>E-Tutor</span>
-			<a href="login.html">Log In</a>
+			<div class="login-admin">
+				<ul>
+					<li>
+						<a data-toggle=collapse href="#drop-logout">Severus Snape <i class="fa fa-caret-down"></i></a>
+						<ul id="drop-logout" class="panel-collapse collapse">
+							<li><a href=""><i class="fa fa-power-off"></i>Log Out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<div class="header-center full">
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
@@ -62,84 +71,121 @@
 		</div>	
 	</header>
 	<content>
-		<div class="banner full">
-			<div class="slide-banner">
-				<div class="img-banner">
-					<img src="images/banner.jpg" alt="">
-				</div>
-				<div class="img-banner">
-					<img src="images/banner.jpg" alt="">
-				</div>
-			</div>
-		</div>
 		<div class="home-body full">
 
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
-						<div class="list-tutor full">
-							<div class="label-hp full">
-								<h1>List Of Tutors</h1>
+						<div class="create-form full">
+							<div class=" label-dashboard">
+								<h3><i class="fa fa-bars"></i> Issue Detail</h3>
 							</div>
-							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="row">
-									<div class="tutor-content">
-										<img src="images/tutor.jpg" alt="">
-										<span>Albert Einstein</span>
+							<div class="issue-detail full">
+								<div class="header-issue full">
+									<p class="title">Title Issue</p>
+									<p class="author">Author</p>
+									<p>Date: 14/04/2020 <i class="fa fa-clock-o"></i>20:00</p>
+								</div>
+								<div class="content-issue full">
+									
+									<div class="description-issue full">
+										<span><i class="fa fa-clock-o"></i>19:30</span>
+										<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
+										<p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
 									</div>
-								</div>	
-							</div>
-							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="row">
-									<div class="tutor-content">
-										<img src="images/tutor.jpg" alt="">
-										<span>Albert Einstein</span>
+									<div class="list-file full">
+										<span><i class="fa fa-clock-o"></i>19:30</span>
+										<div class="file-item">
+											<a href="" data-toggle="modal" data-target="#myModal1">
+												<div class="item-thumb">
+													<img src="images/tutor.jpg" alt="">
+												</div>
+											</a>
+										</div>
+										<div class="file-item">
+											<a href="" data-toggle="modal" data-target="#myModal2">
+												<div class="item-thumb document-pdf">
+												</div>
+											</a>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="row">
-									<div class="tutor-content">
-										<img src="images/tutor.jpg" alt="">
-										<span>Albert Einstein</span>
+								<div class="full">
+									<h3> Comments</h3>
+								</div>
+								<div class="comment-issue full">
+									<div class="cmt-content full">
+										<div class="img-cmt">
+											<img src="images/user.jpg" alt="">
+										</div>
+										<div class="cmt-right">
+											<div class="user-cmt">
+												<p>Donald Trump</p>
+												<p>24/04/2020</p>
+											</div>
+											<div class="content">
+												<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
+											</div>
+										</div>
 									</div>
+									<div class="cmt-content full">
+										<div class="img-cmt">
+											<img src="images/user.jpg" alt="">
+										</div>
+										<div class="cmt-right">
+											<div class="user-cmt">
+												<p>Donald Trump</p>
+												<p>24/04/2020</p>
+											</div>
+											<div class="content">
+												<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
+											</div>
+										</div>
+									</div>
+									<div class="full">
+										<h3> Leave Comment</h3>
+									</div>
+									<form action="">
+										<textarea name="" id="" cols="50" rows="7" placeholder="Comment..."></textarea><br>
+										
+										<button class="btn-create-issue">Submit</button>
+									</form>
+								</div>
+								<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								   	<div class="modal-dialog">
+								      	<div class="modal-content">
+								         	<div class="modal-header">
+								            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								            	<h4 class="modal-title" id="myModalLabel"></h4>
+								         	</div>
+								         	<div class="modal-body full">
+								            	<img src="images/tutor.jpg" alt="">
+								         	</div>
+								      	</div>
+								   	</div>
+								</div>
+								<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								   	<div class="modal-dialog">
+								      	<div class="modal-content">
+								         	<div class="modal-header">
+								            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								            	<h4 class="modal-title" id="myModalLabel"></h4>
+								         	</div>
+								         	<div class="modal-body full">
+								            	<div class="btn-download">
+								            		<a href=""><i class="fa fa-download"></i>Dowload</a>
+								            	</div>
+								            	<div class="file-document">
+								            		<img src="images/pdf.png" alt="">
+								            	</div>
+								         	</div>
+								      	</div>
+								   	</div>
 								</div>
 							</div>
-							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="row">
-									<div class="tutor-content">
-										<img src="images/tutor.jpg" alt="">
-										<span>Albert Einstein</span>
-									</div>
-								</div>
-							</div>
-							<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="row">
-									<div class="tutor-content">
-										<img src="images/tutor.jpg" alt="">
-										<span>Albert Einstein</span>
-									</div>
-								</div>
-							</div> -->
-							<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="row">
-									<div class="tutor-content">
-										<img src="images/tutor.jpg" alt="">
-										<span>Albert Einstein</span>
-									</div>
-								</div>
-							</div> --> 
-							<div class="full">
-								<ul class="pagination">
-								    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-								    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-								    <li class="page-item"><a class="page-link" href="#">2</a></li>
-								    <li class="page-item"><a class="page-link" href="#">3</a></li>
-								    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-								</ul>
-							</div>
-						</div>
 							
+							
+						</div>	
 					</div>	
 
 					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
@@ -148,6 +194,17 @@
 								<h1>Calendar</h1>
 							</div>
 							<div id="app"></div>
+							
+							<div class="sidebar-right full">
+								<div class="label-dashboard full">
+									<h3>Your Tutor</h3>
+								</div>
+								<div class="tutor-card full">
+									<img src="images/user.jpg" alt="">
+									<p class="tutor-name">Donald Trump</p>
+									<a class="view-tprofile" href="">View profile</a>
+								</div>
+							</div>
 						</div>
 					</div>	
 

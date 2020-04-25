@@ -46,57 +46,53 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+    $(function () {
+        $('#btn-next').attr("disabled", true);
+
+        $('#fileInput').change(function () {
+            if ($('#fileInput').val().length == 0  )
+                $('#btn-next').attr("disabled", true);
+            else
+                $('#btn-next').attr("disabled", false);
+        });
+    });
 });
 /*----------------------------------------------------------------*/
+
+/*--------------------------------------------------------------*/
 jQuery(document).ready(function ($) {
-  $(function() {
-      $('form > input').keyup(function() {
 
-          var empty = false;
-          $('form > input').each(function() {
-              if ($(this).val() == '') {
-                  empty = true;
-              }
-          });
+    $("div[id^='myModal']").each(function(){
+    
+    var currentModal = $(this);
+    
+    //click next
+    currentModal.find('.btn-next').click(function(){
+      currentModal.modal('hide');
+      currentModal.closest("div[id^='myModal']").nextAll("div[id^='myModal']").first().modal('show'); 
+    });
+    
+    //click prev
+    currentModal.find('.btn-prev').click(function(){
+      currentModal.modal('hide');
+      currentModal.closest("div[id^='myModal']").prevAll("div[id^='myModal']").first().modal('show'); 
+    });
 
-          if (empty) {
-              $('#btn-next').attr('disabled', 'disabled');
-          } else {
-              $('#btn-next').removeAttr('disabled');
-          }
-      });
   });
 });
-/*--------------------------------------------------------------*/
-$("div[id^='myModal']").each(function(){
-  
-  var currentModal = $(this);
-  
-  //click next
-  currentModal.find('.btn-next').click(function(){
-    currentModal.modal('hide');
-    currentModal.closest("div[id^='myModal']").nextAll("div[id^='myModal']").first().modal('show'); 
-  });
-  
-  //click prev
-  currentModal.find('.btn-prev').click(function(){
-    currentModal.modal('hide');
-    currentModal.closest("div[id^='myModal']").prevAll("div[id^='myModal']").first().modal('show'); 
-  });
 
-});
 /*--------------------------------------------------------------*/
 
-var AttachmentArray = [];
-var arrCounter = 0;
-var input = $("#upload__input").val();
-var inp;
-var fileTemp;
+var AttachmentArray1 = [];
+var arrCounter1 = 0;
+//var input = $("#upload__input1").val();
+var inp1;
+var fileTemp1;
 (function($) {  
-  function createPdfPreview(fileContents, $displayElement) {
+  function createPdfPreview1(fileContents, $displayElement) {
     PDFJS.getDocument(fileContents).then(function(pdf) {
       pdf.getPage(1).then(function(page) {
-        var $previewContainer = $displayElement.find('.preview__thumb');
+        var $previewContainer = $displayElement.find('.preview__thumb1');
         var canvas = $previewContainer.find('canvas')[0];
         canvas.height = $previewContainer.innerHeight();
         canvas.width = $previewContainer.innerWidth();
@@ -121,13 +117,13 @@ var fileTemp;
   
   
   
-  function createPreview(file, fileContents, id) {
+  function createPreview1(file, fileContents, id) {
     var $previewElement = '';
     switch (file.type) {
       case 'image/png':
       case 'image/jpeg':
       case 'image/gif':
-        $previewElement = $('<img src="' + fileContents + '" data-id="preview_' + id + '" />');
+        $previewElement = $('<img src="' + fileContents + '" data-id="preview1_' + id + '" />');
         break;
       case 'video/mp4':
       case 'video/webm':
@@ -140,16 +136,16 @@ var fileTemp;
       default:
         break;
     }
-    var $displayElement = $('<div class="preview" id="preview_'+ id +'">\
-                                <div class="preview__item">\
+    var $displayElement = $('<div class="preview1" id="preview1_'+ id +'">\
+                                <div class="preview__item1">\
                                 <span class="closes">x</span>\
-                                <div class="preview__thumb"></div>\
-                                <span class="preview__name" title="' + file.name + '">' + file.name + '</span>\
-                                <span class="preview__type" title="' + file.type + '">' + file.type + '</span>\
+                                <div class="preview__thumb1"></div>\
+                                <span class="preview__name1" title="' + file.name + '">' + file.name + '</span>\
+                                <span class="preview__type1" title="' + file.type + '">' + file.type + '</span>\
                                 </div>\
                             </div>');
-    $displayElement.find('.preview__thumb').append($previewElement);
-    $('.upload__files').append($displayElement);
+    $displayElement.find('.preview__thumb1').append($previewElement);
+    $('.upload__files1').append($displayElement);
     
     if (file.type === 'application/pdf') {
       createPdfPreview(fileContents, $displayElement);
@@ -160,30 +156,34 @@ var fileTemp;
   
   
   
-  function fileInputChangeHandler(e) {
+  function fileInputChangeHandler1(e) {
     var URL = window.URL || window.webkitURL;
     var fileList = e.target.files;
-  inp = e.target;
+    
+    inp1 = e.target;
+    console.log('Handle1 ' + inp1.id );
+    if (inp1.id == 'fileInput'){
     if (fileList.length > 0) {
-      $('.upload__files').html('');
+      $('.upload__files1').html('');
       
       for (var i = 0; i < fileList.length; i++) {
         var file = fileList[i];
         var fileUrl = URL.createObjectURL(file);
-        createPreview(file, fileUrl, i);
-        FillAttachmentArray(file, i)
+        createPreview1(file, fileUrl, i);
+        FillAttachmentArray11(file, i)
       }
-    fileTemp = fileList;
-      console.log(AttachmentArray);
+    fileTemp1 = fileList;
+      console.log(AttachmentArray1);
     } else {
-    inp.files = fileTemp;
+    inp1.files = fileTemp1;
   }
   }
-  function FillAttachmentArray(file, i)
+  }
+  function FillAttachmentArray11(file, i)
         {
-            AttachmentArray[arrCounter] =
+            AttachmentArray1[arrCounter1] =
             {
-        Id: "preview_" + i,
+        Id: "preview1_" + i,
                 AttachmentType: 1,
                 ObjectType: 1,
                 FileName: file.name,
@@ -193,7 +193,7 @@ var fileTemp;
                 FileSizeInBytes: file.size,
         file: file,
             };
-            arrCounter = arrCounter + 1;
+            arrCounter1 = arrCounter1 + 1;
         }
   // function fileClick(e)
         // {
@@ -201,26 +201,26 @@ var fileTemp;
             // inp = e.target;
         // }
   $(document).ready(function() {
-    $('input:file').on('change', fileInputChangeHandler);
+    $('input:file').on('change', fileInputChangeHandler1);
   });
 })(jQuery.noConflict());
 
 jQuery(function ($) {
-            $('div').on('click', '.preview__item .closes', function (e) {
+            $('div').on('click', '.preview__item1 .closes', function (e) {
         e.preventDefault();
-                var id = $(this).closest('.preview__item').find('img').data('id');
+                var id = $(this).closest('.preview__item1').find('img').data('id');
 
                 //to remove the deleted item from array
-                 // var elementPos = AttachmentArray.map(function (x) { return x.FileName; }).indexOf(id);
+                 // var elementPos = AttachmentArray1.map(function (x) { return x.FileName; }).indexOf(id);
                  // if (elementPos !== -1) {
-                     // AttachmentArray.splice(elementPos, 1);
+                     // AttachmentArray1.splice(elementPos, 1);
                  // }
          
-        for (var i = 0; i < AttachmentArray.length; ++i) {
-          if (AttachmentArray[i].Id === id)
-          AttachmentArray.splice(i, 1);
+        for (var i = 0; i < AttachmentArray1.length; ++i) {
+          if (AttachmentArray1[i].Id === id)
+          AttachmentArray1.splice(i, 1);
         }
-                // console.log(AttachmentArray);
+                // console.log(AttachmentArray1);
 
              
 
@@ -237,13 +237,13 @@ jQuery(function ($) {
                 $('#'+ id ).remove();
         
         const dt = new DataTransfer()
-        for (var i = 0; i < AttachmentArray.length; ++i) {
-            dt.items.add(AttachmentArray[i].file);
+        for (var i = 0; i < AttachmentArray1.length; ++i) {
+            dt.items.add(AttachmentArray1[i].file);
         }
         
-        inp.files = dt.files;
-        fileTemp = inp.files;
-        arrCounter = arrCounter - 1;
+        inp1.files = dt.files;
+        fileTemp1 = inp.files;
+        arrCounter1 = arrCounter1 - 1;
               });
         });
   

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Admin Panel</title>
+	<title>Issue - Admin</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
@@ -39,7 +39,7 @@
 			<div class="sidebar-left" id="side-menu">
 				<i class="fa fa-times" id="close-menu" onclick="closemenu()"></i>
 				<ul class="nav nav-tabs nav-stacked">
-				    <li ><a class="active" href="admin-panel.html"><i class="fa fa-tachometer"></i>Dashboard</a></li>
+				    <li ><a  href="admin-panel.html"><i class="fa fa-tachometer"></i>Dashboard</a></li>
 				    <li><a data-toggle="collapse" class="unactive" href="#child-menu1" ><i class="fa fa-sitemap"></i>Group<span class="caret"></span></a>
 						<ul id="child-menu1" class="panel-collapse collapse">
 							<li><a  href="list-group.html">View Group</a></li>
@@ -60,7 +60,7 @@
 							<li><a href="admin-add-meeting.html">Add New Meeting</a></li>
 						</ul>
 				    </li>
-				    <li><a  href="admin-request.html"><i class="fa fa-fire"></i>Issue</a></li>
+				    <li><a class="active" href="admin-issue.html"><i class="fa fa-fire"></i>Issue</a></li>
 				    <li><a class="nav-profile" data-toggle="modal" data-target="#myModal3"href=""><i class="fa fa-user"></i>Profile</a></li>
 				</ul>
 			</div>
@@ -298,96 +298,10 @@
 			</div>
 			<div class="admin-right">
 				<div class="bars"><i class="fa fa-bars" onclick="openmenu()"></i></div>
-				    <div id="dashboard" >
-				    	<h3>DASHBOARD</h3>
-				    	<div class="statistic full">
-				    		<div class="row">
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				    				<div class="cell student full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/reading.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">12</p>
-						      					<p class="labels">Student</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				    				<div class="cell tutor full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/tutor.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">12</p>
-						      					<p class="labels">Tutor</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-				    				<div class="cell issue full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/discuss-issue.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">12</p>
-						      					<p class="labels">Issue</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-				    				<div class="cell group full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/network.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">4</p>
-						      					<p class="labels">Group</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" >
-				    				<div class="cell meeting full">
-						      			<div class="main-statistic">
-						      				<div class="left">
-						      					<img src="images/discussion.png" alt="">
-						      				</div>
-						      				<div class="right">
-						      					<p class="number">4</p>
-						      					<p class="labels">Meeting</p>
-						      				</div>
-						      			</div>
-						      			<div class="view-detail full">
-						      				<a href="">View Detail <i class="fa fa-arrow-circle-right"></i></a>
-						      			</div>
-						      		</div>
-				    			</div>
-				    		</div>
-				      	</div>
-				      	<div class="chart full">
-				      		<div id="chartdiv"></div>
-				      	</div>
-
+				    <div id="issue" >
+				    	<h3>ISSUE</h3>
+						<button class="create-issue">Create New Issue</button>
+						
 				    </div>
 				    
 			</div>	

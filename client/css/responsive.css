@@ -17,6 +17,9 @@
 	header{
 		margin-bottom: 0;
 	}
+	.container{
+		padding: 0 15px;
+	}
 	.header-center{
 		text-align: center;
 	}
@@ -98,6 +101,25 @@
 	#add_entry{
 		height:500px;
 	}
+	.list-tutor, .dashboard-list, .recently-activity, .list-meeting, .list-issue, .create-form, .student-profile{
+		padding-right: 0;
+	}
+	.create-form textarea{
+		width: 100%;
+	}
+	.sidebar-right{
+		padding:0 15px;
+	}
+	.create-form .upload__files1{
+		padding-bottom: 10px;
+	}
+	.create-form .upload__files1 .preview1{
+		margin: 10px 0 0 10px;
+		width: 31%;
+	}
+	.left-card {
+		margin: 0 0 15px 0;
+	}
 
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -160,7 +182,16 @@
 	.entry_details {
 		height: 280px;
 	}
-	
+	.create-form textarea{
+		width: 100%;
+	}
+	.create-form .upload__files1 .preview1{
+		width: 30%;
+		margin: 10px 0 0 10px;
+	}
+	.left-card {
+		margin: 0 0 15px 0;
+	}
     
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
@@ -188,15 +219,24 @@
 	.entry_details{
 		height: 280px;
 	}
+	.create-form .upload__files1{
+		padding-bottom: 10px;
+	}
+	.create-form .upload__files1 .preview1{
+		margin: 10px 0 0 10px;
+	}
 }	
 @media screen and (min-width: 1200px) {
 	.container {
-    	width: 1300px;
+    	width: 1400px;
  	}
 }
 @media screen and (max-width:480px) {
 	header{
 		margin-top: -20px;
+	}
+	.container{
+		padding:0 15px;
 	}
 	.header-up span{
 		margin-left: 15px;
@@ -280,9 +320,12 @@
 	#chat-messages label{
 		width: 100%;
 	}
+	#app{
+		padding: 0 10px;
+	}
 	/*admin*/
 	.header-up .login-admin{
-		width: 46%;
+		width: 60%;
 	}
 	.header-up .login-admin ul{
 		padding-left: 0px;
@@ -292,7 +335,7 @@
 		margin-right: 10px;
 	}
 	.header-up .login-admin .fa-caret-down{
-		margin-left: 0;
+		margin-left: 5px;
 	}
 	.header-up .login-admin #drop-logout{
 		padding-left: 10px;
@@ -340,6 +383,24 @@
 	#entries{
 		max-width: 100%;
 	}
-
+	.create-form textarea{
+		width: 100%;
+	}
+	.list-tutor, .dashboard-list, .recently-activity, .list-meeting, .list-issue, .create-form, .student-profile{
+		padding-right: 0;
+	}
+	.sidebar-right{
+		padding:0 10px;
+	}
+	.create-form .upload__files1{
+		padding-bottom: 10px;
+	}
+	.create-form .upload__files1 .preview1{
+		width: 45%;
+		margin: 10px 0 0 13px;
+	}
+	.left-card{
+		margin: 0 0 15px 0;
+	}
 
 }
