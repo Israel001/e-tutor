@@ -35,6 +35,8 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+    
     $(function () {
         $('#btn-next').attr("disabled", true);
 

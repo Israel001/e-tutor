@@ -69,27 +69,32 @@ var inp;
 var fileTemp;
 (function($) {  
   function createPdfPreview(fileContents, $displayElement) {
-    PDFJS.getDocument(fileContents).then(function(pdf) {
-      pdf.getPage(1).then(function(page) {
-        var $previewContainer = $displayElement.find('.preview__thumb');
-        var canvas = $previewContainer.find('canvas')[0];
-        canvas.height = $previewContainer.innerHeight();
-        canvas.width = $previewContainer.innerWidth();
+	// PDFJS.disableWorker = true;
+    // PDFJS.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.7.365/pdf.worker.min.js';
+    // PDFJS.getDocument(fileContents).then(function(pdf) {
+      // pdf.getPage(1).then(function(page) {
+        // var $previewContainer = $displayElement.find('.preview__thumb');
+        // var canvas = $previewContainer.find('canvas')[0];
+		// var img = $previewContainer.find('img')[0];
+		// console.log(img);
+        // canvas.height = $previewContainer.innerHeight();
+        // canvas.width = $previewContainer.innerWidth();
 
-        var viewport = page.getViewport(1);
-        var scaleX = canvas.width / viewport.width;
-        var scaleY = canvas.height / viewport.height;
-        var scale = (scaleX < scaleY) ? scaleX : scaleY;
-        var scaledViewport = page.getViewport(scale);
+        // var viewport = page.getViewport(1);
+        // var scaleX = canvas.width / viewport.width;
+        // var scaleY = canvas.height / viewport.height;
+        // var scale = (scaleX < scaleY) ? scaleX : scaleY;
+        // var scaledViewport = page.getViewport(scale);
 
-        var context = canvas.getContext('2d');
-        var renderContext = {
-          canvasContext: context,
-          viewport: scaledViewport
-        };
-        page.render(renderContext);
-      });
-    });
+        // var context = canvas.getContext('2d');
+		// context.drawImage(img, 0, 0);
+        // var renderContext = {
+          // canvasContext: context,
+          // viewport: scaledViewport
+        // };
+        // page.render(renderContext);
+      // });
+    // });
   }
   
   
@@ -107,10 +112,11 @@ var fileTemp;
       case 'video/mp4':
       case 'video/webm':
       case 'video/ogg':
-        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"></video>');
+        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '" '+  'data-id="preview_' + id + '" ></video>');
         break;
       case 'application/pdf':
-        $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
+		$previewElement = $('<img src="./images/pdf.png" data-id="preview_' + id + '" />');
+		// $previewElement = $('<canvas id="" width="100%" height="100%"' +  'data-id="preview_' + id + '"></canvas>');
         break;
       default:
         break;
@@ -126,9 +132,9 @@ var fileTemp;
     $displayElement.find('.preview__thumb').append($previewElement);
     $('.upload__files').append($displayElement);
     
-    if (file.type === 'application/pdf') {
-      createPdfPreview(fileContents, $displayElement);
-    }
+    // if (file.type === 'application/pdf') {
+      // createPdfPreview(fileContents, $displayElement);
+    // }
   }
   
   
@@ -140,6 +146,7 @@ var fileTemp;
     var fileList = e.target.files;
   inp = e.target;
   if (inp.id == 'file'){
+	delete AttachmentArray;
     if (fileList.length > 0) {
       $('.upload__files').html('');
       
@@ -186,7 +193,14 @@ jQuery(function ($) {
             $('div').on('click', '.preview__item .closes', function (e) {
         e.preventDefault();
                 var id = $(this).closest('.preview__item').find('img').data('id');
-
+				if(id == null){
+					id = $(this).closest('.preview__item').find('canvas').data('id');
+				}
+				if(id == null){
+					id = $(this).closest('.preview__item').find('video').data('id');
+				}	
+					
+					
                 //to remove the deleted item from array
                  // var elementPos = AttachmentArray.map(function (x) { return x.FileName; }).indexOf(id);
                  // if (elementPos !== -1) {
@@ -197,10 +211,6 @@ jQuery(function ($) {
           if (AttachmentArray[i].Id === id)
           AttachmentArray.splice(i, 1);
         }
-                // console.log(AttachmentArray);
-
-             
-
                 //to remove image tag
                 $(this).parent().find('img').not().remove();
 
@@ -551,7 +561,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
         $("#entry_title").val("");
         // $("#all-day").prop('checked', false); // unchecks checkbox
         // $("#not-all-day").css('display', 'block');
-        // $("#enter_hour").val("");
+        $("#entry_hour").val("");
         $("#entry_description").val("");
         // $("#entry_note").val("");
         // reset entry colors
@@ -584,6 +594,9 @@ var Calendar = React.createClass({ displayName: "Calendar",
       //   $(".duration").css('background', '#F7E8E8');
       //   return 0;
       // }
+      if ($("#entry_hour").val()) {
+        var entryHour = $("#entry_hour").val();
+      } else {var entryHour = "";}
       if ($("#entry_description").val()) {
         var entryDescription = $("#entry_description").val();
       } else {var entryDescription = "";}
@@ -593,7 +606,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
 
       
       
-      var entry = { entryName, entryDate, entryTime, entryDescription};
+      var entry = { entryName, entryDate, entryTime, entryHour ,entryDescription};
       this.state.entries.splice(0, 0, entry);
 
       // clean and close entry page
@@ -605,7 +618,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
       $("#entry_title").val("");
       // $("#all-day").prop('checked', false); // unchecks checkbox
       // $("#not-all-day").css('display', 'block');
-      // $("#enter_hour").val("");
+      $("#entry_hour").val("");
       $("#entry_description").val("");
       // $("#entry_note").val("");
       // reset entry colors
@@ -627,7 +640,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
     $("#entry_title").val("");
     // $("#all-day").prop('checked', false); // unchecks checkbox
     // $("#not-all-day").css('display', 'block');
-    // $("#enter_hour").val("");
+    $("#entry_hour").val("");
     $("#entry_description").val("");
     return this.setState({ entries: this.state.entries });
   },
@@ -754,6 +767,9 @@ var Calendar = React.createClass({ displayName: "Calendar",
       React.createElement("label", {},"Title"),
       React.createElement("input", { type:"text", id:"entry_title" })),  
 
+      React.createElement("div", { className: "entry_info" },
+      React.createElement("label", {},"Time"),
+      React.createElement("input", { type:"text", id:"entry_hour" })),
       // React.createElement("div", { className: "entry_info first" },
       // React.createElement("i", { className: "fa fa-image", "aria-hidden": "true" }),
       // React.createElement("input", { type: "file", name: "entry-img", id: "entry-img", onChange: e => this.handleImage(e) }),
@@ -775,6 +791,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
 
       React.createElement("div", { className: "entry_info3" },
       React.createElement("label", {},"Select members"),
+      
       React.createElement("select",{id:"select-member"},
         [
           React.createElement("option",{},"-------"),
@@ -814,9 +831,9 @@ var Calendar = React.createClass({ displayName: "Calendar",
 
       ),
 
-      // React.createElement("div", { className: "entry openedEntry" }, React.createElement("div", null,
-      // React.createElement("i", { className: "fa fa-map-marker", "aria-hidden": "true" }), " ", this.state.openEntry.entryLocation ? this.state.openEntry.entryLocation : React.createElement("span", null, "No location"))),
-
+      React.createElement("div", { className: "entry openedEntry noteDiv" }, React.createElement("div", null,
+      React.createElement("i", { className: "fa fa-clock-o", "aria-hidden": "true" }), " ", this.state.openEntry.entryHour ? React.createElement("span", { id: "note" }, this.state.openEntry.entryHour) : React.createElement("span", null, "No Hour"))),
+      
       React.createElement("div", { className: "entry openedEntry noteDiv" }, React.createElement("div", null,
       React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }), " ", this.state.openEntry.entryDescription ? React.createElement("span", { id: "note" }, this.state.openEntry.entryDescription) : React.createElement("span", null, "No description")))) :
 
@@ -1030,27 +1047,27 @@ var inp1;
 var fileTemp1;
 (function($) {  
   function createPdfPreview1(fileContents, $displayElement) {
-    PDFJS.getDocument(fileContents).then(function(pdf) {
-      pdf.getPage(1).then(function(page) {
-        var $previewContainer = $displayElement.find('.preview__thumb1');
-        var canvas = $previewContainer.find('canvas')[0];
-        canvas.height = $previewContainer.innerHeight();
-        canvas.width = $previewContainer.innerWidth();
+    // PDFJS.getDocument(fileContents).then(function(pdf) {
+      // pdf.getPage(1).then(function(page) {
+        // var $previewContainer = $displayElement.find('.preview__thumb1');
+        // var canvas = $previewContainer.find('canvas')[0];
+        // canvas.height = $previewContainer.innerHeight();
+        // canvas.width = $previewContainer.innerWidth();
 
-        var viewport = page.getViewport(1);
-        var scaleX = canvas.width / viewport.width;
-        var scaleY = canvas.height / viewport.height;
-        var scale = (scaleX < scaleY) ? scaleX : scaleY;
-        var scaledViewport = page.getViewport(scale);
+        // var viewport = page.getViewport(1);
+        // var scaleX = canvas.width / viewport.width;
+        // var scaleY = canvas.height / viewport.height;
+        // var scale = (scaleX < scaleY) ? scaleX : scaleY;
+        // var scaledViewport = page.getViewport(scale);
 
-        var context = canvas.getContext('2d');
-        var renderContext = {
-          canvasContext: context,
-          viewport: scaledViewport
-        };
-        page.render(renderContext);
-      });
-    });
+        // var context = canvas.getContext('2d');
+        // var renderContext = {
+          // canvasContext: context,
+          // viewport: scaledViewport
+        // };
+        // page.render(renderContext);
+      // });
+    // });
   }
   
   
@@ -1068,10 +1085,10 @@ var fileTemp1;
       case 'video/mp4':
       case 'video/webm':
       case 'video/ogg':
-        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"></video>');
+        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"' +  'data-id="preview_' + id + '></video>');
         break;
       case 'application/pdf':
-        $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
+        $previewElement = $('<canvas id="" width="100%" height="100%"' +  'data-id="preview_' + id + '></canvas>');
         break;
       default:
         break;
@@ -1104,6 +1121,7 @@ var fileTemp1;
     console.log('Handle1 ' + inp1.id );
     if (inp1.id == 'inputFile'){
     if (fileList.length > 0) {
+		delete AttachmentArray1;
       $('.upload__files1').html('');
       
       for (var i = 0; i < fileList.length; i++) {
@@ -1162,8 +1180,7 @@ jQuery(function ($) {
         }
                 // console.log(AttachmentArray1);
 
-             
-
+				
                 //to remove image tag
                 $(this).parent().find('img').not().remove();
 

@@ -60,7 +60,12 @@
 							<li><a href="admin-add-meeting.html">Add New Meeting</a></li>
 						</ul>
 				    </li>
-				    <li><a  href="admin-request.html"><i class="fa fa-fire"></i>Issue</a></li>
+				    <li><a data-toggle="collapse" class="unactive" href="#child-menu3" ><i class="fa fa-fire"></i>Issue<span class="caret"></span></a>
+						<ul id="child-menu3" class="panel-collapse collapse">
+							<li><a  href="admin-all-issue.html">View Issue</a></li>
+							<li><a href="admin-add-issue.html">Add New Issue</a></li>
+						</ul>
+				    </li>
 				    <li><a class="nav-profile" data-toggle="modal" data-target="#myModal3"href=""><i class="fa fa-user"></i>Profile</a></li>
 				</ul>
 			</div>
@@ -249,6 +254,7 @@
 					     			<td>aaaaaaaaa</td>
 					     			<td>aaaaaaaaaa</td>
 					     			<td>aaaaaaaaaaa</td>
+					     			<td><a class="view" data-toggle="modal" data-target="#myModal3"href=""><i class="fa fa-eye"></i>View</a></td>
 					     		</tr>
 					     	</table>
 					    </div>

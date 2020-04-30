@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Issue - Etutor</title>
+	<title>Edit Issue - Etutor</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
 					<li>
 						<a data-toggle=collapse href="#drop-logout">Severus Snape <i class="fa fa-caret-down"></i></a>
 						<ul id="drop-logout" class="panel-collapse collapse">
-							<li><a href="index.html"><i class="fa fa-power-off"></i>Log Out</a></li>
+							<li><a href=""><i class="fa fa-power-off"></i>Log Out</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -76,22 +76,64 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
-						<div class="list-issue full">
-							<div class="button-issue full">
-								<a href="" class="create-issue">Create New Issue</a>
-							</div>
+						<div class="create-form full">
 							<div class=" label-dashboard">
-								<h3><i class="fa fa-bars"></i>Your Issue</h3>
+								<h3><i class="fa fa-bars"></i>Edit Issue</h3>
 							</div>
-							<div class="issue-info full">
-								<p>Title: Issue Title</p>
-								<p>Description: Issue  Description</p>
-								<p>Files Attached: <a href="">image.png</a>, <a href="">issue.docx</a>, <a href="">issue.pdf</a></p>
-								<p>Participants:  Tutor 1, Tutor 2</p>
-								<a class="direct-issue" href=""><i class="fa fa-angle-right"></i></a>
-								<a href="" class="edit-issue"><i class="fa fa-edit"></i>Edit</a>
-								<a href="" class="remove-issue"><i class="fa fa-trash"></i>Delete</a>
-							</div>
+							<form action="">
+								<label>Title</label><br>
+								<input type="text" required="required"><br>
+								<label>Description </label> <br>
+								<textarea name="" id="" cols="50" rows="10"></textarea><br>
+								<label>Select File</label>
+								<input type="file" id="inputFile" class="upload__input" multiple accept="image/jpeg, image/png, image/gif, .pdf" required>
+					     		<div class="upload__files1">
+										
+								</div>
+								<div class="full">
+									<a class="select-people" data-toggle="modal" data-target="#myModal1"href="">Select Participants
+									</a>
+								</div>
+								<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								   	<div class="modal-dialog">
+								      	<div class="modal-content">
+								         	<div class="modal-header">
+								            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								            	<h4 class="modal-title" id="myModalLabel">Select Participants</h4>
+								         	</div>
+								         	<div class="modal-body full">
+								            	<div class="profile-tutor full">
+								            		<div class="t-name">
+								            			Donald Trump
+								            		</div>
+								            		<div class="t-image">
+								            			<img src="images/user.jpg" alt="">
+								            		</div>
+								            		<div class="t-select">
+								            			<input type="checkbox"  class="chk">
+								            		</div>
+								            	</div>
+								            	<div class="profile-tutor full">
+								            		<div class="t-name">
+								            			Donald Trump
+								            		</div>
+								            		<div class="t-image">
+								            			<img src="images/user.jpg" alt="">
+								            		</div>
+								            		<div class="t-select">
+								            			<input type="checkbox" class="chk">
+								            		</div>
+								            	</div>
+								         	</div>
+								         	<div class="modal-footer full">
+								            	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+								            	<button type="button" class="btn btn-default btn-next" >OK</button>
+								         	</div>
+								      	</div>
+								   	</div>
+								</div>
+								<button class="btn-create-issue">Edit Issue</button>
+							</form>
 							
 						</div>	
 					</div>	

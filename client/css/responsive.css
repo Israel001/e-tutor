@@ -120,9 +120,18 @@
 	.left-card {
 		margin: 0 0 15px 0;
 	}
+	.overlay p{
+		margin-top: 30%;
+	}
+	#add-issue textarea{
+		width: 100%;
+	}
 
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
+	.container{
+		width: 100%;
+	}
 	.header-center img{
 		width: 25%;
 		margin: 15px 0 10px 35px;
@@ -182,6 +191,16 @@
 	.entry_details {
 		height: 280px;
 	}
+
+	.entry_img{
+		height: 200px;
+	}
+	.overlay{
+		height: 200px;
+	}
+	.overlay p{
+		margin-top: 30%;
+	}
 	.create-form textarea{
 		width: 100%;
 	}
@@ -192,9 +211,15 @@
 	.left-card {
 		margin: 0 0 15px 0;
 	}
+	#add-issue textarea{
+		width: 100%;
+	}
     
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
+	.container{
+		width: 100%;
+	}
 	.header-center img{
 		width: 20%;
 		margin: 25px 0 25px 35px;
@@ -219,6 +244,16 @@
 	.entry_details{
 		height: 280px;
 	}
+	.entry_img{
+		height: 200px;
+	}
+	.overlay{
+		height: 200px;
+	}
+
+	.overlay p{
+		margin-top: 30%;
+	}
 	.create-form .upload__files1{
 		padding-bottom: 10px;
 	}
@@ -226,9 +261,14 @@
 		margin: 10px 0 0 10px;
 	}
 }	
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1400px) {
 	.container {
     	width: 1400px;
+ 	}
+}
+@media screen and (min-width: 1200px) {
+	.container {
+    	width: 1180px;
  	}
 }
 @media screen and (max-width:480px) {
@@ -401,6 +441,9 @@
 	}
 	.left-card{
 		margin: 0 0 15px 0;
+	}
+	#add-issue textarea{
+		width: 100%;
 	}
 
 }
