@@ -1836,6 +1836,7 @@ button.float .ink-visual {
 	background: #00b3a1;
 	padding: 10px 20px;
 	border-radius: 5px;
+	color: #fff;
 }
 .sidebar-right .label-dashboard h3{
 	margin-top: 36px;
@@ -1862,6 +1863,7 @@ button.float .ink-visual {
 	float: left;
 	border-radius: 10px;
 	text-decoration: none;
+	color: #fff;
 }
 .button-issue a:hover{
 	background: #f7941d;
@@ -1964,10 +1966,14 @@ button.float .ink-visual {
 .issue-detail .header-issue .author{
 	font-size: 16px;
 }
-.issue-detail .content-issue .description-issue, .issue-detail .content-issue .list-file{
+.issue-detail .content-issue .description-issue, 
+.issue-detail .content-issue .list-file{
 	position: relative;
+	padding-bottom: 15px;
 }
-.issue-detail .content-issue .description-issue span, .issue-detail .content-issue .list-file span{
+.issue-detail .content-issue .description-issue span, 
+.issue-detail .content-issue .list-file span,
+{
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -2137,4 +2143,68 @@ button.float .ink-visual {
 #myModal6 input[type = checkbox]{
 	display: block;
 	margin-top: 50%;
+}
+/*blog*/
+.create-form .upload-blog{
+	width: 200px;
+	padding: 5px;
+}
+.create-form .upload-blog .preview1{
+	width: 100%;
+	margin: 0;
+}
+.search-blog{
+	margin-top: 30px;
+}
+.search-blog input{
+	height: 30px; 
+	width: 300px;
+	padding-left: 10px;
+	border-radius: 5px;
+	border: 1px solid #8a8686;
+
+}
+.search-blog button{
+	background:none;
+	border: 1px solid #8a8686;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 5px;
+}
+.cover-blog{
+	width: 100%;
+	padding: 15px;
+}
+.cover-blog img{
+	width: 100%;
+}
+.read-more{
+	padding: 10px 15px;
+	background-color: #00b3a1;
+	color: #fff !important; 
+	margin-left: 15px;
+	border-radius: 5px;
+}
+.read-more i{
+	margin-left: 5px;
+	font-size: 18px;
+}
+.img-cover{
+	text-align: center;
+	margin-bottom: 20px;
+}
+.img-cover img{
+	width: 80%;
+}
+.issue-detail .content-issue .description-issue .dislike{
+	position: absolute;
+	right:0;
+	bottom: 0;
+	font-size: 20px;
+}
+.issue-detail .content-issue .description-issue .like{
+	position: absolute;
+	right:60px;
+	bottom: 0;
+	font-size: 20px;
 }

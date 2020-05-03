@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Issue Detail - Etutor</title>
+	<title>Create Blog - Etutor</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
@@ -78,116 +78,22 @@
 					<div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
 						<div class="create-form full">
 							<div class=" label-dashboard">
-								<h3><i class="fa fa-bars"></i> Issue Detail</h3>
+								<h3><i class="fa fa-bars"></i>Create New Blog</h3>
 							</div>
-							<div class="issue-detail full">
-								<div class="header-issue full">
-									<p class="title">Title Issue</p>
-									<p class="author">Author</p>
-									<p>Date: 14/04/2020 <i class="fa fa-clock-o"></i>20:00</p>
-								</div>
-								<div class="content-issue full">
-									
-									<div class="description-issue full">
-										<span><i class="fa fa-clock-o"></i>19:30</span>
-										<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
-										<p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
-									</div>
-									<div class="list-file full">
-										<span><i class="fa fa-clock-o"></i>19:30</span>
-										<div class="file-item">
-											<a href="" data-toggle="modal" data-target="#myModal1">
-												<div class="item-thumb">
-													<img src="images/tutor.jpg" alt="">
-												</div>
-											</a>
-										</div>
-										<div class="file-item">
-											<a href="" data-toggle="modal" data-target="#myModal2">
-												<div class="item-thumb document-pdf">
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-								<div class="full">
-									<h3> Comments</h3>
-								</div>
-								<div class="comment-issue full">
-									<div class="cmt-content full">
-										<div class="img-cmt">
-											<img src="images/user.jpg" alt="">
-										</div>
-										<div class="cmt-right">
-											<div class="user-cmt">
-												<p>Donald Trump</p>
-												<p>24/04/2020</p>
-											</div>
-											<div class="content">
-												<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
-											</div>
-											<a href="" class="edit-cmt"><i class="fa fa-edit"></i>Edit</a>
-											<a href="" class="remove-cmt"><i class="fa fa-trash"></i>Delete</a>
-										</div>
-									</div>
-									<div class="cmt-content full">
-										<div class="img-cmt">
-											<img src="images/user.jpg" alt="">
-										</div>
-										<div class="cmt-right">
-											<div class="user-cmt">
-												<p>Donald Trump</p>
-												<p>24/04/2020</p>
-											</div>
-											<div class="content">
-												<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
-											</div>
-											<a href="" class="edit-cmt"><i class="fa fa-edit"></i>Edit</a>
-											<a href="" class="remove-cmt"><i class="fa fa-trash"></i>Delete</a>
-										</div>
-									</div>
-									<div class="full">
-										<h3> Leave Comment</h3>
-									</div>
-									<form action="">
-										<textarea name="" id="" cols="50" rows="7" placeholder="Comment..."></textarea><br>
+							<form action="">
+								<label>Title</label><br>
+								<input type="text" required="required"><br>
+								<label>Category</label><br>
+								<input type="text" required="required"><br>
+								<label>Content </label> <br>
+								<textarea name="" id="area1" cols="50" rows="10"></textarea><br>
+								<label>Select Cover Blog</label>
+								<input type="file" id="inputFile" class="upload__input"  accept="image/jpeg, image/png, image/gif" required>
+					     		<div class="upload__files1 upload-blog">
 										
-										<button class="btn-create-issue">Submit</button>
-									</form>
 								</div>
-								<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								   	<div class="modal-dialog">
-								      	<div class="modal-content">
-								         	<div class="modal-header">
-								            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								            	<h4 class="modal-title" id="myModalLabel"></h4>
-								         	</div>
-								         	<div class="modal-body full">
-								            	<img src="images/tutor.jpg" alt="">
-								         	</div>
-								      	</div>
-								   	</div>
-								</div>
-								<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								   	<div class="modal-dialog">
-								      	<div class="modal-content">
-								         	<div class="modal-header">
-								            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								            	<h4 class="modal-title" id="myModalLabel"></h4>
-								         	</div>
-								         	<div class="modal-body full">
-								            	<div class="btn-download">
-								            		<a href=""><i class="fa fa-download"></i>Dowload</a>
-								            	</div>
-								            	<div class="file-document">
-								            		<img src="images/pdf.png" alt="">
-								            	</div>
-								         	</div>
-								      	</div>
-								   	</div>
-								</div>
-							</div>
-							
+								<button class="btn-create-issue">Create New Blog</button>
+							</form>
 							
 						</div>	
 					</div>	
@@ -424,5 +330,11 @@
 	<script src="js/text.js"></script>
 	<script src="js/jquery.mmenu.all.js"></script>
 	<script src="js/custom.js"></script>
+	<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+	<script type="text/javascript">
+        bkLib.onDomLoaded(function() {
+             new nicEditor().panelInstance('area1');
+        }); // Thay thế text area có id là area1 trở thành WYSIWYG editor sử dụng nicEditor
+	</script>
 </body>
 </html>

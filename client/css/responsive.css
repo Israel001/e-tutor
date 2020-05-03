@@ -126,6 +126,13 @@
 	#add-issue textarea{
 		width: 100%;
 	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		margin: 0px;
+		width: 100%;
+	}
 
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -214,6 +221,13 @@
 	#add-issue textarea{
 		width: 100%;
 	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		width: 100%;
+		margin: 0;
+	}
     
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
@@ -259,6 +273,12 @@
 	}
 	.create-form .upload__files1 .preview1{
 		margin: 10px 0 0 10px;
+	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		margin: 0;
 	}
 }	
 @media screen and (min-width: 1400px) {
@@ -445,5 +465,17 @@
 	#add-issue textarea{
 		width: 100%;
 	}
-
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		width: 100%;
+		margin: 0;
+	}
+	.search-blog{
+		text-align: center;
+	}
+	.search-blog input{
+		width: 80%;
+	}
 }
