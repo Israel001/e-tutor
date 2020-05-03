@@ -131,7 +131,8 @@ var fileTemp1;
         $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"></video>');
         break;
       case 'application/pdf':
-        $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
+	  $previewElement = $('<img src="./images/pdf.png" data-id="preview1_' + id + '" />');
+        // $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
         break;
       default:
         break;
@@ -147,9 +148,9 @@ var fileTemp1;
     $displayElement.find('.preview__thumb1').append($previewElement);
     $('.upload__files1').append($displayElement);
     
-    if (file.type === 'application/pdf') {
-      createPdfPreview(fileContents, $displayElement);
-    }
+    // if (file.type === 'application/pdf') {
+      // createPdfPreview(fileContents, $displayElement);
+    // }
   }
   
   
@@ -161,9 +162,9 @@ var fileTemp1;
     var fileList = e.target.files;
     
     inp1 = e.target;
-    console.log('Handle1 ' + inp1.id );
-    if (inp1.id == 'fileInput'){
+    if (inp1.id === 'fileInput'){
     if (fileList.length > 0) {
+		delete AttachmentArray1;
       $('.upload__files1').html('');
       
       for (var i = 0; i < fileList.length; i++) {
@@ -209,13 +210,18 @@ jQuery(function ($) {
             $('div').on('click', '.preview__item1 .closes', function (e) {
         e.preventDefault();
                 var id = $(this).closest('.preview__item1').find('img').data('id');
+				if(id == null){
+					id = $(this).closest('.preview__item1').find('canvas').data('id');
+				}
+				if(id == null){
+					id = $(this).closest('.preview__item1').find('video').data('id');
+				}	
 
                 //to remove the deleted item from array
                  // var elementPos = AttachmentArray1.map(function (x) { return x.FileName; }).indexOf(id);
                  // if (elementPos !== -1) {
                      // AttachmentArray1.splice(elementPos, 1);
                  // }
-         
         for (var i = 0; i < AttachmentArray1.length; ++i) {
           if (AttachmentArray1[i].Id === id)
           AttachmentArray1.splice(i, 1);
@@ -242,7 +248,7 @@ jQuery(function ($) {
         }
         
         inp1.files = dt.files;
-        fileTemp1 = inp.files;
+        fileTemp1 = inp1.files;
         arrCounter1 = arrCounter1 - 1;
               });
         });

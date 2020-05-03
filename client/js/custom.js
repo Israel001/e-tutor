@@ -769,7 +769,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
 
       React.createElement("div", { className: "entry_info" },
       React.createElement("label", {},"Time"),
-      React.createElement("input", { type:"text", id:"entry_hour" })),
+      React.createElement("input", { type:"datetime-local", id:"entry_hour" })),
       // React.createElement("div", { className: "entry_info first" },
       // React.createElement("i", { className: "fa fa-image", "aria-hidden": "true" }),
       // React.createElement("input", { type: "file", name: "entry-img", id: "entry-img", onChange: e => this.handleImage(e) }),
@@ -792,9 +792,10 @@ var Calendar = React.createClass({ displayName: "Calendar",
       React.createElement("div", { className: "entry_info3" },
       React.createElement("label", {},"Select members"),
       
-      React.createElement("select",{id:"select-member"},
+      React.createElement("select",{id:"select-member", multiple: "true"},
         [
-          React.createElement("option",{},"-------"),
+          React.createElement("option",{},"Harry Potter"),
+          React.createElement("option",{},"Hermione Granger"),
           React.createElement("option",{},"Harry Potter"),
           React.createElement("option",{},"Hermione Granger"),
         ])),
@@ -1088,7 +1089,8 @@ var fileTemp1;
         $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"' +  'data-id="preview_' + id + '></video>');
         break;
       case 'application/pdf':
-        $previewElement = $('<canvas id="" width="100%" height="100%"' +  'data-id="preview_' + id + '></canvas>');
+	  $previewElement = $('<img src="./images/pdf.png" data-id="preview1_' + id + '" />');
+        // $previewElement = $('<canvas id="" width="100%" height="100%"' +  'data-id="preview_' + id + '></canvas>'); //Tuan 03.05.2020
         break;
       default:
         break;
@@ -1104,9 +1106,9 @@ var fileTemp1;
     $displayElement.find('.preview__thumb1').append($previewElement);
     $('.upload__files1').append($displayElement);
     
-    if (file.type === 'application/pdf') {
-      createPdfPreview(fileContents, $displayElement);
-    }
+    // if (file.type === 'application/pdf') {
+      // createPdfPreview(fileContents, $displayElement);
+    // }
   }
   
   
@@ -1166,8 +1168,14 @@ var fileTemp1;
 jQuery(function ($) {
             $('div').on('click', '.preview__item1 .closes', function (e) {
         e.preventDefault();
-                var id = $(this).closest('.preview__item1').find('img').data('id');
-
+                // var id = $(this).closest('.preview__item1').find('img').data('id');
+				var id = $(this).closest('.preview__item1').find('img').data('id');
+				if(id == null){
+					id = $(this).closest('.preview__item1').find('canvas').data('id');
+				}
+				if(id == null){
+					id = $(this).closest('.preview__item1').find('video').data('id');
+				}	
                 //to remove the deleted item from array
                  // var elementPos = AttachmentArray1.map(function (x) { return x.FileName; }).indexOf(id);
                  // if (elementPos !== -1) {
@@ -1199,7 +1207,7 @@ jQuery(function ($) {
         }
         
         inp1.files = dt.files;
-        fileTemp1 = inp.files;
+        fileTemp1 = inp1.files;
         arrCounter1 = arrCounter1 - 1;
               });
         });

@@ -138,7 +138,8 @@ var fileTemp;
         $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"></video>');
         break;
       case 'application/pdf':
-        $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
+	  $previewElement = $('<img src="./images/pdf.png" data-id="preview_' + id + '" />');
+        // $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
         break;
       default:
         break;
@@ -154,9 +155,9 @@ var fileTemp;
     $displayElement.find('.preview__thumb').append($previewElement);
     $('.upload__files').append($displayElement);
     
-    if (file.type === 'application/pdf') {
-      createPdfPreview(fileContents, $displayElement);
-    }
+    // if (file.type === 'application/pdf') {
+      // createPdfPreview(fileContents, $displayElement);
+    // }
   }
   
   
@@ -168,9 +169,11 @@ var fileTemp;
     var fileList = e.target.files;
     
   inp = e.target;
-  console.log('Handle ' + inp.id);
-  if (inp.id == 'file'){
+  
+  if (inp.id === 'file'){
+	  console.log('Handle ' + inp.id);
     if (fileList.length > 0) {
+		delete AttachmentArray;
       $('.upload__files').html('');
       
       for (var i = 0; i < fileList.length; i++) {
@@ -180,7 +183,7 @@ var fileTemp;
         FillAttachmentArray(file, i)
       }
     fileTemp = fileList;
-      console.log(AttachmentArray);
+      // console.log(AttachmentArray);
     } else {
     inp.files = fileTemp;
   }
@@ -214,9 +217,15 @@ var fileTemp;
 
 jQuery(function ($) {
             $('div').on('click', '.preview__item .closes', function (e) {
+				console.log(e);
         e.preventDefault();
                 var id = $(this).closest('.preview__item').find('img').data('id');
-
+				if(id == null){
+					id = $(this).closest('.preview__item').find('canvas').data('id');
+				}
+				if(id == null){
+					id = $(this).closest('.preview__item').find('video').data('id');
+				}	
                 //to remove the deleted item from array
                  // var elementPos = AttachmentArray.map(function (x) { return x.FileName; }).indexOf(id);
                  // if (elementPos !== -1) {
