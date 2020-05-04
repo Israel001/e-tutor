@@ -64,11 +64,12 @@ Array.prototype.filter.call(forms, form => {
         } else {
           let element = document.getElementById('auth-btn');
           element.attributes['href'] = 'javascript:void(0)';
-          document.getElementById('auth-btn').innerText = 'Log Out';
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('token', data.data.token);
           localStorage.setItem('userId', data.data.userId);
           localStorage.setItem('userRole', data.data.userRole);
+          localStorage.setItem('userName', data.data.userName);
+          localStorage.setItem('userPhoto', data.data.userPhoto);
           const remainingMilliseconds = 60 * 60 * 1000;
           const expiryDate = new Date(
             new Date().getTime() + remainingMilliseconds

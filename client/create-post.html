@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-Tutor</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link href="font/css/font-awesome.css" rel="stylesheet">
+    <link href="font/css/font-awesome.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=PT+Sans:400,70'>
+    <link rel="stylesheet" href="slick/slick-theme.css">
+    <link rel="stylesheet" href="slick/slick.css">
+    <link href="css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/jquery.mmenu.all.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/phone-zalo.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="shortcut icon" href="images/teacher.png">
+</head>
+<body>
+
+<header>
+    <div class="header-up full" id="header-up">
+        <span><a href="javascript:void(0);">E-Tutor</a></span>
+        <a href="login.html" id="auth-btn">Log In</a>
+    </div>
+    <div class="header-center full">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+            <div class="row">
+                <a href="#"><img src="images/teacher.png" alt=""></a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="search">
+                    <form action="">
+                        <input type="text" placeholder="Search...">
+                        <button><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-down full">
+        <div class="left">
+            <ul id="user-menu">
+                <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+                <li><a href="profile.html"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="blog-page.html" class="active-link"><i class="fa fa-paragraph"></i> Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="home-body full">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-8 col-sm-12">
+                <div class="create-form full">
+                    <div class=" label-dashboard">
+                        <h3><i class="fa fa-bars"></i>Create New Post</h3>
+                    </div>
+                    <form action="">
+                        <label>Title</label><br>
+                        <input type="text" required="required" id="post-title"><br>
+                        <label>Category</label><br>
+                        <input type="text" required="required" id="post-cat"><br>
+                        <label>Content </label> <br>
+                        <textarea name="" id="area1" cols="50" rows="10"></textarea><br>
+                        <label>Select Cover Photo</label>
+                        <input type="file" id="inputFile" class="upload__input"  accept="image/jpeg, image/png, image/gif" required>
+                        <div class="upload__files1 upload-blog">
+
+                        </div>
+                        <div id="create-post-btn-area">
+                            <button id="create-post-btn" class="btn-create-issue">Create New Post</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="">
+                    <div class="label-hp full">
+                        <h1>Calendar</h1>
+                    </div>
+                    <div id="app"></div>
+                </div>
+            </div>
+
+            <div id="chat-circle" class="btn btn-raised">
+                <div id="chat-overlay"></div>
+                <i class="fa fa-comment"></i>
+            </div>
+            <div class="chat-box">
+
+                <div class="chat-box-header">
+                    ChatBox
+                    <span class="chat-box-toggle"><i class="fa fa-times"></i></span>
+                </div>
+
+                <div id="friendslist">
+
+                    <div id="friends">
+                        <div id="groups" style="margin-top: 15px; margin-bottom: 15px;">
+                            <span id="groups-title" style="font-weight: bold; margin-left: 15px; display: block;">Groups</span>
+                        </div>
+                        <div id="private" style="margin-top: 15px; margin-bottom: 15px;">
+                            <span id="private-title" style="font-weight: bold; margin-left: 15px; display: block;">Private Conversations</span>
+                        </div>
+                    </div>
+                    <div id="search">
+                        <input type="text" id="searchfield" value="Search contacts..." />
+                    </div>
+
+                </div>
+
+                <div id="chatview" class="p1">
+                    <div id="profile">
+
+                        <div id="close">
+                            <div class="cy"></div>
+                            <div class="cx"></div>
+                        </div>
+
+                        <p>Miro Badev</p>
+                        <span>miro@badev@gmail.com</span>
+                    </div>
+                    <div id="chat-messages">
+                        <div class="message">
+                            <div class="chat-img">
+                                <img src="" alt="">
+                            </div>
+                            <div class="bubble">
+                                <a href="#"><i class="fa fa-file"></i>education.pdf</a>
+                                <div id="time-tool">13:00</div>
+                                <div class="remove-mes"><a href=""><i class="fa fa-trash"></i></a></div>
+                            </div>
+                        </div>
+                        <div class="message">
+                            <div class="chat-img">
+                                <img src="" alt="">
+                            </div>
+                            <div class="images">
+                                <a href="#"><img src="images/tutor.jpg" alt=""></a>
+                                <a href="#"><img src="images/tutor.jpg" alt=""></a>
+                                <a href="#"><img src="images/tutor.jpg" alt=""></a>
+                                <a href="#"><img src="images/tutor.jpg" alt=""></a>
+
+                                <div id="time-tool">13:00</div>
+                                <div class="remove-mes"><a href=""><i class="fa fa-trash"></i></a></div>
+                            </div>
+                        </div>
+                        <div class="upload__files">
+
+                        </div>
+                    </div>
+
+                    <div id="sendmessage">
+                        <textarea placeholder="Enter the message" id="send-message-input"></textarea>
+                        <input type="file" id="file" class="upload__input" name="myfile" multiple accept="image/jpeg, image/png, image/gif, .pdf"><br>
+                        <button id="send"></button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<footer>
+    <div class="copy-right full">
+        Copyright © 2020
+    </div>
+</footer>
+
+<script src="bootstrap/js/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/base.js"></script>
+<script src="js/auth-guard.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="slick/slick.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
+<script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src="js/wow.min.js"></script>
+<script src="js/text.js"></script>
+<script src="js/jquery.mmenu.all.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/moment.js"></script>
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+  bkLib.onDomLoaded(function() {
+    new nicEditor().panelInstance('area1');
+  }); // Thay thế text area có id là area1 trở thành WYSIWYG editor sử dụng nicEditor
+</script>
+<script src="js/create-post.js"></script>
+</body>
+</html>

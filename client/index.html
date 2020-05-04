@@ -22,8 +22,8 @@
 </head>
 <body>
 <header>
-	<div class="header-up full">
-		<span>E-Tutor</span>
+	<div class="header-up full" id="header-up">
+		<span><a href="javascript:void(0);">E-Tutor</a></span>
 		<a href="login.html" id="auth-btn">Log In</a>
 	</div>
 	<div class="header-center full">
@@ -46,20 +46,11 @@
 	<div class="header-down full">
 		<div class="left">
 			<ul id="user-menu">
-				<li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
-				<li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+				<li><a href="index.html" class="active-link"><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="dashboard.html"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+				<li><a href="profile.html"><i class="fa fa-user"></i> Profile</a></li>
+				<li><a href="blog-page.html"><i class="fa fa-paragraph"> Blog</i></a></li>
 			</ul>
-		</div>
-		<div class="right">
-			<div class="bell">
-
-				<i class="fa fa-bell"></i>Notifications
-			</div>
-
-			<div class="clearfix"></div>
-			<div class="notify">
-				<h3>Notifications</h3>
-			</div>
 		</div>
 	</div>
 </header>
@@ -70,7 +61,7 @@
 				<img src="images/banner.jpg" alt="">
 			</div>
 			<div class="img-banner">
-				<img src="images/banner.jpg" alt="">
+				<img src="images/socialbg.png" alt="">
 			</div>
 		</div>
 	</div>
@@ -88,7 +79,7 @@
 				</div>
 
 				<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-					<div class="row">
+					<div class="">
 						<div class="label-hp full">
 							<h1>Calendar</h1>
 						</div>
@@ -135,30 +126,6 @@
 							<span>miro@badev@gmail.com</span>
 						</div>
 						<div id="chat-messages">
-							<div class="message">
-								<div class="chat-img">
-									<img src="" alt="">
-								</div>
-								<div class="bubble">
-									<a href="#"><i class="fa fa-file"></i>education.pdf</a>
-									<div id="time-tool">13:00</div>
-									<div class="remove-mes"><a href=""><i class="fa fa-trash"></i></a></div>
-								</div>
-							</div>
-							<div class="message">
-								<div class="chat-img">
-									<img src="" alt="">
-								</div>
-								<div class="images">
-									<a href="#"><img src="images/tutor.jpg" alt=""></a>
-									<a href="#"><img src="images/tutor.jpg" alt=""></a>
-									<a href="#"><img src="images/tutor.jpg" alt=""></a>
-									<a href="#"><img src="images/tutor.jpg" alt=""></a>
-
-									<div id="time-tool">13:00</div>
-									<div class="remove-mes"><a href=""><i class="fa fa-trash"></i></a></div>
-								</div>
-							</div>
 							<div class="upload__files">
 
 							</div>
@@ -189,7 +156,12 @@
 
 <script src="bootstrap/js/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/base.js"></script>
+<script src="js/auth-guard.js"></script>
+<script src="js/chat.js"></script>
 <script src="js/index.js"></script>
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
@@ -202,7 +174,7 @@
 <script src="js/wow.min.js"></script>
 <script src="js/text.js"></script>
 <script src="js/jquery.mmenu.all.js"></script>
-<script src="js/custom.min.js"></script>
+<script src="js/custom.js"></script>
 <script src="js/moment.js"></script>
 </body>
 </html>

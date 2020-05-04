@@ -1,47 +1,63 @@
 window.addEventListener('load', async () => {
   try {
     let page = window.location.href.split('=')[1];
-    let meetingsResponse;
+    let issuesResponse;
     if (page) {
       page = parseInt(page);
-      meetingsResponse = await fetch(`${baseURL}/meetings?page=${page}`, {
+      issuesResponse = await fetch(`${baseURL}/meetings?page=${page}`, {
         method: 'GET',
         headers: {Authorization: `Bearer ${token}`}
       });
     } else {
-      meetingsResponse = await fetch(`${baseURL}/meetings`, {
+      issuesResponse = await fetch(`${baseURL}/issues`, {
         method: 'GET',
         headers: {Authorization: `Bearer ${token}`}
       });
     }
-    const meetingsData = await meetingsResponse.json();
-    document.getElementById('meetings-table').insertAdjacentHTML(
+    const issuesData = await issuesResponse.json();
+    document.getElementById('issues-table').insertAdjacentHTML(
       'beforeend',
       `<tr>
             <th>No</th>
             <th>Title</th>
-            <th>Organizer</th>
+            <th>Description</th>
+            <th>Author</th>
             <th>Date</th>
-            <th>Status</th>
           </tr>`
     );
     let index = page ? (page - 1) * 10 + 1 : 1;
-    for (let i = 0; i < meetingsData.data.length; i++) {
-      document.getElementById('meetings-table').insertAdjacentHTML(
+    for (let i = 0; i < issuesData.data.length; i++) {
+      document.getElementById('issues-table').insertAdjacentHTML(
         'beforeend',
         `
-          <tr>
+          <tr id="${issuesData.data[i]._id}">
             <td>${index}</td>
-            <td>${meetingsData.data[i].title.length > 50 ? meetingsData.data[i].title.substring(0,50)+'...' : meetingsData.data[i].title}</td>
-            <td><a id="meeting-organizer-${meetingsData.data[i].organizer._id}-${i}" href="" data-target="#myModal3" data-toggle="modal">${meetingsData.data[i].organizer.name}</a></td>
-            <td>${moment(meetingsData.data[i].date).format('MMMM Do YYYY, h:mm:ss a')}</td>
-            <td>${meetingsData.data[i].status}</td>
+            <td>${issuesData.data[i].title.length > 20 ? issuesData.data[i].title.substring(0,20)+'...' : issuesData.data[i].title}</td>
+            <td>${issuesData.data[i].description.length > 20 ? issuesData.data[i].description.substring(0,20)+'...' : issuesData.data[i].description}</td>
+            <td><a id="issue-author-${issuesData.data[i].creator._id}-${i}" href="" data-target="#myModal3" data-toggle="modal">${issuesData.data[i].creator.name}</a></td>
+            <td>${moment(issuesData.data[i].createdAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
+            <td><a class="view" href="issue-detail.html?id=${issuesData.data[i]._id}"><i class="fa fa-eye"></i>View</a></td>
+            <td><a class="edit" href="admin-edit-issue.html?id=${issuesData.data[i]._id}"><i class="fa fa-edit"></i>Edit</a></td>
+            <td><a class="remove" href="javascript:void(0);" id="delete-issue-${issuesData.data[i]._id}"><i class="fa fa-trash"></i>Delete</a></td>
           </tr>`
       );
       index += 1;
 
-      document.getElementById(`meeting-organizer-${meetingsData.data[i].organizer._id}-${i}`).addEventListener('click', async () => {
-        const userId = meetingsData.data[i].organizer._id;
+      document.getElementById(`delete-issue-${issuesData.data[i]._id}`).addEventListener('click', async () => {
+        const deleteIssueResponse = await fetch(`${baseURL}/issue/${issuesData.data[i]._id}/delete`, {
+          method: 'DELETE',
+          headers: {Authorization: `Bearer ${token}`}
+        });
+        if (deleteIssueResponse.status === 200) {
+          alert('Issue Deleted Successfully!');
+          document.getElementById(`${issuesData.data[i]._id}`).remove();
+        } else {
+          alert(deleteIssueResponse.message);
+        }
+      });
+
+      document.getElementById(`issue-author-${issuesData.data[i].creator._id}-${i}`).addEventListener('click', async () => {
+        const userId = issuesData.data[i].creator._id;
         if (!document.getElementById(`profile-card-${userId}`)) {
           document.getElementById('user-profile-info').innerHTML = '';
           const userResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
@@ -75,26 +91,26 @@ window.addEventListener('load', async () => {
         'beforeend',
         `<div class="pagination-page full"><ul class="pagination" id="pagination"></div>`
       );
-      let numPages = Math.floor(meetingsData.totalItems / 10);
-      if ((meetingsData.totalItems % 10) > 0) numPages += 1;
+      let numPages = Math.floor(issuesData.totalItems / 10);
+      if ((issuesData.totalItems % 10) > 0) numPages += 1;
       if (numPages > 1) {
         document.querySelector('#pagination').insertAdjacentHTML(
           'beforeend',
-          `<li class="page-item"><a style="cursor: pointer;" class="page-link" href="admin-all-meeting.html?page=1">First</a></li>`
+          `<li class="page-item"><a style="cursor: pointer;" class="page-link" href="admin-all-issue.html?page=1">First</a></li>`
         );
       }
       if (numPages > 1) {
         for (let i = 0; i < numPages; i++) {
           document.querySelector('#pagination').insertAdjacentHTML(
             'beforeend',
-            `<li class="${page ? page && page === i + 1 ? 'active' : '' : i + 1 === 1 ? 'active' : ''} page-item"><a style="cursor: pointer;" class="page-link" href="admin-all-meeting.html?page=${i+1}">${i + 1}</a>`
+            `<li class="${page ? page && page === i + 1 ? 'active' : '' : i + 1 === 1 ? 'active' : ''} page-item"><a style="cursor: pointer;" class="page-link" href="admin-all-issue.html?page=${i+1}">${i + 1}</a>`
           );
         }
       }
       if (numPages > 1) {
         document.querySelector('#pagination').insertAdjacentHTML(
           'beforeend',
-          `<li class="page-item"><a style="cursor: pointer;" class="page-link" href="admin-all-meeting.html?page=${numPages}">Last</a></li>`
+          `<li class="page-item"><a style="cursor: pointer;" class="page-link" href="admin-all-issue.html?page=${numPages}">Last</a></li>`
         );
       }
     }

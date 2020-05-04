@@ -1,4 +1,4 @@
-const baseURL = 'https://e-tutor-server.herokuapp.com';
+const baseURL = 'http://127.0.0.1:3000';
 const baseClientURL = 'https://e-tutor-client.herokuapp.com';
 const socket = io(baseURL);
 const groupIds = [];
@@ -23,6 +23,8 @@ let loggedIn = localStorage.getItem('loggedIn');
 const token = localStorage.getItem('token');
 const userId = localStorage.getItem('userId');
 const userRole = localStorage.getItem('userRole');
+const userName = localStorage.getItem('userName');
+const userPhoto = localStorage.getItem('userPhoto');
 const expiryDate = localStorage.getItem('expiryDate');
 if (!token || !expiryDate) {
   loggedIn = false;
@@ -44,11 +46,11 @@ Date.prototype.toDatetimeLocal = function toDatetimeLocal() {
   return `${YYYY}${MM}${DD}${HH}${II}`;
 };
 
-const generateBase64FromImage = imageFile => {
+const generateBase64FromFile = file => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = e => resolve(e.target.result);
     reader.onerror = err => reject(err);
-    reader.readAsDataURL(imageFile);
+    reader.readAsDataURL(file);
   });
 };

@@ -49,7 +49,6 @@ const displayData = async ({url, page, perPage }) => {
         <th>Role</th>
     </tr>`;
   let index = page ? (page - 1) * 10 + 1 : 1;
-  console.log(responseData);
   for (let i = 0; i < responseData.data.length; i++) {
     document.getElementById('users-table').insertAdjacentHTML(
       'beforeend',
@@ -60,30 +59,40 @@ const displayData = async ({url, page, perPage }) => {
             <td>${responseData.data[i].role === 'student' ? responseData.data[i].tutor === null ? 'No Tutor Yet' : responseData.data[i].tutor.name : 'N/A'}</td>
             <td>${responseData.data[i].role}</td>
             <td><button id=${responseData.data[i].active ? `deactivate-${responseData.data[i]._id}` : `activate-${responseData.data[i]._id}`} class="isActiveBtn btn btn-primary">${responseData.data[i].active ? 'Deactivate' : 'Activate'}</button></td>
-            <td><button id="${responseData.data[i]._id}" class="btn btn-info">View User Card</button></td>
+            <td><a data-target="#myModal3" data-toggle="modal" href="" id="users-profile-${responseData.data[i]._id}" class="btn btn-info">View User Card</a></td>
         </tr>
         `
     );
-    index += 1;
-    document.getElementById(responseData.data[i]._id).addEventListener('click', async event => {
-      const userInfoResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
-        method: 'GET'
-      });
-      const userInfoData = await userInfoResponse.json();
-      console.log(userInfoData);
-      document.getElementById('myModal3').style.display = 'block';
-      document.getElementById('user-profile-info').insertAdjacentHTML(
-        'beforeend',
-        `<div class="profile-picture">
-                <img src="images/user.jpg" alt="">
-              </div>
-              <div class="profile-infor">
-                <p class="fullname">Donald Trump</p>
-                <p class="email">donaldtrump@gmail.com</p>
-                <p class="description">I'm president of USA</p>
-              </div>`
-      );
+    document.getElementById(`users-profile-${responseData.data[i]._id}`).addEventListener('click', async () => {
+      const userId = responseData.data[i]._id;
+      if (!document.getElementById(`profile-card-${userId}`)) {
+        document.getElementById('user-profile-info').innerHTML = '';
+        const userResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
+          method: 'GET',
+          headers: {Authorization: `Bearer ${token}`}
+        });
+        const userData = await userResponse.json();
+        document.getElementById('user-profile-info').insertAdjacentHTML(
+          'beforeend',
+          `<div id="profile-card-${userId}" class="profile-picture" style="margin-bottom: 60px;">
+              <img src="${userData.data.user.image}" alt="">
+            </div>
+            <div class="profile-infor">
+              <p class="fullname">${userData.data.user.name}</p>
+              <p class="email">${userData.data.user.email}</p>
+              <p class="description">${!userData.data.user.description ? '' : userData.data.user.description}</p>
+              <p>${!userData.data.user.students ? '' : `<b>Students</b>: ${userData.data.user.students.length > 0 ? userData.data.user.students.map(el => el.name) : 'No Students'}`}</p>
+              <p>${!userData.data.user.tutor ? '' : `<b>Tutor</b>: ${userData.data.user.tutor ? userData.data.user.tutor.name : 'No Tutor'}`}</p>
+              <p><b>Created At</b>: ${moment(userData.data.user.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</p>
+            </div>`
+        );
+        document.getElementById('edit-profile-btn').addEventListener('click', event => {
+          event.preventDefault();
+          window.location = `./edit-profile.html?id=${userId}`;
+        });
+      }
     });
+    index += 1;
   }
   if (!document.getElementById('pagination')) {
     document.getElementById('users').insertAdjacentHTML(
@@ -113,27 +122,31 @@ const displayData = async ({url, page, perPage }) => {
       );
     }
 
-    document.getElementById('first-page').addEventListener('click', () => {
-      const pages = document.getElementsByClassName('page-item');
-      for (let i = 0; i < pages.length; i++) {
-        if (pages[i].classList.contains('active')) {
-          pages[i].classList.remove('active');
+    if (document.getElementById('first-page')) {
+      document.getElementById('first-page').addEventListener('click', () => {
+        const pages = document.getElementsByClassName('page-item');
+        for (let i = 0; i < pages.length; i++) {
+          if (pages[i].classList.contains('active')) {
+            pages[i].classList.remove('active');
+          }
         }
-      }
-      pages[1].classList.add('active');
-      displayData({url, page: '1', perPage: 10});
-    });
+        pages[1].classList.add('active');
+        displayData({url, page: '1', perPage: 10});
+      });
+    }
 
-    document.getElementById('last-page').addEventListener('click', () => {
-      const pages = document.getElementsByClassName('page-item');
-      for (let i = 0; i < pages.length; i++) {
-        if (pages[i].classList.contains('active')) {
-          pages[i].classList.remove('active');
+    if (document.getElementById('last-page')) {
+      document.getElementById('last-page').addEventListener('click', () => {
+        const pages = document.getElementsByClassName('page-item');
+        for (let i = 0; i < pages.length; i++) {
+          if (pages[i].classList.contains('active')) {
+            pages[i].classList.remove('active');
+          }
         }
-      }
-      pages[pages.length - 2].classList.add('active');
-      displayData({url, page: `${numPages}`, perPage: 10});
-    });
+        pages[pages.length - 2].classList.add('active');
+        displayData({url, page: `${numPages}`, perPage: 10});
+      });
+    }
 
     Array.prototype.filter.call(document.getElementsByClassName('page-link'), page => {
       if (page.id !== 'first-page' && page.id !== 'last-page') {
@@ -201,33 +214,28 @@ window.addEventListener('load', async () => {
   firebase.initializeApp(firebaseConfig);
 
   try {
-    const userInfoResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'}
-    });
-    const userInfoData = await userInfoResponse.json();
     document.getElementById('user-name').insertAdjacentHTML(
       'beforeend',
-      `${userInfoData.data.user.name} <i class="fa fa-caret-down"></i>`
+      `${userName} <img src="${userPhoto}" alt="Profile Picture"> <i class="fa fa-caret-down"></i>`
     );
     document.getElementById('logout-btn').addEventListener('click', logout);
 
-    const studentsResponse = await fetch(`${baseURL}/get_all_students`, {
+    const studentsResponse = await fetch(`${baseURL}/get_all_students?pagination=false`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
     });
     const studentsData = await studentsResponse.json();
     if (document.getElementById('student-num')) {
-      document.getElementById('student-num').innerText = studentsData.data.length;
+      document.getElementById('student-num').innerText = studentsData.totalItems;
     }
 
-    const tutorsResponse = await fetch(`${baseURL}/get_tutors`, {
+    const tutorsResponse = await fetch(`${baseURL}/get_tutors?pagination=false`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
     });
     const tutorsData = await tutorsResponse.json();
     if (document.getElementById('tutor-num')) {
-      document.getElementById('tutor-num').innerText = tutorsData.data.length;
+      document.getElementById('tutor-num').innerText = tutorsData.totalItems;
     }
 
     const issuesResponse = await fetch(`${baseURL}/issues`, {
@@ -263,18 +271,18 @@ window.addEventListener('load', async () => {
     });
     const meetingsData = await meetingsResponse.json();
     if (document.getElementById('meeting-num')) {
-      document.getElementById('meeting-num').innerText = meetingsData.data.length;
+      document.getElementById('meeting-num').innerText = meetingsData.totalItems;
     }
 
     if (window.location.href.includes('admin-panel.html')) {
       chart.data = [
         {
           "type": "Students",
-          "count": studentsData.data.length
+          "count": studentsData.totalItems
         },
         {
           "type": "Tutors",
-          "count": tutorsData.data.length
+          "count": tutorsData.totalItems
         },
         {
           "type": "Issues",
@@ -286,7 +294,7 @@ window.addEventListener('load', async () => {
         },
         {
           'type': 'Meetings',
-          'count': meetingsData.data.length
+          'count': meetingsData.totalItems
         }
       ];
     }
@@ -368,22 +376,22 @@ window.addEventListener('load', async () => {
           document.getElementById('myModal2').style.display = 'none';
         } else {
           alert('Assigned Specified Students to Specified Tutor Successfully!');
-          document.getElementById('myModal2').style.display = 'none';
         }
       } catch (err) {
         console.error(err);
         alert('Something went wrong!');
-        document.getElementById('myModal2').style.display = 'none';
       }
     });
 
-    const userResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
-      method: 'GET'
-    });
-    const userData = await userResponse.json();
-    document.getElementById('user-profile-info').insertAdjacentHTML(
-      'beforeend',
-      `<div class="profile-picture" style="margin-bottom: 60px;">
+    document.getElementById('profile-menu').addEventListener('click', async () => {
+      const userResponse = await fetch(`${baseURL}/get_user_info?userId=${userId}`, {
+        method: 'GET',
+        headers: {Authorization: `Bearer ${token}`}
+      });
+      const userData = await userResponse.json();
+      document.getElementById('user-profile-info').insertAdjacentHTML(
+        'beforeend',
+        `<div id="profile-card-${userData.data.user._id}" class="profile-picture" style="margin-bottom: 60px;">
               <img src="${userData.data.user.image}" alt="">
             </div>
             <div class="profile-infor">
@@ -391,10 +399,11 @@ window.addEventListener('load', async () => {
               <p class="email">${userData.data.user.email}</p>
               <p class="description">${!userData.data.user.description ? '' : userData.data.user.description}</p>
             </div>`
-    );
-    document.getElementById('edit-profile-btn').addEventListener('click', event => {
-      event.preventDefault();
-      window.location = `./edit-profile.html?id=${userId}`;
+      );
+      document.getElementById('edit-profile-btn').addEventListener('click', event => {
+        event.preventDefault();
+        window.location = `./edit-profile.html?id=${userId}`;
+      });
     });
   } catch (err) {
     console.error(err);

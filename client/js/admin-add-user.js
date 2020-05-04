@@ -10,8 +10,8 @@ window.addEventListener('load', async () => {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const role = document.getElementById('role').value;
-      const image = document.getElementById('file').files[0];
-      generateBase64FromImage(image).then(img => {
+      const image = document.getElementById('user-file').files[0];
+      generateBase64FromFile(image).then(img => {
         const storageRef = firebase.storage().ref();
         const imageRef = storageRef.child(`${new Date().getTime().toString()}-${image.name}`);
         const uploadTask = imageRef.putString(img, 'data_url');
@@ -60,7 +60,7 @@ window.addEventListener('load', async () => {
                   'afterbegin',
                   `<div class="alert alert-success">
                         <a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Success:</strong> User Created Successfully. <a href="#users" style="color: #337ab7;">View Users?</a>
+                        <strong>Success:</strong> User Created Successfully. <a href="admin-all-user.html" style="color: #337ab7;">View Users?</a>
                       </div>`
                 );
                 document.getElementById('loader').remove();
@@ -71,7 +71,7 @@ window.addEventListener('load', async () => {
                 document.getElementById('name').value = '';
                 document.getElementById('email').value = '';
                 document.getElementById('role').value = '';
-                document.getElementById('file').value = '';
+                document.getElementById('user-file').value = '';
               }
             } catch (err) {
               console.error(err);

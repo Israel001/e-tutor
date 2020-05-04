@@ -1,47 +1,30 @@
 jQuery(document).ready(function ($) {
   $(window).scroll(function(){
-  if ($(window).scrollTop()>0){
-    $("#back_top").show(300);
-  }
-  else{
-    $("#back_top").hide(300);
-  }
-});
-$('#back_top').click(function(){
-  $('html, body').animate({scrollTop:0},500);
-});
-$( ".bell" ).click(function() {
-  $( ".notify" ).slideToggle( "slow", function() {
+    if ($(window).scrollTop()>0){
+      $("#back_top").show(300);
+    }
+    else{
+      $("#back_top").hide(300);
+    }
   });
-});
+  $('#back_top').click(function(){
+    $('html, body').animate({scrollTop:0},500);
+  });
+  $( ".bell" ).click(function() {
+    $( ".notify" ).slideToggle( "slow", function() {
+    });
+  });
 
-/*------------------------------------------------------------------------------------------------------*/
-
-$("div[id^='myModal']").each(function(){
-  
-  var currentModal = $(this);
-  
-  //click next
-  currentModal.find('.btn-next').click(function(){
-    currentModal.modal('hide');
-    currentModal.closest("div[id^='myModal']").nextAll("div[id^='myModal']").first().modal('show'); 
-  });
-  
-  //click prev
-  currentModal.find('.btn-prev').click(function(){
-    currentModal.modal('hide');
-    currentModal.closest("div[id^='myModal']").prevAll("div[id^='myModal']").first().modal('show'); 
-  });
-});
 });
 
 
 function scrollb() {
-     var objDiv = document.getElementById("chat-messages");
-     objDiv.scrollTop = objDiv.scrollHeight;
+  var objDiv = document.getElementById("chat-messages");
+  objDiv.scrollTop = objDiv.scrollHeight;
 
 }
 /*------------------------------------------------------------------------------------------------------*/
+
 
 
 /*--------------------------------------------------------------------------------------------------*/
@@ -57,14 +40,14 @@ function viewBylist() {
 }
 
 $(document).ready(function(){
-	$('.slide-banner').slick({
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		autoplay: true,
-		dots: false,
-		focusOnSelect: true
-	});
-		
+  $('.slide-banner').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    dots: false,
+    focusOnSelect: true
+  });
+
 });
 // $('a[href^="#"]').on('click', function(event) {
 // 	var target = $(this.getAttribute("href"));
@@ -84,35 +67,40 @@ var arrCounter = 0;
 var input = $("#upload__input").val();
 var inp;
 var fileTemp;
-(function($) {  
+(function($) {
   function createPdfPreview(fileContents, $displayElement) {
-    PDFJS.getDocument(fileContents).then(function(pdf) {
-      pdf.getPage(1).then(function(page) {
-        var $previewContainer = $displayElement.find('.preview__thumb');
-        var canvas = $previewContainer.find('canvas')[0];
-        canvas.height = $previewContainer.innerHeight();
-        canvas.width = $previewContainer.innerWidth();
+    // PDFJS.disableWorker = true;
+    // PDFJS.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.7.365/pdf.worker.min.js';
+    // PDFJS.getDocument(fileContents).then(function(pdf) {
+    // pdf.getPage(1).then(function(page) {
+    // var $previewContainer = $displayElement.find('.preview__thumb');
+    // var canvas = $previewContainer.find('canvas')[0];
+    // var img = $previewContainer.find('img')[0];
+    // console.log(img);
+    // canvas.height = $previewContainer.innerHeight();
+    // canvas.width = $previewContainer.innerWidth();
 
-        var viewport = page.getViewport(1);
-        var scaleX = canvas.width / viewport.width;
-        var scaleY = canvas.height / viewport.height;
-        var scale = (scaleX < scaleY) ? scaleX : scaleY;
-        var scaledViewport = page.getViewport(scale);
+    // var viewport = page.getViewport(1);
+    // var scaleX = canvas.width / viewport.width;
+    // var scaleY = canvas.height / viewport.height;
+    // var scale = (scaleX < scaleY) ? scaleX : scaleY;
+    // var scaledViewport = page.getViewport(scale);
 
-        var context = canvas.getContext('2d');
-        var renderContext = {
-          canvasContext: context,
-          viewport: scaledViewport
-        };
-        page.render(renderContext);
-      });
-    });
+    // var context = canvas.getContext('2d');
+    // context.drawImage(img, 0, 0);
+    // var renderContext = {
+    // canvasContext: context,
+    // viewport: scaledViewport
+    // };
+    // page.render(renderContext);
+    // });
+    // });
   }
-  
-  
-  
-  
-  
+
+
+
+
+
   function createPreview(file, fileContents, id) {
     var $previewElement = '';
     switch (file.type) {
@@ -124,10 +112,11 @@ var fileTemp;
       case 'video/mp4':
       case 'video/webm':
       case 'video/ogg':
-        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"></video>');
+        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '" '+  'data-id="preview_' + id + '" ></video>');
         break;
       case 'application/pdf':
-        $previewElement = $('<canvas id="" width="100%" height="100%"></canvas>');
+        $previewElement = $('<img src="./images/pdf.png" data-id="preview_' + id + '" />');
+        // $previewElement = $('<canvas id="" width="100%" height="100%"' +  'data-id="preview_' + id + '"></canvas>');
         break;
       default:
         break;
@@ -142,103 +131,109 @@ var fileTemp;
                             </div>');
     $displayElement.find('.preview__thumb').append($previewElement);
     $('.upload__files').append($displayElement);
-    
-    if (file.type === 'application/pdf') {
-      createPdfPreview(fileContents, $displayElement);
-    }
+
+    // if (file.type === 'application/pdf') {
+    // createPdfPreview(fileContents, $displayElement);
+    // }
   }
-  
-  
-  
-  
-  
+
+
+
+
+
   function fileInputChangeHandler(e) {
     var URL = window.URL || window.webkitURL;
     var fileList = e.target.files;
-  inp = e.target;
-    if (fileList.length > 0) {
-      $('.upload__files').html('');
-      
-      for (var i = 0; i < fileList.length; i++) {
-        var file = fileList[i];
-        var fileUrl = URL.createObjectURL(file);
-        createPreview(file, fileUrl, i);
-        FillAttachmentArray(file, i)
+    inp = e.target;
+    if (inp.id == 'file'){
+      delete AttachmentArray;
+      if (fileList.length > 0) {
+        $('.upload__files').html('');
+
+        for (var i = 0; i < fileList.length; i++) {
+          var file = fileList[i];
+          var fileUrl = URL.createObjectURL(file);
+          createPreview(file, fileUrl, i);
+          FillAttachmentArray(file, i)
+        }
+        fileTemp = fileList;
+        console.log(AttachmentArray);
+      } else {
+        inp.files = fileTemp;
       }
-    fileTemp = fileList;
-      console.log(AttachmentArray);
-    } else {
-    inp.files = fileTemp;
-  }
+    }
   }
   function FillAttachmentArray(file, i)
-        {
-            AttachmentArray[arrCounter] =
-            {
+  {
+    AttachmentArray[arrCounter] =
+      {
         Id: "preview_" + i,
-                AttachmentType: 1,
-                ObjectType: 1,
-                FileName: file.name,
-                FileDescription: "Attachment",
-                NoteText: "",
-                MimeType: file.type,
-                FileSizeInBytes: file.size,
+        AttachmentType: 1,
+        ObjectType: 1,
+        FileName: file.name,
+        FileDescription: "Attachment",
+        NoteText: "",
+        MimeType: file.type,
+        FileSizeInBytes: file.size,
         file: file,
-            };
-            arrCounter = arrCounter + 1;
-        }
+      };
+    arrCounter = arrCounter + 1;
+  }
   // function fileClick(e)
-        // {
-      // console.log('click!');
-            // inp = e.target;
-        // }
+  // {
+  // console.log('click!');
+  // inp = e.target;
+  // }
   $(document).ready(function() {
     $('input:file').on('change', fileInputChangeHandler);
   });
 })(jQuery.noConflict());
 
 jQuery(function ($) {
-            $('div').on('click', '.preview__item .closes', function (e) {
-        e.preventDefault();
-                var id = $(this).closest('.preview__item').find('img').data('id');
+  $('div').on('click', '.preview__item .closes', function (e) {
+    e.preventDefault();
+    var id = $(this).closest('.preview__item').find('img').data('id');
+    if(id == null){
+      id = $(this).closest('.preview__item').find('canvas').data('id');
+    }
+    if(id == null){
+      id = $(this).closest('.preview__item').find('video').data('id');
+    }
 
-                //to remove the deleted item from array
-                 // var elementPos = AttachmentArray.map(function (x) { return x.FileName; }).indexOf(id);
-                 // if (elementPos !== -1) {
-                     // AttachmentArray.splice(elementPos, 1);
-                 // }
-         
-        for (var i = 0; i < AttachmentArray.length; ++i) {
-          if (AttachmentArray[i].Id === id)
-          AttachmentArray.splice(i, 1);
-        }
-                // console.log(AttachmentArray);
 
-             
+    //to remove the deleted item from array
+    // var elementPos = AttachmentArray.map(function (x) { return x.FileName; }).indexOf(id);
+    // if (elementPos !== -1) {
+    // AttachmentArray.splice(elementPos, 1);
+    // }
 
-                //to remove image tag
-                $(this).parent().find('img').not().remove();
+    for (var i = 0; i < AttachmentArray.length; ++i) {
+      if (AttachmentArray[i].Id === id)
+        AttachmentArray.splice(i, 1);
+    }
+    //to remove image tag
+    $(this).parent().find('img').not().remove();
 
-                //to remove div tag that contain the image
-                $(this).parent().find('div').not().remove();
+    //to remove div tag that contain the image
+    $(this).parent().find('div').not().remove();
 
-                //to remove div tag that contain caption name
-                $(this).parent().parent().find('div').not().remove();
+    //to remove div tag that contain caption name
+    $(this).parent().parent().find('div').not().remove();
 
-                console.log($(this).parent().parent().parent().find('#'+ id ));
-                $('#'+ id ).remove();
-        
-        const dt = new DataTransfer()
-        for (var i = 0; i < AttachmentArray.length; ++i) {
-            dt.items.add(AttachmentArray[i].file);
-        }
-        
-        inp.files = dt.files;
-        fileTemp = inp.files;
-        arrCounter = arrCounter - 1;
-              });
-        });
-  
+    console.log($(this).parent().parent().parent().find('#'+ id ));
+    $('#'+ id ).remove();
+
+    const dt = new DataTransfer()
+    for (var i = 0; i < AttachmentArray.length; ++i) {
+      dt.items.add(AttachmentArray[i].file);
+    }
+
+    inp.files = dt.files;
+    fileTemp = inp.files;
+    arrCounter = arrCounter - 1;
+  });
+});
+
 // $(document).ready(function() {
 //   $('#close').click(function() {
 //     // $('#file').val('');
@@ -252,7 +247,7 @@ jQuery(function ($) {
 /*---------------------------------------------------------------------------*/
 
 $(function() {
-  var INDEX = 0; 
+  var INDEX = 0;
   // $("#chat-submit").click(function(e) {
   //   e.preventDefault();
   //   var msg = $("#chat-input").val();
@@ -275,7 +270,7 @@ $(function() {
   //   }, 1000)
   //
   // })
-  
+
   function generate_message(msg, type) {
     INDEX++;
     var str="";
@@ -290,13 +285,13 @@ $(function() {
     $(".chat-logs").append(str);
     $("#cm-msg-"+INDEX).hide().fadeIn(300);
     if(type == 'self'){
-     $("#chat-input").val(''); 
-    }    
-    $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight}, 1000);    
-  }  
-  
-  function generate_button_message(msg, buttons){    
-    /* Buttons should be object array 
+      $("#chat-input").val('');
+    }
+    $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight}, 1000);
+  }
+
+  function generate_button_message(msg, buttons){
+    /* Buttons should be object array
       [
         {
           name: 'Existing User',
@@ -310,7 +305,7 @@ $(function() {
     */
     INDEX++;
     var btn_obj = buttons.map(function(button) {
-       return  "              <li class=\"button\"><a href=\"javascript:;\" class=\"btn btn-primary chat-btn\" chat-value=\""+button.value+"\">"+button.name+"<\/a><\/li>";
+      return  "              <li class=\"button\"><a href=\"javascript:;\" class=\"btn btn-primary chat-btn\" chat-value=\""+button.value+"\">"+button.name+"<\/a><\/li>";
     }).join('');
     var str="";
     str += "<div id='cm-msg-"+INDEX+"' class=\"chat-msg user\">";
@@ -321,119 +316,119 @@ $(function() {
     str += msg;
     str += "          <\/div>";
     str += "          <div class=\"cm-msg-button\">";
-    str += "            <ul>";   
+    str += "            <ul>";
     str += btn_obj;
     str += "            <\/ul>";
     str += "          <\/div>";
     str += "        <\/div>";
     $(".chat-logs").append(str);
-    $("#cm-msg-"+INDEX).hide().fadeIn(300);   
+    $("#cm-msg-"+INDEX).hide().fadeIn(300);
     $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight}, 1000);
     $("#chat-input").attr("disabled", true);
   }
-  
+
   $(document).delegate(".chat-btn", "click", function() {
     var value = $(this).attr("chat-value");
     var name = $(this).html();
     $("#chat-input").attr("disabled", false);
     generate_message(name, 'self');
   })
-  
-  $("#chat-circle").click(function() {    
+
+  $("#chat-circle").click(function() {
     $("#chat-circle").toggle('scale');
     $(".chat-box").toggle('scale');
   })
-  
+
   $(".chat-box-toggle").click(function() {
     $("#chat-circle").toggle('scale');
     $(".chat-box").toggle('scale');
   })
-  
+
 })
 
 /*-------------------------------------------------------------------------------------------------*/
 $(document).ready(function(){
-	
+
   var preloadbg = document.createElement("img");
   preloadbg.src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/timeline1.png";
-  
-	$("#searchfield").focus(function(){
-		if($(this).val() == "Search contacts..."){
-			$(this).val("");
-		}
-	});
-	$("#searchfield").focusout(function(){
-		if($(this).val() == ""){
-			$(this).val("Search contacts...");
-			
-		}
-	});
-	
-	$("#sendmessage input").focus(function(){
-		if($(this).val() == "Send message..."){
-			$(this).val("");
-		}
-	});
-	$("#sendmessage input").focusout(function(){
-		if($(this).val() == ""){
-			$(this).val("Send message...");
-			
-		}
-	});
-		
-	
-	$(".friend").each(function(){		
-		$(this).click(function(){
-			var childOffset = $(this).offset();
-			var parentOffset = $(this).parent().parent().offset();
-			var childTop = childOffset.top - parentOffset.top;
-			var clone = $(this).find('img').eq(0).clone();
-			var top = childTop+12+"px";
-			
-			$(clone).css({'top': top}).addClass("floatingImg").appendTo("#chatbox");									
-			
-			setTimeout(function(){$("#profile p").addClass("animate");$("#profile").addClass("animate");}, 100);
-			setTimeout(function(){
-				$("#chat-messages").addClass("animate");
-				$('.cx, .cy').addClass('s1');
-				setTimeout(function(){$('.cx, .cy').addClass('s2');}, 100);
-				setTimeout(function(){$('.cx, .cy').addClass('s3');}, 200);			
-			}, 150);														
-			
-			$('.floatingImg').animate({
-				'width': "68px",
-				'left':'108px',
-				'top':'20px'
-			}, 200);
-			
-			var name = $(this).find("p strong").html();
-			var email = $(this).find("p span").html();														
-			$("#profile p").html(name);
-			$("#profile span").html(email);			
-			
+
+  $("#searchfield").focus(function(){
+    if($(this).val() == "Search contacts..."){
+      $(this).val("");
+    }
+  });
+  $("#searchfield").focusout(function(){
+    if($(this).val() == ""){
+      $(this).val("Search contacts...");
+
+    }
+  });
+
+  $("#sendmessage input").focus(function(){
+    if($(this).val() == "Send message..."){
+      $(this).val("");
+    }
+  });
+  $("#sendmessage input").focusout(function(){
+    if($(this).val() == ""){
+      $(this).val("Send message...");
+
+    }
+  });
+
+
+  $(".friend").each(function(){
+    $(this).click(function(){
+      var childOffset = $(this).offset();
+      var parentOffset = $(this).parent().parent().offset();
+      var childTop = childOffset.top - parentOffset.top;
+      var clone = $(this).find('img').eq(0).clone();
+      var top = childTop+12+"px";
+
+      $(clone).css({'top': top}).addClass("floatingImg").appendTo("#chatbox");
+
+      setTimeout(function(){$("#profile p").addClass("animate");$("#profile").addClass("animate");}, 100);
+      setTimeout(function(){
+        $("#chat-messages").addClass("animate");
+        $('.cx, .cy').addClass('s1');
+        setTimeout(function(){$('.cx, .cy').addClass('s2');}, 100);
+        setTimeout(function(){$('.cx, .cy').addClass('s3');}, 200);
+      }, 150);
+
+      $('.floatingImg').animate({
+        'width': "68px",
+        'left':'108px',
+        'top':'20px'
+      }, 200);
+
+      var name = $(this).find("p strong").html();
+      var email = $(this).find("p span").html();
+      $("#profile p").html(name);
+      $("#profile span").html(email);
+
       //$(".message").not(".right").find("img").attr("src",$(clone).attr("src"));
-			$(".chat-img").find("img").attr("src", $(clone).attr("src"));								
-			$('#friendslist').fadeOut();
-			$('#chatview').fadeIn();
-		
-			
-			$('#close').unbind("click").click(function(){				
-				$("#chat-messages, #profile, #profile p").removeClass("animate");
-				$('.cx, .cy').removeClass("s1 s2 s3");
-				$('.floatingImg').animate({
-					'width': "40px",
-					'top':top,
-					'left': '12px'
-				}, 200, function(){$('.floatingImg').remove()});				
-				
-				setTimeout(function(){
-					$('#chatview').fadeOut();
-					$('#friendslist').fadeIn();				
-				}, 50);
-			});
-			
-		});
-	});			
+      $(".chat-img").find("img").attr("src", $(clone).attr("src"));
+      $('#friendslist').fadeOut();
+      $('#chatview').fadeIn();
+
+
+      $('#close').unbind("click").click(function(){
+        $("#chat-messages, #profile, #profile p").removeClass("animate");
+        $('.cx, .cy').removeClass("s1 s2 s3");
+        $('.floatingImg').animate({
+          'width': "40px",
+          'top':top,
+          'left': '12px'
+        }, 200, function(){$('.floatingImg').remove()});
+
+        setTimeout(function(){
+          $('#chatview').fadeOut();
+          $('#friendslist').fadeIn();
+        }, 50);
+      });
+
+    });
+  });
 });
 /*------------------------------------------------------------------------------------------------------*/
 /*calendar*/
@@ -566,11 +561,11 @@ var Calendar = React.createClass({ displayName: "Calendar",
         $("#entry_title").val("");
         // $("#all-day").prop('checked', false); // unchecks checkbox
         // $("#not-all-day").css('display', 'block');
-        // $("#enter_hour").val("");
+        $("#entry_hour").val("");
         $("#entry_description").val("");
         // $("#entry_note").val("");
         // reset entry colors
-        
+
       } else {
         $(".float").addClass('rotate');
         $("#add_entry").removeClass('animated slideOutDown');
@@ -599,6 +594,9 @@ var Calendar = React.createClass({ displayName: "Calendar",
       //   $(".duration").css('background', '#F7E8E8');
       //   return 0;
       // }
+      if ($("#entry_hour").val()) {
+        var entryHour = $("#entry_hour").val();
+      } else {var entryHour = "";}
       if ($("#entry_description").val()) {
         var entryDescription = $("#entry_description").val();
       } else {var entryDescription = "";}
@@ -606,9 +604,9 @@ var Calendar = React.createClass({ displayName: "Calendar",
       //   var entryNote = $("#entry_note").val();
       // } else {var entryNote = "";}
 
-      
-      
-      var entry = { entryName, entryDate, entryTime, entryDescription};
+
+
+      var entry = { entryName, entryDate, entryTime, entryHour ,entryDescription};
       this.state.entries.splice(0, 0, entry);
 
       // clean and close entry page
@@ -620,11 +618,11 @@ var Calendar = React.createClass({ displayName: "Calendar",
       $("#entry_title").val("");
       // $("#all-day").prop('checked', false); // unchecks checkbox
       // $("#not-all-day").css('display', 'block');
-      // $("#enter_hour").val("");
+      $("#entry_hour").val("");
       $("#entry_description").val("");
       // $("#entry_note").val("");
       // reset entry colors
-      
+
 
       return this.setState({ entries: this.state.entries });
     }
@@ -642,7 +640,7 @@ var Calendar = React.createClass({ displayName: "Calendar",
     $("#entry_title").val("");
     // $("#all-day").prop('checked', false); // unchecks checkbox
     // $("#not-all-day").css('display', 'block');
-    // $("#enter_hour").val("");
+    $("#entry_hour").val("");
     $("#entry_description").val("");
     return this.setState({ entries: this.state.entries });
   },
@@ -740,186 +738,191 @@ var Calendar = React.createClass({ displayName: "Calendar",
     }
     return (
       React.createElement("div", null,
-      React.createElement("div", { id: "calendar" },
-      React.createElement("div", { id: "menu" },
-      React.createElement("div", { id: "menu-content" },
-      React.createElement("div", { className: "madeBy" },
-      React.createElement("div", { className: "madeOverlay" },
-      React.createElement("span", { id: "madeName" }, "Ricardo Barbosa"),
-      React.createElement("span", { id: "madeInfo" }, "WebDeveloper - Portugal"),
-      React.createElement("span", { id: "madeWeb" }, React.createElement("a", { target: "_blank", href: "https://github.com/RicardoPBarbosa" }, React.createElement("i", { className: "fa fa-github", "aria-hidden": "true" }), " GitHub")),
-      React.createElement("span", { id: "madeWeb" }, React.createElement("a", { target: "_blank", href: "https://codepen.io/RicardoBarbosa/" }, React.createElement("i", { className: "fa fa-codepen", "aria-hidden": "true" }), " CodePen"))),
+        React.createElement("div", { id: "calendar" },
+          React.createElement("div", { id: "menu" },
+            React.createElement("div", { id: "menu-content" },
+              React.createElement("div", { className: "madeBy" },
+                React.createElement("div", { className: "madeOverlay" },
+                  React.createElement("span", { id: "madeName" }, "Ricardo Barbosa"),
+                  React.createElement("span", { id: "madeInfo" }, "WebDeveloper - Portugal"),
+                  React.createElement("span", { id: "madeWeb" }, React.createElement("a", { target: "_blank", href: "https://github.com/RicardoPBarbosa" }, React.createElement("i", { className: "fa fa-github", "aria-hidden": "true" }), " GitHub")),
+                  React.createElement("span", { id: "madeWeb" }, React.createElement("a", { target: "_blank", href: "https://codepen.io/RicardoBarbosa/" }, React.createElement("i", { className: "fa fa-codepen", "aria-hidden": "true" }), " CodePen"))),
 
-      React.createElement("img", { src: "https://imgur.com/LOaisfQ.jpg", width: "260", height: "200" }))),
-
-
-      React.createElement("div", { id: "click-close" })),
-
-      React.createElement("div", { id: "header" },
-      React.createElement("i", { className: "fa fa-bars", "aria-hidden": "true", onClick: this.openMenu }),
-      React.createElement("p", null, this.state.dates.nameofmonth, " ", this.state.dates.year),
-      React.createElement("div", null, React.createElement("i", { onClick: this.returnPresent, className: "fa fa-calendar-o", "aria-hidden": "true" }, React.createElement("span", null, this.state.present.getDate()))),
-      React.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })),
-
-      React.createElement("div", { id: "add_entry" },
-      React.createElement("div", { className: "entry_details" },
-      React.createElement("div", null,
-
-      React.createElement("div", { className: "entry_info" },
-      React.createElement("label", {},"Title"),
-      React.createElement("input", { type:"text", id:"entry_title" })),  
-
-      // React.createElement("div", { className: "entry_info first" },
-      // React.createElement("i", { className: "fa fa-image", "aria-hidden": "true" }),
-      // React.createElement("input", { type: "file", name: "entry-img", id: "entry-img", onChange: e => this.handleImage(e) }),
-      // React.createElement("label", { htmlFor: "entry-img", id: "for_img" }, React.createElement("span", { id: "file_name" }, "Choose an image")),
-      // React.createElement("span", { id: "remove_img" }, "Remove")),
-
-      // React.createElement("div", { className: "entry_info2 first second duration" },
-      // React.createElement("i", { className: "fa fa-clock-o", "aria-hidden": "true" }),
-      // React.createElement("input", { className: "toggle", type: "checkbox", name: "all-day", id: "all-day" }),
-      // React.createElement("p", null, "All-day"),
-      // React.createElement("div", { id: "not-all-day" },
-      // React.createElement("p", { id: "select_hour" }, "Select hour"),
-      // React.createElement("p", { id: "hour" }, React.createElement("input", { type: "number", id: "enter_hour", min: "0", max: "24" }), " h"))),
+                React.createElement("img", { src: "https://imgur.com/LOaisfQ.jpg", width: "260", height: "200" }))),
 
 
-      React.createElement("div", { className: "entry_info" },
-      React.createElement("label", {},"Description"),
-      React.createElement("textarea", {id:"entry_description", rows: "5", cols:"35"  })),
+            React.createElement("div", { id: "click-close" })),
 
-      React.createElement("div", { className: "entry_info3" },
-      React.createElement("label", {},"Select members"),
-      React.createElement("select",{id:"select-member"},
-        [
-          React.createElement("option",{},"-------"),
-          React.createElement("option",{},"Harry Potter"),
-          React.createElement("option",{},"Hermione Granger"),
-        ])),
+          React.createElement("div", { id: "header" },
+            React.createElement("i", { className: "fa fa-bars", "aria-hidden": "true", onClick: this.openMenu }),
+            React.createElement("p", null, this.state.dates.nameofmonth, " ", this.state.dates.year),
+            React.createElement("div", null, React.createElement("i", { onClick: this.returnPresent, className: "fa fa-calendar-o", "aria-hidden": "true" }, React.createElement("span", null, this.state.present.getDate()))),
+            React.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })),
 
-      React.createElement("div", { className: "enter_entry" },
-      
-      React.createElement("span", { id: "save_entry", onClick: this.saveEntry.bind(null, this.state.currYear, this.state.currMonthN, this.state.currDay) }, "SAVE")),
-      // React.createElement("div", { className: "entry_info2" },
-      // React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }),
-      // React.createElement("textarea", { id: "entry_note", cols: "35", rows: "2", placeholder: "Add note" })),
+          React.createElement("div", { id: "add_entry" },
+            React.createElement("div", { className: "entry_details" },
+              React.createElement("div", null,
 
-      // React.createElement("div", { className: "entry_info colors" },
-      // React.createElement("i", { className: "fa fa-circle", "aria-hidden": "true", id: "blue", style: this.state.dColor }),
-      // React.createElement("p", { id: "defColor" }, "Default color"),
-      // React.createElement("div", null,
-      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color1, "color1"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color1 })),
-      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color2, "color2"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color2 })),
-      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color3, "color3"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color3 })),
-      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color4, "color4"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color4 })),
-      // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color5, "color5"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color5 }))))
-      ))),
+                React.createElement("div", { className: "entry_info" },
+                  React.createElement("label", {},"Title"),
+                  React.createElement("input", { type:"text", id:"entry_title" })),
 
+                React.createElement("div", { className: "entry_info" },
+                  React.createElement("label", {},"Time"),
+                  React.createElement("input", { type:"datetime-local", id:"entry_hour" })),
+                // React.createElement("div", { className: "entry_info first" },
+                // React.createElement("i", { className: "fa fa-image", "aria-hidden": "true" }),
+                // React.createElement("input", { type: "file", name: "entry-img", id: "entry-img", onChange: e => this.handleImage(e) }),
+                // React.createElement("label", { htmlFor: "entry-img", id: "for_img" }, React.createElement("span", { id: "file_name" }, "Choose an image")),
+                // React.createElement("span", { id: "remove_img" }, "Remove")),
 
-
-
-
-      this.state.openEntry ?
-      React.createElement("div", { id: "open_entry" },
-      React.createElement("div", {className:"entry_img"},
-      React.createElement("div", { className: "overlay" }, React.createElement("div", null,
-      React.createElement("p", null,
-      React.createElement("span", { id: "entry_title" }, this.state.openEntry.entryName)))),
+                // React.createElement("div", { className: "entry_info2 first second duration" },
+                // React.createElement("i", { className: "fa fa-clock-o", "aria-hidden": "true" }),
+                // React.createElement("input", { className: "toggle", type: "checkbox", name: "all-day", id: "all-day" }),
+                // React.createElement("p", null, "All-day"),
+                // React.createElement("div", { id: "not-all-day" },
+                // React.createElement("p", { id: "select_hour" }, "Select hour"),
+                // React.createElement("p", { id: "hour" }, React.createElement("input", { type: "number", id: "enter_hour", min: "0", max: "24" }), " h"))),
 
 
-      ),
+                React.createElement("div", { className: "entry_info" },
+                  React.createElement("label", {},"Description"),
+                  React.createElement("textarea", {id:"entry_description", rows: "5", cols:"35"  })),
 
-      // React.createElement("div", { className: "entry openedEntry" }, React.createElement("div", null,
-      // React.createElement("i", { className: "fa fa-map-marker", "aria-hidden": "true" }), " ", this.state.openEntry.entryLocation ? this.state.openEntry.entryLocation : React.createElement("span", null, "No location"))),
+                React.createElement("div", { className: "entry_info3" },
+                  React.createElement("label", {},"Select members"),
 
-      React.createElement("div", { className: "entry openedEntry noteDiv" }, React.createElement("div", null,
-      React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }), " ", this.state.openEntry.entryNote ? React.createElement("span", { id: "note" }, this.state.openEntry.entryNote) : React.createElement("span", null, "No description")))) :
+                  React.createElement("select",{id:"select-member", multiple: "true"},
+                    [
+                      React.createElement("option",{},"Harry Potter"),
+                      React.createElement("option",{},"Hermione Granger"),
+                      React.createElement("option",{},"Harry Potter"),
+                      React.createElement("option",{},"Hermione Granger"),
+                    ])),
 
+                React.createElement("div", { className: "enter_entry" },
 
-      null,
-      React.createElement("div", { id: "arrows" },
-      React.createElement("i", { className: "fa fa-arrow-left", "aria-hidden": "true", onClick: this.update.bind(null, "left") }),
-      React.createElement("i", { className: "fa fa-arrow-right", "aria-hidden": "true", onClick: this.update.bind(null, "right") })),
+                  React.createElement("span", { id: "save_entry", onClick: this.saveEntry.bind(null, this.state.currYear, this.state.currMonthN, this.state.currDay) }, "SAVE")),
+                // React.createElement("div", { className: "entry_info2" },
+                // React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }),
+                // React.createElement("textarea", { id: "entry_note", cols: "35", rows: "2", placeholder: "Add note" })),
 
-      React.createElement("div", { id: "dates" },
-      calendar.map(function (week, i) {
-        return (
-          React.createElement("div", { key: i },
-          React.createElement("p", { className: "weekname" }, weekdays[i].substring(0, 3)),
-          React.createElement("ul", null,
-          week.map(function (day, k) {
-            var existEntry = {};
-            {this.state.entries.map(function (entry, e) {
-                if (entry.entryDate.day == day && entry.entryDate.month == this.state.dates.numberofmonth && entry.entryDate.year == this.state.dates.year) {
-                  existEntry = { borderWidth: "2px", borderStyle: "solid", borderColor: "#8DBEDE" };
-                  return;
-                }
-              }.bind(this));}
-            return React.createElement("li", { className: day === this.state.today.getDate() ? "today" : null, key: k, style: existEntry, onClick: this.selectedDay.bind(null, day) }, day);
-          }.bind(this)))));
-
-
-
-      }.bind(this))),
-
-
-      this.state.warning ?
-      React.createElement("div", { className: "warning" },
-      this.state.warning) :
-
-      null,
-      React.createElement("div", { id: "ignoreOverflow" }, React.createElement("button", { className: "float", onClick: this.addEntry.bind(null, this.state.today.getDate()) }, this.state.entry))),
-
-      this.state.currDay ?
-      React.createElement("div", { id: "entries" },
-      React.createElement("div", { className: "contain_entries" },
-      React.createElement("div", { id: "entries-header" },
-      React.createElement("p", { className: "entryDay" }, this.state.currDay, " ", this.state.currMonth),
-      this.state.present.getDate() === this.state.currDay && this.state.present.getMonth() === this.state.currMonthN && this.state.present.getFullYear() === this.state.currYear ? React.createElement("p", { className: "currday" }, "TODAY") : null),
-
-      this.state.entries != '' ?
-      React.createElement("div", null,
-      this.state.entries.map(function (entry, e) {
-        count++;
-        var entryFromThisDate = entry.entryDate.day === this.state.currDay && entry.entryDate.month === this.state.currMonthN && entry.entryDate.year === this.state.currYear ? true : false;
-        if (entryFromThisDate) {
-          // prevent the "no-entries" div to appear in the next entries that are not from this day
-          done = true;
-          //var style = { borderLeftColor: entry.entryColor.color, borderLeftWidth: "4px", borderLeftStyle: "solid" };
-          return (
-            React.createElement("div", { className: "entry", id: e, key: e },
-            React.createElement("div", {},
-            React.createElement("div", { className: "entry_left", onClick: this.openEntry.bind(null, entry, e) },
-            React.createElement("p", { className: "entry_event" }, entry.entryName)),
-
-            React.createElement("div", { className: "delete_entry" },
-            React.createElement("i", { className: "fa fa-times", "aria-hidden": "true", onClick: this.deleteEntry.bind(null, e) })))));
+                // React.createElement("div", { className: "entry_info colors" },
+                // React.createElement("i", { className: "fa fa-circle", "aria-hidden": "true", id: "blue", style: this.state.dColor }),
+                // React.createElement("p", { id: "defColor" }, "Default color"),
+                // React.createElement("div", null,
+                // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color1, "color1"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color1 })),
+                // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color2, "color2"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color2 })),
+                // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color3, "color3"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color3 })),
+                // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color4, "color4"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color4 })),
+                // React.createElement("span", null, React.createElement("i", { onClick: this.setColor.bind(null, this.state.color5, "color5"), className: "fa fa-circle", "aria-hidden": "true", style: this.state.color5 }))))
+              ))),
 
 
 
 
-        }
-        if (count === this.state.entries.length) {
-          if (!done) {
-            done = true;
-            return (
-              React.createElement("div", { className: "no-entries", key: e },
-              React.createElement("i", { className: "fa fa-calendar-check-o", "aria-hidden": "true" }),
-              React.createElement("span", null, "No events planned for today")));
+
+          this.state.openEntry ?
+            React.createElement("div", { id: "open_entry" },
+              React.createElement("div", {className:"entry_img"},
+                React.createElement("div", { className: "overlay" }, React.createElement("div", null,
+                  React.createElement("p", null,
+                    React.createElement("span", { id: "entry_title" }, this.state.openEntry.entryName)))),
 
 
-          }
-        }
-      }.bind(this))) :
+              ),
 
-      React.createElement("div", { className: "no-entries" },
-      React.createElement("i", { className: "fa fa-calendar-check-o", "aria-hidden": "true" }),
-      React.createElement("span", null, "No events planned for today")))) :
+              React.createElement("div", { className: "entry openedEntry noteDiv" }, React.createElement("div", null,
+                React.createElement("i", { className: "fa fa-clock-o", "aria-hidden": "true" }), " ", this.state.openEntry.entryHour ? React.createElement("span", { id: "note" }, this.state.openEntry.entryHour) : React.createElement("span", null, "No Hour"))),
 
-
+              React.createElement("div", { className: "entry openedEntry noteDiv" }, React.createElement("div", null,
+                React.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" }), " ", this.state.openEntry.entryDescription ? React.createElement("span", { id: "note" }, this.state.openEntry.entryDescription) : React.createElement("span", null, "No description")))) :
 
 
-      null));
+            null,
+          React.createElement("div", { id: "arrows" },
+            React.createElement("i", { className: "fa fa-arrow-left", "aria-hidden": "true", onClick: this.update.bind(null, "left") }),
+            React.createElement("i", { className: "fa fa-arrow-right", "aria-hidden": "true", onClick: this.update.bind(null, "right") })),
+
+          React.createElement("div", { id: "dates" },
+            calendar.map(function (week, i) {
+              return (
+                React.createElement("div", { key: i },
+                  React.createElement("p", { className: "weekname" }, weekdays[i].substring(0, 3)),
+                  React.createElement("ul", null,
+                    week.map(function (day, k) {
+                      var existEntry = {};
+                      {this.state.entries.map(function (entry, e) {
+                        if (entry.entryDate.day == day && entry.entryDate.month == this.state.dates.numberofmonth && entry.entryDate.year == this.state.dates.year) {
+                          existEntry = { borderWidth: "2px", borderStyle: "solid", borderColor: "#8DBEDE" };
+                          return;
+                        }
+                      }.bind(this));}
+                      return React.createElement("li", { className: day === this.state.today.getDate() ? "today" : null, key: k, style: existEntry, onClick: this.selectedDay.bind(null, day) }, day);
+                    }.bind(this)))));
+
+
+
+            }.bind(this))),
+
+
+          this.state.warning ?
+            React.createElement("div", { className: "warning" },
+              this.state.warning) :
+
+            null,
+          React.createElement("div", { id: "ignoreOverflow" }, React.createElement("button", { className: "float", onClick: this.addEntry.bind(null, this.state.today.getDate()) }, this.state.entry))),
+
+        this.state.currDay ?
+          React.createElement("div", { id: "entries" },
+            React.createElement("div", { className: "contain_entries" },
+              React.createElement("div", { id: "entries-header" },
+                React.createElement("p", { className: "entryDay" }, this.state.currDay, " ", this.state.currMonth),
+                this.state.present.getDate() === this.state.currDay && this.state.present.getMonth() === this.state.currMonthN && this.state.present.getFullYear() === this.state.currYear ? React.createElement("p", { className: "currday" }, "TODAY") : null),
+
+              this.state.entries != '' ?
+                React.createElement("div", null,
+                  this.state.entries.map(function (entry, e) {
+                    count++;
+                    var entryFromThisDate = entry.entryDate.day === this.state.currDay && entry.entryDate.month === this.state.currMonthN && entry.entryDate.year === this.state.currYear ? true : false;
+                    if (entryFromThisDate) {
+                      // prevent the "no-entries" div to appear in the next entries that are not from this day
+                      done = true;
+                      //var style = { borderLeftColor: entry.entryColor.color, borderLeftWidth: "4px", borderLeftStyle: "solid" };
+                      return (
+                        React.createElement("div", { className: "entry", id: e, key: e },
+                          React.createElement("div", {},
+                            React.createElement("div", { className: "entry_left", onClick: this.openEntry.bind(null, entry, e) },
+                              React.createElement("p", { className: "entry_event" }, entry.entryName)),
+
+                            React.createElement("div", { className: "delete_entry" },
+                              React.createElement("i", { className: "fa fa-times", "aria-hidden": "true", onClick: this.deleteEntry.bind(null, e) })))));
+
+
+
+
+                    }
+                    if (count === this.state.entries.length) {
+                      if (!done) {
+                        done = true;
+                        return (
+                          React.createElement("div", { className: "no-entries", key: e },
+                            React.createElement("i", { className: "fa fa-calendar-check-o", "aria-hidden": "true" }),
+                            React.createElement("span", null, "No events planned for today")));
+
+
+                      }
+                    }
+                  }.bind(this))) :
+
+                React.createElement("div", { className: "no-entries" },
+                  React.createElement("i", { className: "fa fa-calendar-check-o", "aria-hidden": "true" }),
+                  React.createElement("span", null, "No events planned for today")))) :
+
+
+
+
+          null));
 
 
   } });
@@ -964,7 +967,7 @@ ReactDOM.render(React.createElement(Calendar, null), document.getElementById("ap
 
   $("button").each(function (el) {
     var self = $(this),
-    html = self.html();
+      html = self.html();
 
     self.html("").append($('<div class="btn"/>').html(html));
   }).
@@ -974,15 +977,15 @@ ReactDOM.render(React.createElement(Calendar, null), document.getElementById("ap
     event.preventDefault();
 
     var self = $(this),
-    container = self.find(".ink-visual-static", true).eq(0);
+      container = self.find(".ink-visual-static", true).eq(0);
 
     if (!container.length) return;
 
     container.find(".ink-visual").addClass("hide");
 
     var rect = this.getBoundingClientRect(),
-    cRect = container[0].getBoundingClientRect(),
-    cx,cy,radius,diam;
+      cRect = container[0].getBoundingClientRect(),
+      cx,cy,radius,diam;
 
     if (event.changedTouches) {
       cx = event.changedTouches[0].clientX;
@@ -995,10 +998,10 @@ ReactDOM.render(React.createElement(Calendar, null), document.getElementById("ap
 
     if (self.is(".float")) {
       var rx = rect.width / 2,
-      ry = rect.height / 2,
-      br = (rx + ry) / 2,
-      mx = rect.left + rx,
-      my = rect.top + ry;
+        ry = rect.height / 2,
+        br = (rx + ry) / 2,
+        mx = rect.left + rx,
+        my = rect.top + ry;
 
       radius = hypot(cx - mx, cy - my) + br;
     }
@@ -1026,7 +1029,7 @@ ReactDOM.render(React.createElement(Calendar, null), document.getElementById("ap
     container.append(el);
   });
 
-  $(window).on("mouseup touchend", function (evt) {
+  $('#app').on("mouseup touchend", function (evt) {
     $(".ink-visual-static").children(".ink-visual").addClass("hide");
   }).
   on("select selectstart", function (evt) {event.preventDefault();return false;});
@@ -1037,3 +1040,174 @@ ReactDOM.render(React.createElement(Calendar, null), document.getElementById("ap
 
 
 
+/*---------------------------------------------------------------------------*/
+var AttachmentArray1 = [];
+var arrCounter1 = 0;
+//var input = $("#upload__input1").val();
+var inp1;
+var fileTemp1;
+(function($) {
+  function createPdfPreview1(fileContents, $displayElement) {
+    // PDFJS.getDocument(fileContents).then(function(pdf) {
+    // pdf.getPage(1).then(function(page) {
+    // var $previewContainer = $displayElement.find('.preview__thumb1');
+    // var canvas = $previewContainer.find('canvas')[0];
+    // canvas.height = $previewContainer.innerHeight();
+    // canvas.width = $previewContainer.innerWidth();
+
+    // var viewport = page.getViewport(1);
+    // var scaleX = canvas.width / viewport.width;
+    // var scaleY = canvas.height / viewport.height;
+    // var scale = (scaleX < scaleY) ? scaleX : scaleY;
+    // var scaledViewport = page.getViewport(scale);
+
+    // var context = canvas.getContext('2d');
+    // var renderContext = {
+    // canvasContext: context,
+    // viewport: scaledViewport
+    // };
+    // page.render(renderContext);
+    // });
+    // });
+  }
+
+
+
+
+
+  function createPreview1(file, fileContents, id) {
+    var $previewElement = '';
+    switch (file.type) {
+      case 'image/png':
+      case 'image/jpeg':
+      case 'image/gif':
+        $previewElement = $('<img src="' + fileContents + '" data-id="preview1_' + id + '" />');
+        break;
+      case 'video/mp4':
+      case 'video/webm':
+      case 'video/ogg':
+        $previewElement = $('<video autoplay muted width="100%" height="100%"><source src="' + fileContents + '" type="' + file.type + '"' +  'data-id="preview_' + id + '></video>');
+        break;
+      case 'application/pdf':
+        $previewElement = $('<img src="./images/pdf.png" data-id="preview1_' + id + '" />');
+        // $previewElement = $('<canvas id="" width="100%" height="100%"' +  'data-id="preview_' + id + '></canvas>'); //Tuan 03.05.2020
+        break;
+      default:
+        break;
+    }
+    var $displayElement = $('<div class="preview1" id="preview1_'+ id +'">\
+                                <div class="preview__item1">\
+                                <span class="closes">x</span>\
+                                <div class="preview__thumb1"></div>\
+                                <span class="preview__name1" title="' + file.name + '">' + file.name + '</span>\
+                                <span class="preview__type1" title="' + file.type + '">' + file.type + '</span>\
+                                </div>\
+                            </div>');
+    $displayElement.find('.preview__thumb1').append($previewElement);
+    $('.upload__files1').append($displayElement);
+
+    // if (file.type === 'application/pdf') {
+    // createPdfPreview(fileContents, $displayElement);
+    // }
+  }
+
+
+
+
+
+  function fileInputChangeHandler1(e) {
+    var URL = window.URL || window.webkitURL;
+    var fileList = e.target.files;
+
+    inp1 = e.target;
+    console.log('Handle1 ' + inp1.id );
+    if (inp1.id == 'inputFile'){
+      if (fileList.length > 0) {
+        delete AttachmentArray1;
+        $('.upload__files1').html('');
+
+        for (var i = 0; i < fileList.length; i++) {
+          var file = fileList[i];
+          var fileUrl = URL.createObjectURL(file);
+          createPreview1(file, fileUrl, i);
+          FillAttachmentArray11(file, i)
+        }
+        fileTemp1 = fileList;
+        console.log(AttachmentArray1);
+      } else {
+        inp1.files = fileTemp1;
+      }
+    }
+  }
+  function FillAttachmentArray11(file, i)
+  {
+    AttachmentArray1[arrCounter1] =
+      {
+        Id: "preview1_" + i,
+        AttachmentType: 1,
+        ObjectType: 1,
+        FileName: file.name,
+        FileDescription: "Attachment",
+        NoteText: "",
+        MimeType: file.type,
+        FileSizeInBytes: file.size,
+        file: file,
+      };
+    arrCounter1 = arrCounter1 + 1;
+  }
+  // function fileClick(e)
+  // {
+  // console.log('click!');
+  // inp = e.target;
+  // }
+  $(document).ready(function() {
+    $('input:file').on('change', fileInputChangeHandler1);
+  });
+})(jQuery.noConflict());
+
+jQuery(function ($) {
+  $('div').on('click', '.preview__item1 .closes', function (e) {
+    e.preventDefault();
+    // var id = $(this).closest('.preview__item1').find('img').data('id');
+    var id = $(this).closest('.preview__item1').find('img').data('id');
+    if(id == null){
+      id = $(this).closest('.preview__item1').find('canvas').data('id');
+    }
+    if(id == null){
+      id = $(this).closest('.preview__item1').find('video').data('id');
+    }
+    //to remove the deleted item from array
+    // var elementPos = AttachmentArray1.map(function (x) { return x.FileName; }).indexOf(id);
+    // if (elementPos !== -1) {
+    // AttachmentArray1.splice(elementPos, 1);
+    // }
+
+    for (var i = 0; i < AttachmentArray1.length; ++i) {
+      if (AttachmentArray1[i].Id === id)
+        AttachmentArray1.splice(i, 1);
+    }
+    // console.log(AttachmentArray1);
+
+
+    //to remove image tag
+    $(this).parent().find('img').not().remove();
+
+    //to remove div tag that contain the image
+    $(this).parent().find('div').not().remove();
+
+    //to remove div tag that contain caption name
+    $(this).parent().parent().find('div').not().remove();
+
+    console.log($(this).parent().parent().parent().find('#'+ id ));
+    $('#'+ id ).remove();
+
+    const dt = new DataTransfer()
+    for (var i = 0; i < AttachmentArray1.length; ++i) {
+      dt.items.add(AttachmentArray1[i].file);
+    }
+
+    inp1.files = dt.files;
+    fileTemp1 = inp1.files;
+    arrCounter1 = arrCounter1 - 1;
+  });
+});

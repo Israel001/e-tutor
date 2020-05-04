@@ -1,6 +1,6 @@
 window.addEventListener('load', async () => {
   try {
-    const response = await fetch(`${baseURL}/get_all_active_users`, {
+    const response = await fetch(`${baseURL}/get_all_active_users?pagination=false`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
@@ -62,7 +62,7 @@ window.addEventListener('load', async () => {
       document.getElementById('group-submit').setAttribute('disabled', 'true');
       const title = document.getElementById('group-name').value;
       const image = document.getElementById('file').files[0];
-      generateBase64FromImage(image).then(img => {
+      generateBase64FromFile(image).then(img => {
         const storageRef = firebase.storage().ref();
         const imageRef = storageRef.child(`${new Date().getTime().toString()}-${image.name}`);
         const uploadTask = imageRef.putString(img, 'data_url');
@@ -89,18 +89,13 @@ window.addEventListener('load', async () => {
                   console.log('File Deleted Successfully');
                 }).catch(err => { console.error(err); });
                 alert(createGroupData.message);
-                document.getElementById('group-submit').removeAttribute('disabled');
-                document.getElementById('myModal4').style.display = 'none';
               } else {
                 alert('Group Created Successfully!');
-                document.getElementById('group-submit').removeAttribute('disabled');
-                document.getElementById('myModal4').style.display = 'none';
+                location.href = './list-group.html';
               }
             } catch (err) {
               console.error(err);
               alert('Something went wrong!');
-              document.getElementById('group-submit').removeAttribute('disabled');
-              document.getElementById('myModal4').style.display = 'none';
             }
           });
         });

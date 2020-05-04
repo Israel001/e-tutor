@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Edit Profile - Admin</title>
+	<title>Issues - Admin</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link href="font/css/font-awesome.css" rel="stylesheet">
 	<link href="font/css/font-awesome.min.css" rel="stylesheet">
@@ -17,7 +17,6 @@
 	<link rel="stylesheet" href="css/home.css">
 	<link rel="stylesheet" href="css/phone-zalo.css">
 	<link rel="stylesheet" href="css/responsive.css">
-	<link rel="stylesheet" href="css/loader.css">
 	<link rel="shortcut icon" href="images/teacher.png">
 </head>
 <body>
@@ -162,57 +161,40 @@
 			</div>
 			<div class="admin-right">
 				<div class="bars"><i class="fa fa-bars" onclick="openmenu()"></i></div>
-				
-				    
-				    <div id="add-user" >
-				      	<h3>Edit Profile</h3>
-					    <form action="" id="edit-profile-form">
-							<div id="form-msg"></div>
-				     		<label>Fullname</label>
-				     		<input id="profile-name" type="text" class="form-control" name="fullname" required autofocus>
-				     		<label for="email_address">Email</label>
-				     		<input type="email" id="email_address" class="form-control" name="email-address" required autofocus>
-							<label for="role">Role</label>
-							<select id="role" class="form-control" required>
-								<option value="">Select a Role</option>
-								<option value="student">Student</option>
-								<option value="tutor">Tutor</option>
-								<option value="admin">Admin</option>
-							</select>
-							<label>Description</label><br>
-				     		<textarea rows="10" cols="50" id="profile-desc"></textarea><br>
-				     		<label>Picture</label>
-				     		<input type="file" id="profile-file" class="upload__input" accept="image/jpeg, image/png, image/gif" required>
-				     		<div class="upload__files">
-									
-							</div>
-				     		<button id="profile-edit-btn">Update</button>
-				     	</form>	
+
+				<div id="users" >
+					<h3>All Issues</h3>
+					<div class="table-display full">
+						<table id="issues-table">
+						</table>
 					</div>
-			</div>	
-			
+				</div>
+
+			</div>
+
 		</div>	
 	</content>
-<script src="bootstrap/js/jquery-3.1.1.min.js"></script>
-<script src="js/custom1.js"></script>
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="slick/slick.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
-<script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
-<script src="js/wow.min.js"></script>
-<script src="js/text.js"></script>
-<script src="js/jquery.mmenu.all.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
-<script src="js/base.js"></script>
-<script src="js/firebase-config.js"></script>
-<script src="js/admin.js"></script>
-<script src="js/create-group.js"></script>
-<script src="js/edit-profile.js"></script>
-	
+	<script src="bootstrap/js/jquery-3.1.1.min.js"></script>
+	<script src="js/custom1.js"></script>
+	<script src="https://www.amcharts.com/lib/4/core.js"></script>
+	<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+	<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+	<script src="slick/slick.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
+	<script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/text.js"></script>
+	<script src="js/jquery.mmenu.all.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-storage.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+	<script src="js/base.js"></script>
+	<script src="js/firebase-config.js"></script>
+	<script src="js/admin.js"></script>
+	<script src="js/create-group.js"></script>
+	<script src="js/admin-all-issue.js"></script>
+	<script src="js/moment.js"></script>
+
 </body>
 </html>

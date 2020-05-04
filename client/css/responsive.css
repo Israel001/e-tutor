@@ -2,10 +2,10 @@
 
 }
 @media screen and (max-width:640px) {
-  header{
-  	margin-bottom: 20px;
-  }
-  
+	header{
+		margin-bottom: 20px;
+	}
+
 }
 
 @media screen and (min-width: 768px){
@@ -16,6 +16,9 @@
 @media screen and (min-width: 481px) and (max-width: 767px){
 	header{
 		margin-bottom: 0;
+	}
+	.container{
+		padding: 0 15px;
 	}
 	.header-center{
 		text-align: center;
@@ -29,7 +32,7 @@
 		width: 100%;
 		margin-right: 0;
 	}
-	
+
 	.tutor-content{
 		margin-right: 0;
 	}
@@ -76,7 +79,7 @@
 	}
 	.admin-right h3{
 		margin: 0 0 30px 10px !important;
-		float: left;	
+		float: left;
 		width: 80%;
 	}
 	.admin-right #dashboard{
@@ -98,9 +101,44 @@
 	#add_entry{
 		height:500px;
 	}
+	.list-tutor, .dashboard-list, .recently-activity, .list-meeting, .list-issue, .create-form, .student-profile{
+		padding-right: 0;
+	}
+	.create-form textarea{
+		width: 100%;
+	}
+	.sidebar-right{
+		padding:0 15px;
+	}
+	.create-form .upload__files1{
+		padding-bottom: 10px;
+	}
+	.create-form .upload__files1 .preview1{
+		margin: 10px 0 0 10px;
+		width: 31%;
+	}
+	.left-card {
+		margin: 0 0 15px 0;
+	}
+	.overlay p{
+		margin-top: 30%;
+	}
+	#add-issue textarea{
+		width: 100%;
+	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		margin: 0px;
+		width: 100%;
+	}
 
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
+	.container{
+		width: 100%;
+	}
 	.header-center img{
 		width: 25%;
 		margin: 15px 0 10px 35px;
@@ -145,7 +183,7 @@
 	}
 	.admin-right h3{
 		margin: 0 0 30px 10px !important;
-		float: left;	
+		float: left;
 		width: 80%;
 	}
 	.admin-right #dashboard{
@@ -160,10 +198,42 @@
 	.entry_details {
 		height: 280px;
 	}
-	
-    
+
+	.entry_img{
+		height: 200px;
+	}
+	.overlay{
+		height: 200px;
+	}
+	.overlay p{
+		margin-top: 30%;
+	}
+	.create-form textarea{
+		width: 100%;
+	}
+	.create-form .upload__files1 .preview1{
+		width: 30%;
+		margin: 10px 0 0 10px;
+	}
+	.left-card {
+		margin: 0 0 15px 0;
+	}
+	#add-issue textarea{
+		width: 100%;
+	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		width: 100%;
+		margin: 0;
+	}
+
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
+	.container{
+		width: 100%;
+	}
 	.header-center img{
 		width: 20%;
 		margin: 25px 0 25px 35px;
@@ -188,15 +258,45 @@
 	.entry_details{
 		height: 280px;
 	}
-}	
+	.entry_img{
+		height: 200px;
+	}
+	.overlay{
+		height: 200px;
+	}
+
+	.overlay p{
+		margin-top: 30%;
+	}
+	.create-form .upload__files1{
+		padding-bottom: 10px;
+	}
+	.create-form .upload__files1 .preview1{
+		margin: 10px 0 0 10px;
+	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		margin: 0;
+	}
+}
+@media screen and (min-width: 1400px) {
+	.container {
+		width: 1400px;
+	}
+}
 @media screen and (min-width: 1200px) {
 	.container {
-    	width: 1300px;
- 	}
+		width: 1180px;
+	}
 }
 @media screen and (max-width:480px) {
 	header{
 		margin-top: -20px;
+	}
+	.container{
+		padding:0 15px;
 	}
 	.header-up span{
 		margin-left: 15px;
@@ -280,9 +380,12 @@
 	#chat-messages label{
 		width: 100%;
 	}
+	#app{
+		padding: 0 10px;
+	}
 	/*admin*/
 	.header-up .login-admin{
-		width: 46%;
+		width: 60%;
 	}
 	.header-up .login-admin ul{
 		padding-left: 0px;
@@ -292,7 +395,7 @@
 		margin-right: 10px;
 	}
 	.header-up .login-admin .fa-caret-down{
-		margin-left: 0;
+		margin-left: 5px;
 	}
 	.header-up .login-admin #drop-logout{
 		padding-left: 10px;
@@ -323,7 +426,7 @@
 	.admin-right h3{
 		margin: 0 0 30px 10px !important;
 		float: left;
-		width: 80%;	
+		width: 80%;
 	}
 	.admin-right #dashboard{
 		padding-top:0;
@@ -340,6 +443,39 @@
 	#entries{
 		max-width: 100%;
 	}
-
-
+	.create-form textarea{
+		width: 100%;
+	}
+	.list-tutor, .dashboard-list, .recently-activity, .list-meeting, .list-issue, .create-form, .student-profile{
+		padding-right: 0;
+	}
+	.sidebar-right{
+		padding:0 10px;
+	}
+	.create-form .upload__files1{
+		padding-bottom: 10px;
+	}
+	.create-form .upload__files1 .preview1{
+		width: 45%;
+		margin: 10px 0 0 13px;
+	}
+	.left-card{
+		margin: 0 0 15px 0;
+	}
+	#add-issue textarea{
+		width: 100%;
+	}
+	.create-form .upload-blog{
+		padding: 5px;
+	}
+	.create-form .upload-blog .preview1{
+		width: 100%;
+		margin: 0;
+	}
+	.search-blog{
+		text-align: center;
+	}
+	.search-blog input{
+		width: 80%;
+	}
 }
