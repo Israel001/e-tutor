@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const ObjectID = mongoose.Types.ObjectId;
-
 const User = require('../models/user');
 const Issue = require('../models/issue');
+const Activity = require('../models/activity');
 
 module.exports = {
   getIssues: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = req.query.perPage || 10;
       if (req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         res.status(403).json({
@@ -16,6 +16,8 @@ module.exports = {
       } else {
         const issues = await Issue
           .find()
+          .skip((currentPage - 1) * perPage)
+          .limit(perPage)
           .populate('creator')
           .populate('assignTo')
           .sort({ createdAt: -1 });
@@ -32,7 +34,16 @@ module.exports = {
 
   getUserIssues: async (req, res, next) => {
     try {
+      const currentPage = req.query.page || 1;
+      const perPage = parseInt(req.query.perPage) || 3;
+      const pagination = req.query.pagination || 'true';
       const userId = req.params.userId;
+      const totalItems = await Issue.find({
+        $or: [
+          { creator: userId },
+          { assignTo: { $in: userId } }
+        ]
+      }).countDocuments();
       if (userId !== req.userId && req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         res.status(403).json({
@@ -40,15 +51,27 @@ module.exports = {
           data: { error }
         });
       } else {
-        const issues = await Issue.find({
-          $or: [
-            { creator: userId },
-            { assignTo: { $in: userId } }
-          ]
-        }).sort({ createdAt: -1 });
+        let issues;
+        if (pagination === 'true') {
+          issues = await Issue.find({
+            $or: [
+              {creator: userId},
+              {assignTo: {$in: userId}}
+            ]
+          }).skip((currentPage - 1) * perPage)
+            .limit(perPage)
+            .sort({createdAt: -1}).populate('assignTo').populate('creator');
+        } else {
+          issues = await Issue.find({
+            $or: [
+              {creator: userId},
+              {assignTo: {$in: userId}}
+            ]
+          }).sort({createdAt: -1}).populate('assignTo').populate('creator');
+        }
         res.status(200).json({
           message: 'User Issues Retrieved Successfully!',
-          data: { issues }
+          issues, totalItems
         });
       }
     } catch (err) {
@@ -60,7 +83,7 @@ module.exports = {
   getIssue: async (req, res, next) => {
     const issueId = req.params.issueId;
     try {
-      const issue = await Issue.findById(issueId);
+      let issue = await Issue.findById(issueId);
       if (issue.creator !== req.userId && !issue.assignTo.includes(req.userId) && req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         res.status(403).json({
@@ -76,9 +99,10 @@ module.exports = {
             data: {error}
           });
         } else {
+          issue = await Issue.findById(issueId).populate('creator').populate('assignTo');
           res.status(200).json({
             message: 'Issue Fetched Successfully!',
-            data: {issue}
+            data: issue
           });
         }
       }
@@ -92,7 +116,8 @@ module.exports = {
     const creator = req.userId;
     const title = req.body.title;
     const description = req.body.description;
-    const assignTo = req.body.toUserId.split(',');
+    const files = req.body.files;
+    const assignTo = req.body.toUserId;
     if (assignTo.includes(req.userId)) {
       const error = new Error('You cannot assign an issue to yourself');
       res.status(403).json({
@@ -105,10 +130,16 @@ module.exports = {
         description,
         creator,
         assignTo,
-        arrayOfComments: []
+        files
       });
       try {
         await issue.save();
+        const activity = new Activity({
+          activity: 'createIssue',
+          owner: req.userId,
+          issue: issue._id
+        });
+        await activity.save();
         res.status(201).json({
           message: 'Issue created successfully!',
           data: {issue}
@@ -117,6 +148,51 @@ module.exports = {
         if (!err.statusCode) err.statusCode = 500;
         next(err);
       }
+    }
+  },
+
+  updateIssue: async (req, res, next) => {
+    try {
+      const issueId = req.params.issueId;
+      const title = req.body.title;
+      const description = req.body.description;
+      const files = req.body.files || [];
+      const assignTo = req.body.assignTo;
+      const issue = await Issue.findById(issueId);
+      if (!issue) {
+        const error = new Error('Issue Not Found');
+        res.status(404).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        if (req.userId !== issue.creator && req.role !== 'admin') {
+          const error = new Error('Not Authorized!');
+          res.status(403).json({
+            message: error.message,
+            data: { error }
+          });
+        } else {
+          issue.title = title;
+          issue.description = description;
+          issue.files = files;
+          issue.assignTo = assignTo;
+          await issue.save();
+          const activity = new Activity({
+            activity: 'editIssue',
+            owner: req.userId,
+            issue: issue._id
+          });
+          await activity.save();
+          res.status(201).json({
+            message: 'Issue Updated Successfully!',
+            data: issue
+          });
+        }
+      }
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
     }
   },
 
@@ -181,6 +257,39 @@ module.exports = {
         next(err);
       }
     }
+  },
+
+  deleteIssue: async (req, res, next) => {
+    try {
+      const issueId = req.params.issueId;
+      const issue = await Issue.findById(issueId);
+      if (!issue) {
+        const error = new Error('Issue Not Found!');
+        res.status(404).json({
+          message: error.message,
+          data: { error }
+        });
+      } else {
+        if (req.userId !== issue.creator && req.role !== 'admin') {
+          const error = new Error('Not Authorized!');
+          res.status(403).json({
+            message: error.message,
+            data: { error }
+          });
+        } else {
+          await Issue.findByIdAndRemove(issueId, { useFindAndModify: false });
+          const activity = new Activity({
+            activity: 'deleteIssue',
+            owner: req.userId,
+            issue: issue._id
+          });
+          await activity.save();
+          res.status(200).json({message: 'Issue Deleted Successfully'});
+        }
+      }
+    } catch (err) {
+      if (!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
   }
 };
-

@@ -13,6 +13,36 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO
 // };
 
 module.exports = agenda => {
+  agenda.define('allocation notification to tutor', async job => {
+    const email = job.attrs.data.email;
+    const name = job.attrs.data.name;
+    const students = job.attrs.data.students;
+    transporter.sendMail({
+      to: email,
+      from: 'admin@e-tutor.com',
+      subject: 'Allocation Notification',
+      html: `
+        <p>Hello ${name},</p>
+        <p>You have been allocated to ${students.length} Students: ${students.map(el => ` ${el}`)}</p>
+      `
+    });
+  });
+
+  agenda.define('allocation notification to student', async job => {
+    const email = job.attrs.data.email;
+    const name = job.attrs.data.name;
+    const tutor = job.attrs.data.tutor;
+    transporter.sendMail({
+      to: email,
+      from: 'admin@e-tutor.com',
+      subject: 'Allocation Notification',
+      html: `
+        <p>Hello ${name},</p>
+        <p>You have been allocated to ${tutor}</p>
+      `
+    });
+  });
+
   agenda.define('reset password email', async job => {
     const email = job.attrs.data.email;
     const url = job.attrs.data.url;

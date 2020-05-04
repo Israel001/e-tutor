@@ -9,6 +9,10 @@ router.post('/create_meeting', isAuth, meetingController.createMeeting);
 
 router.get('/user/:userId/meetings', isAuth, meetingController.getUserMeetings);
 
+router.get('/user/:userId/past_meetings', isAuth, meetingController.getUserPastMeetings);
+
+router.get('/user/:userId/future_meetings', isAuth, meetingController.getUserFutureMeetings);
+
 router.get('/meetings', isAuth, meetingController.getMeetings);
 
 router.get('/get_meeting', meetingController.getMeeting);

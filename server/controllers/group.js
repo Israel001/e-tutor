@@ -1,4 +1,3 @@
-const io = require('../socket');
 const Group = require('../models/group');
 const Message = require('../models/message');
 const User = require('../models/user');
@@ -92,8 +91,9 @@ module.exports = {
     const perPage = 10;
     try {
       const messages = await Group.findById(groupId)
-        .select('messages').populate('messages')
-        .skip((currentPage - 1) * perPage).limit(perPage);
+        .select('messages').populate({
+          path: 'messages', populate: { path: 'from' }
+        }).skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'Group Messages Fetched Successfully!',
         data: { messages }
@@ -154,9 +154,6 @@ module.exports = {
       }
       group.members.push(userId);
       const updatedGroup = await group.save();
-      // io.getIO().to(groupId).emit('group', {
-      //   action: 'add_user', group: updatedGroup
-      // });
       res.status(200).json({
         message: 'User has been added to the group successfully',
         group: updatedGroup
@@ -210,6 +207,7 @@ module.exports = {
   updateGroup: async (req, res, next) => {
     const groupId = req.params.groupId;
     const title = req.body.title;
+    const members = req.body.members;
     try {
       const group = await Group.findById(groupId).populate('creator');
       if (!group) {
@@ -218,17 +216,18 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      if (group.creator._id.toString() !== req.userId.toString()) {
+      if (group.creator._id.toString() !== req.userId.toString() && req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         error.statusCode = 403;
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
       group.title = title;
+      for (let i = 0; i < members.length; i++) {
+        if (!(group.members.includes(members[i]))) group.members.push(members[i]);
+      }
+      group.image = req.body.image || group.image;
       const updatedGroup = await group.save();
-      // io.getIO().to(groupId).emit('group', {
-      //   action: 'update', group: updatedGroup
-      // });
       res.status(200).json({
         message: 'Group Updated Successfully',
         group: updatedGroup
@@ -249,20 +248,16 @@ module.exports = {
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
-      if (group.creator.toString() !== req.userId) {
+      if (group.creator.toString() !== req.userId && req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         error.statusCode = 403;
         // noinspection ExceptionCaughtLocallyJS
         throw error;
       }
       for (let i = 0; i <= group.messages.length; i++) {
-        await Message.findByIdAndRemove(group.messages[i]);
+        await Message.findByIdAndRemove(group.messages[i], { useFindAndModify: false });
       }
-      await Group.findByIdAndRemove(groupId);
-      // io.getIO().to(groupId).emit('group', {
-      //   action: 'delete',
-      //   group: groupId
-      // });
+      await Group.findByIdAndRemove(groupId, { useFindAndModify: false });
       res.status(200).json({message: 'Deleted group successfully'});
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;

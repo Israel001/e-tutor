@@ -57,7 +57,9 @@ module.exports = {
             data: {
               token: token,
               userId: user._id.toString(),
-              userRole: user.role
+              userRole: user.role,
+              userName: user.name,
+              userPhoto: user.image
             }
           });
         }
@@ -110,7 +112,9 @@ module.exports = {
                 data: {
                   token: token,
                   userId: user._id.toString(),
-                  userRole: user.role
+                  userRole: user.role,
+                  userName: user.name,
+                  userPhoto: user.image
                 }
               });
             }

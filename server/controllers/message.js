@@ -13,6 +13,7 @@ module.exports = {
     const to = req.body.to;
     const content = req.body.message;
     const groupId = req.body.groupId;
+    const files = req.body.files || [];
     try {
       let group;
       for (let i = 0; i < to.length; i++) {
@@ -53,6 +54,7 @@ module.exports = {
       const message = new Message({
         from,
         to,
+        files,
         message: content,
         editHistory: { messages: [] }
       });

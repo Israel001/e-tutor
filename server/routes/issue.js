@@ -14,6 +14,10 @@ router.get('/issue/:issueId', isAuth, issueController.getIssue);
 
 router.post('/issue/create', isAuth, issueController.createIssue);
 
+router.put('/issue/:issueId/edit', isAuth, issueController.updateIssue);
+
+router.delete('/issue/:issueId/delete', isAuth, issueController.deleteIssue);
+
 router.put(
   '/issue/:issueId/assignToUser',
   isAuth,
