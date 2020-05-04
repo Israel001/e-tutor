@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -14,6 +13,7 @@ const messageSchema = new Schema({
       ref: 'User'
     }
   ],
+  files: [ String ],
   message: { type: String, required: true},
   editHistory: {
     messages: [

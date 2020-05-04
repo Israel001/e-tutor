@@ -13,6 +13,7 @@ const userRoutes = require('./routes/user');
 const meetingRoutes = require('./routes/meeting');
 const commentRoutes = require('./routes/comment');
 const issueRoutes = require('./routes/issue');
+const blogRoutes = require('./routes/blog');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}-puhqm.gcp.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
@@ -71,11 +72,11 @@ app.use(userRoutes);
 app.use(meetingRoutes);
 app.use(commentRoutes);
 app.use(issueRoutes);
+app.use(blogRoutes);
 
 // Universal Error Handling
-app.use((error, req, res) => {
-  const status = error.statusCode || 500;
-  res.status(status).json({error});
+app.use((req, res) => {
+  res.status(500).json({error: 'Something went wrong'});
 });
 
 // Server And Database Configuration

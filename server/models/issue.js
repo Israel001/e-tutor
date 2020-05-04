@@ -15,18 +15,13 @@ const issueSchema = new Schema({
         ref: 'User',
         required: true
     },
+    files: [{ type: String }],
     assignTo: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
       }
-    ],
-    arrayOfComments: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Comment'
-        }
     ]
 }, { timestamps: true });
 

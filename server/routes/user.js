@@ -36,7 +36,7 @@ router.get('/get_conversations', isAuth, userController.getConversations);
 
 router.get('/search_users', userController.searchUsers);
 
-router.get('/get_user_info', userController.getUserInfo);
+router.get('/get_user_info', isAuth, userController.getUserInfo);
 
 router.get('/get_all_users', userController.getAllUsers);
 
@@ -56,6 +56,10 @@ router.get('/get_all_active_users', userController.getAllActiveUsers);
 
 router.get('/get_all_inactive_users', userController.getAllInactiveUsers);
 
+router.get('/user/:userId/students', isAuth, userController.getTutorStudents);
+
+router.get('/user/:userId/tutor', isAuth, userController.getStudentTutor);
+
 router.post('/assignUser', isAuth, userController.assignUser);
 
 router.post('/removeStdAndTutor', isAuth, userController.removeUserFromTutor);
@@ -69,5 +73,7 @@ router.put('/update/user/:userId', isAuth, userController.updateUser);
 router.delete('/delete/user/:userId', isAuth, userController.deleteUser);
 
 router.get('/issue/getListOfIssues', isAuth, userController.getListOfIssues);
+
+router.get('/user/:userId/activities', isAuth, userController.getUserActivities);
 
 module.exports = router;
