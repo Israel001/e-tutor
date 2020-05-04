@@ -52,7 +52,7 @@ const displayData = async ({url, page, perPage }) => {
   for (let i = 0; i < responseData.data.length; i++) {
     document.getElementById('users-table').insertAdjacentHTML(
       'beforeend',
-      `<tr>
+      `<tr id="${responseData.data[i]._id}">
             <td>${index}</td>
             <td>${responseData.data[i].name}</td>
             <td>${responseData.data[i].email}</td>
@@ -60,9 +60,21 @@ const displayData = async ({url, page, perPage }) => {
             <td>${responseData.data[i].role}</td>
             <td><button id=${responseData.data[i].active ? `deactivate-${responseData.data[i]._id}` : `activate-${responseData.data[i]._id}`} class="isActiveBtn btn btn-primary">${responseData.data[i].active ? 'Deactivate' : 'Activate'}</button></td>
             <td><a data-target="#myModal3" data-toggle="modal" href="" id="users-profile-${responseData.data[i]._id}" class="btn btn-info">View User Card</a></td>
+            <td><button id="delete-user-${responseData.data[i]._id}" class="btn btn-danger">Delete</button></td>
         </tr>
         `
     );
+    document.getElementById(`delete-user-${responseData.data[i]._id}`).addEventListener('click', async () => {
+      const userId = responseData.data[i]._id;
+      const deleteUserResponse = await fetch(`${baseURL}/delete/user/${userId}`, {
+        method: 'DELETE',
+        headers: {Authorization: `Bearer ${token}`}
+      });
+      if (deleteUserResponse.status === 200) {
+        alert('User Deleted Successfully!');
+        document.getElementById(`${userId}`).remove();
+      }
+    });
     document.getElementById(`users-profile-${responseData.data[i]._id}`).addEventListener('click', async () => {
       const userId = responseData.data[i]._id;
       if (!document.getElementById(`profile-card-${userId}`)) {

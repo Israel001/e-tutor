@@ -27,7 +27,7 @@ window.addEventListener('load', async () => {
                 <th>No</th>
                 <th>Comment</th>
                 <th>Author</th>
-                <th>Issue</th>
+                <th>Post / Issue</th>
                 <th>Date</th>
             </tr>`
     );
@@ -39,7 +39,7 @@ window.addEventListener('load', async () => {
                 <td>${index}</td>
                 <td>${commentsResponseData.data[i].comment.length > 50 ? commentsResponseData.data[i].comment.substring(0, 50)+'...' : commentsResponseData.data[i].comment}</td>
                 <td><a id="profile-${commentsResponseData.data[i].from._id}-${i}" data-toggle="modal" data-target="#myModal3" href="">${commentsResponseData.data[i].from.name}</a></td>
-                <td><a href="issue-detail.html?id=${commentsResponseData.data[i].issue._id}">${commentsResponseData.data[i].issue.title}</a></td>
+                <td>${commentsResponseData.data[i].issue ? `<a href="issue-detail.html?id=${commentsResponseData.data[i].issue._id}">${commentsResponseData.data[i].issue.title}</a>` : `<a href="blog-detail.html?id=${commentsResponseData.data[i].post._id}">${commentsResponseData.data[i].post.title.length > 20 ? commentsResponseData.data[i].post.title.substring(0,20)+'...' : commentsResponseData.data[i].post.title}</a>`}</td>
                 <td>${moment(commentsResponseData.data[i].createdAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
                 <td><a class="remove" href="javascript:void(0);" id="delete-${commentsResponseData.data[i]._id}"><i class="fa fa-trash"></i>Delete</a></td>
             </tr>`
