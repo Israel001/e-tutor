@@ -1,6 +1,7 @@
 const Blog = require('../models/blog');
 const User = require('../models/user');
 const Activity = require('../models/activity');
+const Comment = require('../models/comment');
 
 module.exports = {
   createPost: async (req, res, next) => {
@@ -249,6 +250,7 @@ module.exports = {
             data: { error }
           });
         } else {
+          await Comment.deleteMany({ post: post._id });
           await Blog.findByIdAndRemove(post, { useFindAndModify: false });
           res.status(200).json({message: 'Post Deleted Successfully!'});
         }

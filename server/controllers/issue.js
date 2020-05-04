@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Issue = require('../models/issue');
 const Activity = require('../models/activity');
+const Comment = require('../models/comment');
 
 module.exports = {
   getIssues: async (req, res, next) => {
@@ -277,6 +278,7 @@ module.exports = {
             data: { error }
           });
         } else {
+          await Comment.deleteMany({ issue: issue._id });
           await Issue.findByIdAndRemove(issueId, { useFindAndModify: false });
           const activity = new Activity({
             activity: 'deleteIssue',
