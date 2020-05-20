@@ -85,7 +85,7 @@ module.exports = {
     const issueId = req.params.issueId;
     try {
       let issue = await Issue.findById(issueId);
-      if (issue.creator !== req.userId && !issue.assignTo.includes(req.userId) && req.role !== 'admin') {
+      if (issue.creator.toString() !== req.userId && !issue.assignTo.includes(req.userId) && req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         res.status(403).json({
           message: error.message,
@@ -158,7 +158,7 @@ module.exports = {
       const title = req.body.title;
       const description = req.body.description;
       const files = req.body.files || [];
-      const assignTo = req.body.assignTo;
+      const assignTo = req.body.assignTo || [];
       const issue = await Issue.findById(issueId);
       if (!issue) {
         const error = new Error('Issue Not Found');
@@ -167,7 +167,7 @@ module.exports = {
           data: { error }
         });
       } else {
-        if (req.userId !== issue.creator && req.role !== 'admin') {
+        if (req.userId !== issue.creator.toString() && !issue.assignTo.includes(req.userId) && req.role !== 'admin') {
           const error = new Error('Not Authorized!');
           res.status(403).json({
             message: error.message,
@@ -271,7 +271,7 @@ module.exports = {
           data: { error }
         });
       } else {
-        if (req.userId !== issue.creator && req.role !== 'admin') {
+        if (req.userId !== issue.creator.toString() && req.role !== 'admin') {
           const error = new Error('Not Authorized!');
           res.status(403).json({
             message: error.message,

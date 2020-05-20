@@ -69,7 +69,7 @@ module.exports = {
     try {
       const issueId = req.params.issueId;
       const issue = await Issue.findById(issueId);
-      if (issue.creator !== req.userId && !issue.assignTo.includes(req.userId) && req.role !== 'admin') {
+      if (issue.creator.toString() !== req.userId && !issue.assignTo.includes(req.userId) && req.role !== 'admin') {
         const error = new Error('Not Authorized!');
         res.status(403).json({
           message: error.message,
@@ -119,7 +119,7 @@ module.exports = {
         });
       } else {
         const comments = await Comment.find()
-          .populate('from').populate('issue')
+          .populate('from').populate('issue').populate('post')
           .skip((currentPage - 1) * perPage).limit(perPage);
         res.status(200).json({
           message: 'Comments Retrieved Successfully!',

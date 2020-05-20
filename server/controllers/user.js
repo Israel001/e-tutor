@@ -192,11 +192,12 @@ module.exports = {
       const currentPage = req.query.page || 1;
       const perPage = parseInt(req.query.perPage) || 10;
       const totalItems = await User.find({ role: 'admin' }).countDocuments();
-      const admins = await User.find({role: 'admin'});
+      const admins = await User.find({role: 'admin'})
+        .skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'Admins Retrieved Successfully',
         data: admins, totalItems
-      }).skip((currentPage - 1) * perPage).limit(perPage);
+      });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -214,11 +215,11 @@ module.exports = {
       const allocatedStudents = await User.find({
         tutor: { $ne: null },
         role: 'student'
-      }).populate('tutor');
+      }).populate('tutor').skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'All Allocated Students Retrieved Successfully',
         data: allocatedStudents, totalItems
-      }).skip((currentPage - 1) * perPage).limit(perPage);
+      });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -229,18 +230,26 @@ module.exports = {
     try {
       const currentPage = req.query.page || 1;
       const perPage =  parseInt(req.query.perPage) || 10;
+      const pagination = req.query.pagination || 'true';
       const totalItems = await User.find({
         tutor: null,
         role: 'student'
       }).countDocuments();
-      const unallocatedStudents = await User.find({
-        tutor: null,
-        role: 'student'
-      });
+      let unallocatedStudents;
+      if (pagination === 'true') {
+        unallocatedStudents = await User.find({
+          tutor: null,
+          role: 'student'
+        }).skip((currentPage - 1) * perPage).limit(perPage);
+      } else {
+        unallocatedStudents = await User.find({
+          tutor: null, role: 'student'
+        });
+      }
       res.status(200).json({
         message: 'All Unallocated Students Retrieved Successfully',
         data: unallocatedStudents, totalItems
-      }).skip((currentPage - 1) * perPage).limit(perPage);
+      });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -258,11 +267,11 @@ module.exports = {
       const allocatedTutors = await User.find({
         studentsLength: { $gt: 0 },
         role: 'tutor'
-      }).populate('students');
+      }).populate('students').skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'All Allocated Tutors Retrieved Successfully',
         data: allocatedTutors, totalItems
-      }).skip((currentPage - 1) * perPage).limit(perPage);
+      });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -280,11 +289,11 @@ module.exports = {
       const unallocatedTutors = await User.find({
         studentsLength: 0,
         role: 'tutor'
-      });
+      }).skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'All Unallocated Tutors Retrieved Successfully',
         data: unallocatedTutors, totalItems
-      }).skip((currentPage - 1) * perPage).limit(perPage);
+      });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -327,11 +336,11 @@ module.exports = {
       const inactiveUsers = await User
         .find({active: false})
         .populate('students')
-        .populate('tutor');
+        .populate('tutor').skip((currentPage - 1) * perPage).limit(perPage);
       res.status(200).json({
         message: 'All Inactive Users Retrieved Successfully',
         data: inactiveUsers, totalItems
-      }).skip((currentPage - 1) * perPage).limit(perPage);
+      });
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
       next(err);
@@ -583,55 +592,29 @@ module.exports = {
         });
       } else {
         const tutorId = req.body.tutorId;
-        const studentId = req.body.stdId;
-        const students = [];
-        const tutor = await User.findOne({
-          _id: mongoose.Types.ObjectId(tutorId),
-          role: 'tutor'
-        });
-        if (tutor) {
-          for (let i = 0; i < studentId.length; i++) {
-            const student = await User.findOne({
-              _id: mongoose.Types.ObjectId(studentId[i]),
-              role: 'student'
-            });
-            if (student) {
-              students.push(student);
-            } else {
-              const error = new Error('One of the users provided does not exist');
-              res.status(404).json({
-                message: error.message,
-                data: { error }
-              });
-            }
-          }
-          if (tutor.students.length <= 0) {
-            const error = new Error('There is no students to unassign from this tutor');
-            res.status(405).json({
-              message: error.message,
-              data: { error }
+        const students = req.body.students;
+        const tutor = await User.findById(tutorId);
+        const studentsInfo = [];
+        for (let i = 0; i < students.length; i++) {
+          const student = await User.findById(studentId);
+          if (!student) {
+            res.status(404).json({
+              message: 'One of the students provided does not exist'
             });
           } else {
-            for (let i = 0; i < students.length; i++) {
-              tutor.students = tutor.students.filter(
-                std => std.toString() !== students[i]._id.toString()
-              );
-              students[i].tutor = null;
-              students[i].save();
-            }
-            tutor.studentsLength = tutor.students.length;
-            const updatedTutor = await tutor.save();
-            res.status(201).json({
-              message: 'Unassigned Students and Tutor Successfully',
-              data: {updatedTutor}
-            });
+            studentsInfo.push(student);
           }
+        }
+        if (tutor) {
+          for (let i = 0; i < studentsInfo.length; i++) {
+            studentsInfo[i].tutor = null;
+            tutor.students.filter(el => el.toString() !== studentsInfo[i]._id.toString());
+            await studentsInfo[i].save();
+          }
+          await tutor.save();
+          res.status(201).json({ message: 'Students Unallocated Successfully!' });
         } else {
-          const error = new Error('One of the users provided does not exist');
-          res.status(404).json({
-            message: error.message,
-            data: { error }
-          });
+          res.status(404).json({ message: 'One of the users provided does not exist '});
         }
       }
     } catch (err) {
@@ -645,7 +628,6 @@ module.exports = {
       const userId = req.params.userId;
       const name = req.body.name;
       const email = req.body.email;
-      const description = req.body.description;
       const role = req.body.role;
       if (req.userId !== userId && req.role !== 'admin') {
         const error = new Error('You cannot update other users info');
@@ -662,7 +644,6 @@ module.exports = {
             user.email = email;
             user.image = image;
             user.role = role;
-            user.description = description;
           } else {
             user.name = name;
           }

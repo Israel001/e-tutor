@@ -210,17 +210,9 @@ module.exports = {
     const members = req.body.members;
     try {
       const group = await Group.findById(groupId).populate('creator');
-      if (!group) {
-        const error = new Error('Group not found');
-        error.statusCode = 404;
-        // noinspection ExceptionCaughtLocallyJS
-        throw error;
-      }
+      if (!group) res.status(404).json({ message: 'Group not found' });
       if (group.creator._id.toString() !== req.userId.toString() && req.role !== 'admin') {
-        const error = new Error('Not Authorized!');
-        error.statusCode = 403;
-        // noinspection ExceptionCaughtLocallyJS
-        throw error;
+        res.status(403).json({ message: 'Not Authorized!' });
       }
       group.title = title;
       for (let i = 0; i < members.length; i++) {
@@ -228,7 +220,7 @@ module.exports = {
       }
       group.image = req.body.image || group.image;
       const updatedGroup = await group.save();
-      res.status(200).json({
+      res.status(201).json({
         message: 'Group Updated Successfully',
         group: updatedGroup
       });
