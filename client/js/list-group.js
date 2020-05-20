@@ -107,7 +107,7 @@ window.addEventListener('load', async () => {
         document.getElementById('edit-group-btn').setAttribute('disabled', 'true');
         const title = document.getElementById('edit-group-name').value;
         let image = document.getElementById('fileInput').files;
-        if (image.length) {
+        if (image.length > 0) {
           image = image[0];
           generateBase64FromFile(image).then(img => {
             const storageRef = firebase.storage().ref();
@@ -141,7 +141,7 @@ window.addEventListener('load', async () => {
                     alert(editGroupData.message);
                   } else {
                     alert('Group Updated Successfully!');
-                    location.href = './list-group.html';
+                    window.location.reload();
                   }
                 } catch (err) {
                   console.error(err);
@@ -166,7 +166,7 @@ window.addEventListener('load', async () => {
             alert(editGroupData.message);
           } else {
             alert('Group Updated Successfully!');
-            location.href = './list-group.html';
+            window.location.reload();
           }
         }
       });

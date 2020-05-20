@@ -8,6 +8,7 @@ window.addEventListener('load', async () => {
       }
     });
     const studentsResponseDecoded = await studentsResponse.json();
+    console.log(studentsResponseDecoded.userStudents);
     if (studentsResponseDecoded.userStudents.length > 0) {
       for (let i = 0; i < studentsResponseDecoded.userStudents.length; i++) {
         document.getElementById('students-profile').insertAdjacentHTML(
@@ -28,7 +29,6 @@ window.addEventListener('load', async () => {
         );
       }
     }
-    console.log(studentsResponseDecoded);
   } catch (err) {
     console.error(err);
     alert('Something went wrong');

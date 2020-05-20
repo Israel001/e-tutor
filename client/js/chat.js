@@ -173,7 +173,9 @@ const sendMessage = async ({id, groupId}) => {
             body: data
           });
         } else {
-          data.append('to', id);
+          console.log(id);
+          console.log(message);
+          data.append('to[]', [id]);
           data.append('message', message);
           chatResponse = await fetch(`${baseURL}/message`, {
             method: 'POST',

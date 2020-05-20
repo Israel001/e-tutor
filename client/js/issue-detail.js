@@ -76,6 +76,7 @@ window.addEventListener('load', async () => {
       }
     });
     const issueResponseDecoded = await issueResponse.json();
+    console.log(issueResponseDecoded);
     document.getElementById('title-issue').innerText = `${issueResponseDecoded.data.title}`;
     document.getElementById('issue-title').innerHTML = `Title: ${issueResponseDecoded.data.title}`;
     document.getElementById('issue-author').innerHTML = `Creator: <a href="profile.html?id=${issueResponseDecoded.data.creator._id}">${issueResponseDecoded.data.creator.name}</a>`;
@@ -122,6 +123,7 @@ window.addEventListener('load', async () => {
       }
     });
     const issueCommentsResponseDecoded = await issueCommentsResponse.json();
+    console.log(issueCommentsResponseDecoded);
     if (issueCommentsResponseDecoded.comments.length > 0) {
       for (let i = 0; i < issueCommentsResponseDecoded.comments.length; i++) {
         const comment = issueCommentsResponseDecoded.comments[i];

@@ -27,31 +27,33 @@ window.addEventListener('load', async () => {
           'beforeend',
           `<div class="issue-info full" id="${issuesResponseDecoded.issues[i]._id}" style="cursor: pointer;">
                   <p>Title: ${issuesResponseDecoded.issues[i].title}</p>
-                  <p>Description: ${issuesResponseDecoded.issues[i].description.substring(0, 100)+'...'}</p>
+                  <p>Description: ${issuesResponseDecoded.issues[i].description.length > 100 ? issuesResponseDecoded.issues[i].description.substring(0, 100)+'...' : issuesResponseDecoded.issues[i].description}</p>
                   <p>Files Attached: ${issuesResponseDecoded.issues[i].files.length > 0 ? issuesResponseDecoded.issues[i].files.map((el, index) => ` <a href="${el}" target="_blank">File ${index+1}</a>`) : 'No Files Attached'}</p>
                   <p>Participants:  ${issuesResponseDecoded.issues[i].assignTo.map(el => ` <a href="profile.html?id=${el._id}">${el.name}</a>`)}</p>
                   <a class="direct-issue" href="issue-detail.html?id=${issuesResponseDecoded.issues[i]._id}"><i class="fa fa-angle-right"></i></a>
                   <a href="edit-issue-page.html?id=${issuesResponseDecoded.issues[i]._id}" class="edit-issue"><i class="fa fa-edit"></i>Edit</a>
-                  <a href="" id="delete-${issuesResponseDecoded.issues[i]._id}" class="remove-issue"><i class="fa fa-trash"></i>Delete</a>
+                  ${issuesResponseDecoded.issues[i].creator._id === userId ? `<a href="" id="delete-${issuesResponseDecoded.issues[i]._id}" class="remove-issue"><i class="fa fa-trash"></i>Delete</a>` : ''}
               </div>`
         );
         document.getElementById(`${issuesResponseDecoded.issues[i]._id}`).addEventListener('click', event => {
           if (!event.target.href) location.href = `issue-detail.html?id=${issuesResponseDecoded.issues[i]._id}`;
         });
-        document.getElementById(`delete-${issuesResponseDecoded.issues[i]._id}`).addEventListener('click', async event => {
-          event.preventDefault();
-          const id = issuesResponseDecoded.issues[i]._id;
-          const deleteIssueResponse = await fetch(`${baseURL}/issue/${id}/delete`, {
-            method: 'DELETE',
-            headers: {Authorization: `Bearer ${token}`}
+        if (document.getElementById(`delete-${issuesResponseDecoded.issues[i]._id}`)) {
+          document.getElementById(`delete-${issuesResponseDecoded.issues[i]._id}`).addEventListener('click', async event => {
+            event.preventDefault();
+            const id = issuesResponseDecoded.issues[i]._id;
+            const deleteIssueResponse = await fetch(`${baseURL}/issue/${id}/delete`, {
+              method: 'DELETE',
+              headers: {Authorization: `Bearer ${token}`}
+            });
+            if (deleteIssueResponse.status === 200) {
+              document.getElementById(id).remove();
+              alert('Issue Deleted Successfully!');
+            } else {
+              alert(deleteIssueResponse.message);
+            }
           });
-          if (deleteIssueResponse.status === 200) {
-            document.getElementById(id).remove();
-            alert('Issue Deleted Successfully!');
-          } else {
-            alert(deleteIssueResponse.message);
-          }
-        });
+        }
       }
       document.querySelector('#list-issue').insertAdjacentHTML(
         'beforeend',

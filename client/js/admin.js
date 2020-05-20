@@ -326,7 +326,13 @@ window.addEventListener('load', async () => {
       );
     }
 
-    for (let i = 0; i < studentsData.data.length; i++) {
+    const unallocStudentsResponse = await fetch(`${baseURL}/get_all_unallocated_students?pagination=false`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'}
+    });
+    const unallocStudentsData = await unallocStudentsResponse.json();
+
+    for (let i = 0; i < unallocStudentsData.data.length; i++) {
       document.getElementById('student-modal').insertAdjacentHTML(
         'beforeend',
         `<div class="profile-student full">

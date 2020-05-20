@@ -32,6 +32,7 @@ window.addEventListener('load', async () => {
             </tr>`
     );
     let index = page ? (page - 1) * 10 + 1 : 1;
+    console.log(commentsResponseData);
     for (let i = 0; i < commentsResponseData.data.length; i ++) {
       document.getElementById('comments-table').insertAdjacentHTML(
         'beforeend',

@@ -3,43 +3,6 @@ const fileDownloadUrls = [];
 const fileRefs = [];
 const participants = [];
 
-const updateIssue = () => {
-  uploadTask.snapshot.ref.getDownloadURL().then(async downloadURL => {
-    fileDownloadUrls.push(downloadURL);
-    fileRefs.push(fileRef);
-    if (fileDownloadUrls.length === files.length) {
-      const data = new FormData();
-      data.append('title', title);
-      data.append('description', desc);
-      for (let i = 0; i < fileDownloadUrls.length; i++) {
-        data.append('files[]', fileDownloadUrls[i]);
-      }
-      for (let i = 0; i < participants.length; i++) {
-        data.append('toUserId[]', participants[i]);
-      }
-      const editIssueResponse = await fetch(`${baseURL}/issue/${issueId}/edit`, {
-        method: 'PUT',
-        headers: {Authorization: `Bearer ${token}`},
-        body: data
-      });
-      const editIssueData = await editIssueResponse.json();
-      if (editIssueResponse.status !== 201) {
-        for (let i = 0; i < fileRefs.length; i++) {
-          fileRefs[i].delete().then(() => {
-            console.log('File Deleted Successfully');
-          }).catch(err => {
-            console.error(err);
-          });
-        }
-        alert(editIssueData.message);
-      } else {        alert('Issue Updated Successfully!');
-
-        location.href = './issue-page.html';
-      }
-    }
-  });
-};
-
 window.addEventListener('load', async () => {
   try {
     issueId = window.location.href.split('=')[1];
@@ -52,24 +15,32 @@ window.addEventListener('load', async () => {
       }
     });
     const issueResponseDecoded = await issueResponse.json();
-    document.getElementById('issue').innerText = `${issueResponseDecoded.data.issue.title}`;
-    document.getElementById('issue').setAttribute('href', `issue-detail.html?id=${issueResponseDecoded.data.issue._id}`);
-    document.getElementById('title').value = `${issueResponseDecoded.data.issue.title}`;
-    document.getElementById('description').value = `${issueResponseDecoded.data.issue.description}`;
+    if (issueResponseDecoded.data.creator._id !== userId) {
+      document.getElementById('title').style.display = 'none';
+      document.getElementById('description').style.display = 'none';
+      document.getElementById('participants').style.display = 'none';
+      document.getElementById('title-label').style.display = 'none';
+      document.getElementById('description-label').style.display = 'none';
+      document.getElementById('select-people-btn').style.display = 'none';
+    }
+    document.getElementById('issue').innerText = `${issueResponseDecoded.data.title}`;
+    document.getElementById('issue').setAttribute('href', `issue-detail.html?id=${issueResponseDecoded.data._id}`);
+    document.getElementById('title').value = `${issueResponseDecoded.data.title}`;
+    document.getElementById('description').value = `${issueResponseDecoded.data.description}`;
     document.getElementById('files').insertAdjacentHTML(
       'beforeend',
-      `${issueResponseDecoded.data.issue.files.length > 0 ? issueResponseDecoded.data.issue.files.map((el, index) => ` <a href="${el}" target="_blank">File ${index+1}</a>`) : 'No Files Selected'}`
+      `${issueResponseDecoded.data.files.length > 0 ? issueResponseDecoded.data.files.map((el, index) => ` <a href="${el}" target="_blank">File ${index+1}</a>`) : 'No Files Selected'}`
     );
     document.getElementById('participants').insertAdjacentHTML(
       'beforeend',
-      `${issueResponseDecoded.data.issue.assignTo.map(el => ` <a id="${el._id}" href="profile.html?id=${el._id}">${el.name}</a>`)}`
+      `${issueResponseDecoded.data.assignTo.map(el => ` <a id="${el._id}" href="profile.html?id=${el._id}">${el.name}</a>`)}`
     );
 
-    for (let i = 0; i < issueResponseDecoded.data.issue.files.length; i++) {
-      fileDownloadUrls.push(issueResponseDecoded.data.issue.files[0]);
+    for (let i = 0; i < issueResponseDecoded.data.files.length; i++) {
+      fileDownloadUrls.push(issueResponseDecoded.data.files[0]);
     }
-    for (let i = 0; i < issueResponseDecoded.data.issue.assignTo.length; i++) {
-      participants.push(issueResponseDecoded.data.issue.assignTo[i]._id);
+    for (let i = 0; i < issueResponseDecoded.data.assignTo.length; i++) {
+      participants.push(issueResponseDecoded.data.assignTo[i]._id);
     }
 
     const activeTutorsResponse = await fetch(`${baseURL}/get_active_tutors?pagination=false`);
@@ -140,7 +111,40 @@ window.addEventListener('load', async () => {
                   `<button id="edit-issue-btn" class="btn-create-issue">Update Issue</button>`
                 );
                 alert('File Uploading Failed!');
-              }, updateIssue);
+              }, () => {
+                uploadTask.snapshot.ref.getDownloadURL().then(async downloadURL => {
+                  fileDownloadUrls.push(downloadURL);
+                  fileRefs.push(fileRef);
+                  const data = new FormData();
+                  data.append('title', title);
+                  data.append('description', desc);
+                  for (let i = 0; i < fileDownloadUrls.length; i++) {
+                    data.append('files[]', fileDownloadUrls[i]);
+                  }
+                  for (let i = 0; i < participants.length; i++) {
+                    data.append('assignTo[]', participants[i]);
+                  }
+                  const editIssueResponse = await fetch(`${baseURL}/issue/${issueId}/edit`, {
+                    method: 'PUT',
+                    headers: {Authorization: `Bearer ${token}`},
+                    body: data
+                  });
+                  const editIssueData = await editIssueResponse.json();
+                  if (editIssueResponse.status !== 201) {
+                    for (let i = 0; i < fileRefs.length; i++) {
+                      fileRefs[i].delete().then(() => {
+                        console.log('File Deleted Successfully');
+                      }).catch(err => {
+                        console.error(err);
+                      });
+                    }
+                    alert(editIssueData.message);
+                  } else {
+                    alert('Issue Updated Successfully!');
+                    window.history.back();
+                  }
+                })
+              })
             });
           }
         } else {

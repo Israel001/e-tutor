@@ -66,9 +66,9 @@
                             <h3><i class="fa fa-bars"></i>Edit Issue</h3>
                         </div>
                         <form>
-                            <label>Title</label><br>
+                            <label id="title-label">Title</label><br>
                             <input type="text" required="required" id="title"><br>
-                            <label>Description </label> <br>
+                            <label id="description-label">Description </label> <br>
                             <textarea name="" id="description" cols="50" rows="10"></textarea><br>
                             <label>Select File</label>
                             <input type="file" id="inputFile" class="upload__input" multiple accept="image/jpeg, image/png, image/gif, .pdf" required>
@@ -76,7 +76,7 @@
 
                             </div>
                             <div id="files">Selected Files: </div>
-                            <div class="full">
+                            <div class="full" id="select-people-btn">
                                 <a class="select-people" data-toggle="modal" data-target="#myModal1"href="">Select Participants
                                 </a>
                             </div>

@@ -12,7 +12,6 @@ window.addEventListener('load', async () => {
     document.getElementById('profile-name').value = userInfoData.data.user.name;
     document.getElementById('email_address').value = userInfoData.data.user.email;
     document.getElementById('role').value = userInfoData.data.user.role;
-    document.getElementById('profile-desc').value = userInfoData.data.user.description || '';
 
     document.getElementById('profile-edit-btn').addEventListener('click', async event => {
       event.preventDefault();
@@ -24,7 +23,6 @@ window.addEventListener('load', async () => {
       const name = document.getElementById('profile-name').value;
       const email = document.getElementById('email_address').value;
       const role = document.getElementById('role').value;
-      const desc = document.getElementById('profile-desc').value;
       let file = document.getElementById('profile-file').files;
       if (file.length > 0) {
         file = file[0];
@@ -48,7 +46,6 @@ window.addEventListener('load', async () => {
               const data = new FormData();
               data.append('name', name);
               data.append('email', email);
-              data.append('desc', desc);
               data.append('role', role);
               data.append('image', downloadURL);
               const editProfileResponse = await fetch(`${baseURL}/update/user/${profileId}`, {
@@ -72,9 +69,11 @@ window.addEventListener('load', async () => {
                 });
               } else {
                 alert('Profile Updated Successfully!');
-                localStorage.setItem('userPhoto', editProfileData.data.image);
-                localStorage.setItem('userRole', editProfileData.data.role);
-                localStorage.setItem('userName', editProfileData.data.name);
+                if (profileId === userId) {
+                  localStorage.setItem('userPhoto', editProfileData.data.image);
+                  localStorage.setItem('userRole', editProfileData.data.role);
+                  localStorage.setItem('userName', editProfileData.data.name);
+                }
                 window.history.back();
               }
             })
@@ -84,7 +83,6 @@ window.addEventListener('load', async () => {
         const data = new FormData();
         data.append('name', name);
         data.append('email', email);
-        data.append('desc', desc);
         data.append('role', role);
         const editProfileResponse = await fetch(`${baseURL}/update/user/${profileId}`, {
           method: 'PUT',
@@ -102,9 +100,11 @@ window.addEventListener('load', async () => {
           });
         } else {
           alert('Profile Updated Successfully!');
-          localStorage.setItem('userPhoto', editProfileData.data.image);
-          localStorage.setItem('userRole', editProfileData.data.role);
-          localStorage.setItem('userName', editProfileData.data.name);
+          if (profileId === userId) {
+            localStorage.setItem('userPhoto', editProfileData.data.image);
+            localStorage.setItem('userRole', editProfileData.data.role);
+            localStorage.setItem('userName', editProfileData.data.name);
+          }
           window.history.back();
         }
       }
