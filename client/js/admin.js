@@ -336,12 +336,12 @@ window.addEventListener('load', async () => {
       document.getElementById('student-modal').insertAdjacentHTML(
         'beforeend',
         `<div class="profile-student full">
-                <div class="s-name">${studentsData.data[i].name}</div>
+                <div class="s-name">${unallocStudentsData.data[i].name}</div>
                 <div class="s-image">
-                  <img src=${studentsData.data[i].image} alt="">
+                  <img src=${unallocStudentsData.data[i].image} alt="">
                 </div>
                 <div class="s-check">
-                  <input type="checkbox" name="student" value=${studentsData.data[i]._id}>
+                  <input type="checkbox" name="student" value=${unallocStudentsData.data[i]._id}>
                 </div>
             </div>`
       );
